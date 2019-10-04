@@ -18,7 +18,7 @@ export class LoginPage {
   nombre: string;
   pass:string;
   mensaje:string;
-  private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
+  private APIUrl = 'http://192.168.0.11:3000/api/usuarios'  //base de la url 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient) {
   }

@@ -1,0 +1,41 @@
+<!--
+  Generated template for the CrearcuentaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Crearcuenta</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Correo electrónico</ion-label>
+      <ion-input type="text" name="mail" placeholder="escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label fixed>Nombre</ion-label>
+        <ion-input type="text" name="nombre" placeholder="escribe tu nombre" required [(ngModel)]="nombre" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Nombre usuario</ion-label>
+      <ion-input type="text" name="nomUsu" placeholder="escribe tu nombre de usuario" required [(ngModel)]="nomUsu" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Contraseña</ion-label>
+      <ion-input type="password" name="pass" placeholder="escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Rol</ion-label>
+        <ion-input type="text" name="rol" placeholder="escribe tu rol" required [(ngModel)]="rol"></ion-input>
+       <!--<ion-select placeholder="¿Eres una empresa?">
+          <ion-select-option value="f">Persona</ion-select-option>
+          <ion-select-option value="m">Empresa</ion-select-option>
+        </ion-select>--> 
+      </ion-item>
+    <button (click)=Crearcuenta(); ion-button shape="round">Crear cuenta</button>
+  </ion-list>
+</ion-content>

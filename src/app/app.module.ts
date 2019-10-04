@@ -7,8 +7,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import {LoginPageModule} from '../pages/login/login.module';
+import {CrearcuentaPageModule} from '../pages/crearcuenta/crearcuenta.module';
+
+
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http'
+import { HttpModule } from '@angular/http';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -19,14 +23,18 @@ import { HttpModule } from '@angular/http'
     BrowserModule,
     IonicModule.forRoot(MyApp),
     LoginPageModule, 
+    CrearcuentaPageModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+],
   providers: [
     StatusBar,
     SplashScreen,
