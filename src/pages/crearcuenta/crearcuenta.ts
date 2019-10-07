@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpClient} from '@angular/common/http';
+import {PerfilPage} from '../perfil/perfil';
 
 /**
  * Generated class for the CrearcuentaPage page.
@@ -40,6 +41,8 @@ export class CrearcuentaPage {
     else {
       this.http.post<any>(this.APIUrl, usuario).subscribe();
       console.log("usuario registrado");
+      this.navCtrl.push(PerfilPage);
+      
       
     }
   }

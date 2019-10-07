@@ -8,6 +8,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import {LoginPageModule} from '../pages/login/login.module';
 import {CrearcuentaPageModule} from '../pages/crearcuenta/crearcuenta.module';
+import {PerfilPageModule} from '../pages/perfil/perfil.module';
+import {SubircontenidoPageModule} from '../pages/subircontenido/subircontenido.module';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -24,6 +26,8 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
     IonicModule.forRoot(MyApp),
     LoginPageModule, 
     CrearcuentaPageModule,
+    PerfilPageModule,
+    SubircontenidoPageModule,
     HttpClientModule,
     HttpModule,
   ],

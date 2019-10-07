@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpClient} from '@angular/common/http';
+import {PerfilPage} from '../perfil/perfil';
 
 /**
  * Generated class for the LoginPage page.
@@ -34,6 +35,8 @@ export class LoginPage {
 
       if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
         console.log('coinciden');
+        this.navCtrl.push(PerfilPage);
+
        
       }
 
