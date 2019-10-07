@@ -1,0 +1,53 @@
+<!--
+  Generated template for the SubircontenidoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>subircontenido</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+      <ion-item>
+          <input #file type="file" accept='image/*' (change)="Mostrar($event)">
+          <ion-img item-right  [src]="foto"></ion-img>
+      </ion-item>
+    <ion-item>
+      <ion-label fixed>Descripción</ion-label>
+      <ion-input type="text" name="descripcion" placeholder="escribe descripcion" required [(ngModel)]="descripcion" ></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label fixed>Web</ion-label>
+        <ion-input type="text" name="web" placeholder="escribe web" required [(ngModel)]="web" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Nota</ion-label>
+      <ion-input type="number" name="nota" placeholder="escribe tu nombre de usuario" required [(ngModel)]="nota" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Positivo</ion-label>
+      <ion-input type="text" name="positivo" placeholder="escribe tu Contraseña" required [(ngModel)]="positivo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Negativo</ion-label>
+      <ion-input type="text" name="negativo" placeholder="escribe tu Contraseña" required [(ngModel)]="negativo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Dia</ion-label>
+      <ion-input type="number" name="dia" placeholder="escribe tu nombre de usuario" required [(ngModel)]="dia" ></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Rol</ion-label>
+        <ion-input type="text" name="rol" placeholder="escribe tu rol" required [(ngModel)]="rol"></ion-input>
+       <!--<ion-select placeholder="¿Eres una empresa?">
+          <ion-select-option value="f">Persona</ion-select-option>
+          <ion-select-option value="m">Empresa</ion-select-option>
+        </ion-select>--> 
+      </ion-item>
+    <button (click)=Subirfoto(); ion-button shape="round">Subir foto</button>
+  </ion-list>
+</ion-content>
