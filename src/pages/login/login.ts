@@ -35,10 +35,13 @@ export class LoginPage {
 
       if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
         console.log('coinciden');
-        this.navCtrl.push(PerfilPage);
-
-       
+        let Nombreusuario ={
+          Nom:this.nombre
+        }
+        // Abre la pagina perfil y le pasa el parametro NomUsu
+        this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
       }
+      
 
       else {
       console.log("NO coinciden");

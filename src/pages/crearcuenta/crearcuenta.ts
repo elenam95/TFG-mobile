@@ -41,7 +41,11 @@ export class CrearcuentaPage {
     else {
       this.http.post<any>(this.APIUrl, usuario).subscribe();
       console.log("usuario registrado");
-      this.navCtrl.push(PerfilPage);
+      let Nombreusuario ={
+        Nom:this.nombre
+      }
+      // Abre la pagina perfil y le pasa el parametro NomUsu
+      this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
       
       
     }
