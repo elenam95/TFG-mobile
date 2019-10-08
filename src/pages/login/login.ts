@@ -19,7 +19,7 @@ export class LoginPage {
   nombre: string;
   pass:string;
   mensaje:string;
-  private APIUrl = 'http://192.168.0.11:3000/api/usuarios'  //base de la url 
+  private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient) {
   }
@@ -30,7 +30,8 @@ export class LoginPage {
 
   Autentificar(){
     console.log('entra funcioon autentificar');
-    this.http.get<any>(this.APIUrl + '/' + this.nombre).subscribe(usuario => {if (usuario != null){
+    this.http.get<any>(this.APIUrl + '/' + this.nombre).subscribe(
+      usuario => {if (usuario != null){
       console.log('hay un usuario');
 
       if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
@@ -48,7 +49,7 @@ export class LoginPage {
       this.mensaje = 'usuario no encontrado';
     } 
     }
-    else {
+      else {
       console.log("NO existe este usuario");
       this.mensaje = 'usuario no encontrado';
     }

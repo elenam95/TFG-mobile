@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SubircontenidoPage} from '../subircontenido/subircontenido';
+import {ConfiguracionPage} from '../configuracion/configuracion';
 import {HttpClient} from '@angular/common/http';
+import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 
 
 /**
@@ -24,6 +26,8 @@ export class PerfilPage {
   listapubli: any [];
   listafotos: any [];
   idpubli: number;
+  file: File;
+  foto:string;
   
   
 
@@ -64,9 +68,40 @@ export class PerfilPage {
   
   }
 
+  Mostrar($event){  
+    //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
+   this.file = $event.target.files[0];
+   console.log ('fichero' +this.file.name);
+   const reader = new FileReader();
+   reader.readAsDataURL(this.file);
+   reader.onload =() => {
+     console.log ('ya');
+     this.foto =reader.result.toString();
+   }
+
+ }
+
   Subirfoto(){
     console.log("HOla");
     this.navCtrl.push(SubircontenidoPage);
+  }
+
+  Subirfotousu (){
+     // Subir foto al contenedor de imagenes 
+  const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
+  formData.append(this.file.name, this.file); //le pasamos nombre fichero y el propio fichero
+  // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
+  //enviamos la foto a nuestro contenedor fotospublicaciones
+  this.http.post('http://localhost:3000/api/imagenes/fotosusuarios/upload', formData).subscribe(() => console.log('subida a contenedor'));
+  }
+
+  Configuracion(){
+    let Nombreusuario ={
+      Nom:this.NomUsu
+    }
+    // Abre la pagina perfil y le pasa el parametro NomUsu
+
+    this.navCtrl.push(ConfiguracionPage, {Nom: Nombreusuario.Nom});
   }
 
 }

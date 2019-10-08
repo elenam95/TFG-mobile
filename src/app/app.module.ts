@@ -10,6 +10,7 @@ import {LoginPageModule} from '../pages/login/login.module';
 import {CrearcuentaPageModule} from '../pages/crearcuenta/crearcuenta.module';
 import {PerfilPageModule} from '../pages/perfil/perfil.module';
 import {SubircontenidoPageModule} from '../pages/subircontenido/subircontenido.module';
+import {ConfiguracionPageModule} from '../pages/configuracion/configuracion.module';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -28,6 +29,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
     CrearcuentaPageModule,
     PerfilPageModule,
     SubircontenidoPageModule,
+    ConfiguracionPageModule,
     HttpClientModule,
     HttpModule,
   ],
