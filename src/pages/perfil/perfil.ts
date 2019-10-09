@@ -4,6 +4,8 @@ import {SubircontenidoPage} from '../subircontenido/subircontenido';
 import {ConfiguracionPage} from '../configuracion/configuracion';
 import {HttpClient} from '@angular/common/http';
 import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
+import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
+
 
 
 /**
@@ -21,18 +23,26 @@ import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 export class PerfilPage {
   private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
   private APIUrlfotos = 'http://localhost:3000/api/publicacions' //url para descargar fotos 
+  private APIUrlfotousu = 'http://localhost:3000/api/imagen/fotosusuarios/download' //url para descargar foto usuario
 
-  NomUsu: string;
+  
   listapubli: any [];
   listafotos: any [];
   idpubli: number;
   file: File;
-  foto:string;
+  imagenusu: string;
+  NomUsu: string;
+  nombre: string;
+  pass:string;
+  mail:string;;
+  rol:string;
+  fotousu:string;
+  usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
   
   
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient,private http2:Http ) {
     // recoge los datos de la pagina anterior
     this.NomUsu= navParams.get('Nom');
     console.log(this.NomUsu);
@@ -62,38 +72,60 @@ export class PerfilPage {
 
     }
   });
+  this.Descargardatos(); 
 
 
    
   
   }
 
-  Mostrar($event){  
-    //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
-   this.file = $event.target.files[0];
-   console.log ('fichero' +this.file.name);
-   const reader = new FileReader();
-   reader.readAsDataURL(this.file);
-   reader.onload =() => {
-     console.log ('ya');
-     this.foto =reader.result.toString();
-   }
+  Descargardatos(){
+    //Descargamos nombre de la foto del usuario 
+    /*let fotousu;  (NO ME FUNCIONA PORQ NO SE COMO CONVERTIR LA RESPUESTA EN UN STRING! SOLO DESCARGABA EL NOMBRE DE LA FOTO)
+    this.http.get<any>(this.APIUrl +'/'+ this.NomUsu +'?filter=%7B%22fields%22%3A%7B%22Fotousu%22%3Atrue%7D%7D' ).
+    subscribe (foto =>{
+      fotousu = foto;
+      console.log(fotousu);
+    }); */
+
+    //Descargar datos del usuario 
+    this.http.get<any>(this.APIUrl + '/' + this.NomUsu).subscribe(usu =>{
+      this.usuario = usu;
+      console.log(this.usuario);
+      //Descargamos la foto del usuario 
+      this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
+      this.Cargarfotousu(response));
+    });
+
+
+    
+  }
+
+ Cargarfotousu(response: Response){
+
+  const blob = new Blob([response.blob()], {type: 'image/jpg'});
+  //Colocamos la imagen que esta en blob en la carpeta img correspondiente
+  const reader= new FileReader();
+  reader.addEventListener('load', ()=>{
+    // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
+    this.imagenusu = reader.result.toString();
+  },false);
+
+   // Aqui es donde ordeno que se lea la imagen y se prepare la URL
+   if (blob) {
+    reader.readAsDataURL(blob);
+}
 
  }
+
+ 
 
   Subirfoto(){
     console.log("HOla");
     this.navCtrl.push(SubircontenidoPage);
   }
 
-  Subirfotousu (){
-     // Subir foto al contenedor de imagenes 
-  const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
-  formData.append(this.file.name, this.file); //le pasamos nombre fichero y el propio fichero
-  // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
-  //enviamos la foto a nuestro contenedor fotospublicaciones
-  this.http.post('http://localhost:3000/api/imagenes/fotosusuarios/upload', formData).subscribe(() => console.log('subida a contenedor'));
-  }
+  
 
   Configuracion(){
     let Nombreusuario ={

@@ -11,8 +11,21 @@
 </ion-header>
 
 <ion-content padding>
-  {{NomUsu}}
+  <div style="text-align:center">
+  <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
+  <h1 ion-text class="centered" style="display:inline">@{{NomUsu}}</h1>
+  <!-- display:inline para que salga uno al lado del otro-->
+  </div>
   <button (click)=Subirfoto(); ion-button shape="round">Subir fotografia</button>
- 
   <button (click)=Configuracion(); ion-button shape="round">Configuración</button>
+
+
+  <div>
+      <h2> LISTA DE PUBLICACIONES </h2>
+      <ul *ngFor="let PUBLICACIONES of listapubli"> <!--iterar: crear un elemento para cada persona de la lista-->
+          <!--<li *ngIf="persona.rol=== 'Alumno'">   condición: solo si la persona es un alumno-->
+              Titulo: {{PUBLICACIONES.Titulo}}
+              
+      </ul>
+  </div>
 </ion-content>
