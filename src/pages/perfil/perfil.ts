@@ -26,8 +26,12 @@ export class PerfilPage {
   private APIUrlfotousu = 'http://localhost:3000/api/imagen/fotosusuarios/download' //url para descargar foto usuario
 
   
-  listapubli: any [];
-  listafotos: any [];
+  listapubli: any []; //lista de publicaciones 
+  listafotos: any []= new Array (); //lista de fotografias
+  lista: any[] = new Array (); 
+  
+
+
   idpubli: number;
   file: File;
   imagenusu: string;
@@ -37,6 +41,7 @@ export class PerfilPage {
   mail:string;;
   rol:string;
   fotousu:string;
+  a:number;
   usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
   
   
@@ -51,32 +56,38 @@ export class PerfilPage {
   ionViewDidLoad() { // función que se realiza al cargarse la página
     console.log('ionViewDidLoad PerfilPage');
     //descargar publicaciones y fotografias  de la base de datos
-    this.http.get<any>(this.APIUrl +'/'+ this.NomUsu + '/publicaciones' ).subscribe( listapublicaciones => { 
-                                                                                            this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
-                                                                                            console.log('publicaciones:' + this.listapubli.length);
-                                                                                           //Creamos un for para sacar el id de las publicaciones del usuario y a partir de este obtener las fotos 
-                                                                                           for(let i = 0; this.listapubli.length < 1; i++){
-                                                                                            this.idpubli = this.listapubli[i] .Idpublicacion;
-                                                                                            console.log('contador' + i);
+    this.http.get<any>(this.APIUrl +'/'+ this.NomUsu + '/publicaciones' ).
+        subscribe( listapublicaciones => { 
+               this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
+               console.log('publicaciones:' + this.listapubli.length);
+               console.log(this.listapubli);
+               //Creamos un for para sacar el id de las publicaciones del usuario y a partir de este obtener las fotos 
+               for(var i=0; i < this.listapubli.length; i++){
+               //  this.lista[this.a] = this.listapubli[this.a].Idpublicacion;
+               this.idpubli = this.listapubli[i].Idpublicacion;
+               console.log('contador' + i);
                                                             
-                                                                                            console.log('id publi:'  +this.idpubli);
-                                                                                             // descargar fotografias de la base de datos 
+               console.log('id publi:'  +this.idpubli);
+               // descargar fotografias de la base de datos 
    
-                                                                                            this.http.get<any>(this.APIUrlfotos +'/'+ this.idpubli+ '/publi-fotos' ).subscribe( listafotografias => { 
-                                                                                              this.listafotos = listafotografias;
-                                                                                              console.log(this.listafotos);
+               this.http.get<any>(this.APIUrlfotos +'/'+ this.idpubli+ '/publi-fotos' ).
+                     subscribe( listafotografias => { 
+                         this.listafotos = listafotografias;
+                         console.log(this.listafotos[i]);
 
-                                                                                      
-                                                                                      });
+                         console.log( this.listafotos);
+                     });
+                }
+      });
 
-
-    }
-  });
-  this.Descargardatos(); 
-
-
-   
+  this.Descargardatos();
   
+  
+  }
+  Prueba(){
+    this.a=0;
+    console.log(this.listafotos[this.a]); 
+    console.log(this.listafotos[this.a+1]); 
   }
 
   Descargardatos(){
@@ -96,10 +107,10 @@ export class PerfilPage {
       this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
       this.Cargarfotousu(response));
     });
-
-
+ 
     
   }
+
 
  Cargarfotousu(response: Response){
 

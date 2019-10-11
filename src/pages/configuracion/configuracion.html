@@ -11,9 +11,39 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-item>
-        <input #file type="file" accept='image/*' (change)="Mostrar($event)">
-        <ion-img item-right  [src]="foto"></ion-img>
+   <!-- Mostrar foto usuario-->
+  <div style="text-align:center">
+        <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
+        </div>
+  
+  <!-- Boton cambiar foto de perfil-->
+  <ion-item>
+      <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
+        <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
+     <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
+     <button (click)=Activarinput(); ion-button shape="round" class="centered">Cambiar foto de perfil</button>
     </ion-item>
-    <button (click)=Subirfotousu(); ion-button shape="round">Cambiar foto de perfil</button>
+
+    <!-- Datos personales-->
+    <ion-item>
+        <ion-label fixed>Nombre usuario</ion-label>
+        <ion-input type="text" name="nomUsu" placeholder="{{usuario.NomUsu}}" required [(ngModel)]="nomUsu" ></ion-input>
+      </ion-item>
+     <ion-item>
+        <ion-label fixed>Nombre </ion-label>
+        <ion-input type="text" name="nombre" placeholder="{{usuario.Nombre}}" required [(ngModel)]="nombre" ></ion-input>
+       </ion-item>
+      <ion-item>
+          <ion-label fixed>Mail </ion-label>
+          <ion-input type="text" name="mail" placeholder="{{usuario.Mail}}" required [(ngModel)]="mail"  disabled="true"></ion-input>
+         </ion-item>
+         <ion-item>
+          <ion-label fixed>¿Eres una empresa? </ion-label>
+         <ion-toggle name="selrol" type="boolean" checked="selrol"  [(ngModel)]="selrol" (ionChange)="myChange($event)" ></ion-toggle>
+        </ion-item>
+       <button (click)=Cambiardatos(); ion-button shape="round" class="centered">Cambiar datos personales</button>
+       <button (click)=Cambiarpass(); ion-button shape="round" class="centered">Cambiar contraseña</button>
+  
+    
+    
 </ion-content>

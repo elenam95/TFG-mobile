@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpClient} from '@angular/common/http';
+import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http'; 
+import { t } from '@angular/core/src/render3';
+import {CambiarcontraseñaPage} from '../cambiarcontraseña/cambiarcontraseña';
 
 /**
  * Generated class for the ConfiguracionPage page.
@@ -15,40 +18,86 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: 'configuracion.html',
 })
 export class ConfiguracionPage {
-  NomUsu: string;
-  file: File; //file.name nombre de la foto nueva, cuando el usuario quiera cambiar de foto
-  foto:string; //lo necesitamos para leer el archivo de la foto
+  //guardamos datos descargados base de datos
+  nomUsu: string;
   nombre: string;
   pass:string;
   mail:string;;
   rol:string;
+  selrol: boolean;//ion-toggle
   fotousu:string; //dentro de la clase usuario (guardara el nombre que descargue de la base de datos)
-  usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
+  imagenusu: string; //necesito cargar foto usu
+
+  //guardamos datos de los cambios
+  file: File; //file.name nombre de la foto nueva, cuando el usuario quiera cambiar de foto
+  
+  usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
   
 
 
   private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, private http2:Http ) {
      // recoge los datos de la pagina anterior
-     this.NomUsu= navParams.get('Nom');
-     console.log(this.NomUsu);
+     this.nomUsu= navParams.get('Nom');
+     console.log(this.nomUsu);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConfiguracionPage');
+    
 
     //Descargar datos del usuario 
-    this.http.get<any>(this.APIUrl + '/' + this.NomUsu).subscribe(usu =>{
+    this.http.get<any>(this.APIUrl + '/' + this.nomUsu).subscribe(usu =>{
       this.usuario = usu;
       console.log(this.usuario);
+      //Descargamos la foto del usuario 
+      this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
+      this.Cargarfotousu(response));
     });
+
+    if (this.usuario.Rol == 'Empresa'){
+      console.log('es una empresa');
+      this.selrol=true;
+      this.rol='Empresa;'
+    }
+    else 
+    {
+      console.log('no es una empresa');
+      this.selrol=false;
+      this.rol='Persona';
+    }
 
 
 
 
   }
+
+  Cargarfotousu(response: Response){
+
+    const blob = new Blob([response.blob()], {type: 'image/jpg'});
+    //Colocamos la imagen que esta en blob en la carpeta img correspondiente
+    const reader= new FileReader();
+    reader.addEventListener('load', ()=>{
+      // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
+      this.imagenusu = reader.result.toString();
+    },false);
+  
+     // Aqui es donde ordeno que se lea la imagen y se prepare la URL
+     if (blob) {
+      reader.readAsDataURL(blob);
+  }
+  
+   }
+
+   Activarinput(){
+    // hacemos click en el boton que esta invisible para el usuario
+    console.log('activar input');
+    document.getElementById('inp').click();
+  }
+
+
   Mostrar($event){  
     //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
    this.file = $event.target.files[0];
@@ -57,10 +106,13 @@ export class ConfiguracionPage {
    reader.readAsDataURL(this.file);
    reader.onload =() => {
      console.log ('ya');
-     this.foto =reader.result.toString();
+     this.imagenusu =reader.result.toString();
    }
 
+   this.Subirfotousu();
+
  }
+
 
   Subirfotousu (){ 
     // Subir foto al contenedor de imagenes 
@@ -75,6 +127,35 @@ export class ConfiguracionPage {
  console.log(this.usuario);
  this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("foto subida a la base de datos usu"));
 
+ }
+
+ myChange($event){
+   // Cuando cambiemos el icon-toggle selrol, cambiaremos el rol del usuario
+   console.log('Se ha cambiado el selrol a '+this.selrol);
+   if (this.selrol==true){
+     this.rol='Empresa';
+   }
+   else{
+    this.rol='Persona';
+   }
+   console.log(this.rol);
+ }
+
+ Cambiardatos(){ //Cambiar datos personales del usuario
+  this.usuario.NomUsu=this.nomUsu;
+  this.usuario.Nombre=this.nombre;
+  this.usuario.Rol= this.rol;
+  console.log(this.usuario);
+
+  this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("datos de usuarios modificados"));
+ }
+
+ Cambiarpass(){
+  let usuarios={
+    usu: this.usuario
+  }
+  
+  this.navCtrl.push(CambiarcontraseñaPage, {usu: usuarios.usu});
  }
 
 }
