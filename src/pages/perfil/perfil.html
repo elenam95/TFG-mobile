@@ -18,7 +18,7 @@
   </div>
   <button (click)=Subirfoto(); ion-button shape="round">Subir fotografia</button>
   <button (click)=Configuracion(); ion-button shape="round">Configuración</button>
-  <button (click)=Prueba(); ion-button shape="round">Prueba</button>
+  <button (click)=Mostrarpublicaciones(); ion-button shape="round">Descargar fotos</button>
 
 
   <div>
@@ -32,17 +32,4 @@
       </ul>
     </div>
   </div>
-
-
-  <div>
-    <h2> LISTA DE fotos </h2><!--en listapubli se llaman PUBLICACIONES-->
-    <div style="text-align:center">
-    <ul *ngFor="let publi-fotos of listafotos"  > <!--iterar: crear un elemento para cada persona de la lista-->
-        <li *ngIf="listafotos">   condición: solo si la persona es un alumno-->
-             {{NomUsu}} 
-             </li>
-            
-    </ul>
-  </div>
-</div>
 </ion-content>

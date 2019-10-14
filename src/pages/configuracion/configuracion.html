@@ -41,6 +41,10 @@
           <ion-label fixed>¿Eres una empresa? </ion-label>
          <ion-toggle name="selrol" type="boolean" checked="selrol"  [(ngModel)]="selrol" (ionChange)="myChange($event)" ></ion-toggle>
         </ion-item>
+        <ion-item>
+          <ion-label fixed>Perfil privado </ion-label>
+         <ion-toggle name="perfil" type="boolean" checked="perfil"  [(ngModel)]="perfil" (ionChange)="cambioperfil($event)" ></ion-toggle>
+        </ion-item>
        <button (click)=Cambiardatos(); ion-button shape="round" class="centered">Cambiar datos personales</button>
        <button (click)=Cambiarpass(); ion-button shape="round" class="centered">Cambiar contraseña</button>
   

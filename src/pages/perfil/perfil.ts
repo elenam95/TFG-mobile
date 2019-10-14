@@ -27,8 +27,9 @@ export class PerfilPage {
 
   
   listapubli: any []; //lista de publicaciones 
-  listafotos: any []= new Array (); //lista de fotografias
-  lista: any[] = new Array (); 
+  listafotos: any []= []; //lista de fotografias
+  lista: any []= new Array(); //=[] VACIO
+  listaportadas: any []=[];
   
 
 
@@ -41,8 +42,10 @@ export class PerfilPage {
   mail:string;;
   rol:string;
   fotousu:string;
+  perfil:boolean;
   a:number;
-  usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
+  encontrado: boolean;
+  usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   
   
 
@@ -61,34 +64,16 @@ export class PerfilPage {
                this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
                console.log('publicaciones:' + this.listapubli.length);
                console.log(this.listapubli);
-               //Creamos un for para sacar el id de las publicaciones del usuario y a partir de este obtener las fotos 
-               for(var i=0; i < this.listapubli.length; i++){
-               //  this.lista[this.a] = this.listapubli[this.a].Idpublicacion;
-               this.idpubli = this.listapubli[i].Idpublicacion;
-               console.log('contador' + i);
-                                                            
-               console.log('id publi:'  +this.idpubli);
-               // descargar fotografias de la base de datos 
-   
-               this.http.get<any>(this.APIUrlfotos +'/'+ this.idpubli+ '/publi-fotos' ).
-                     subscribe( listafotografias => { 
-                         this.listafotos = listafotografias;
-                         console.log(this.listafotos[i]);
-
-                         console.log( this.listafotos);
-                     });
-                }
+               this.Descargarfotos();     
       });
-
+  // Descargar fotos del usuario
   this.Descargardatos();
-  
-  
+
   }
-  Prueba(){
-    this.a=0;
-    console.log(this.listafotos[this.a]); 
-    console.log(this.listafotos[this.a+1]); 
-  }
+
+
+
+  
 
   Descargardatos(){
     //Descargamos nombre de la foto del usuario 
@@ -111,6 +96,29 @@ export class PerfilPage {
     
   }
 
+  Descargarfotos(){
+    // Función para decargar fotos de las publicaciones 
+    console.log(this.listapubli.length);
+    for (var i=0; i < this.listapubli.length; i++ ){
+      console.log(i);
+     this.lista[i] = this.listapubli[i].Idpublicacion;
+   
+    }
+    console.log(this.lista);
+   // this.prueba2();
+   for(var j=0; j < this.listapubli.length; j++){
+    this.http.get<any>('http://localhost:3000/api/publicacions'+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
+      (listafotografias) =>{
+        this.listafotos.push(listafotografias);
+        
+     }
+    );
+   }
+   console.log(this.listafotos);
+
+  }
+  
+
 
  Cargarfotousu(response: Response){
 
@@ -129,6 +137,63 @@ export class PerfilPage {
 
  }
 
+ Mostrarpublicaciones(){
+   this.encontrado=false;
+   var j=0;
+   var x=0;
+   // bucle que recorra todas las publicaciones 
+  for(var i=0; i < this.listapubli.length; i++){
+    console.log('contador publi');
+    console.log(i);
+    console.log(this.listafotos.length);
+    // bucle que busque la foto de portada de cada publicacion 
+    while((j<this.listafotos.length)&&(!this.encontrado)){
+      console.log('contador fotos');
+      console.log(j);
+      console.log('idfoto');
+      console.log(this.listafotos[j][x].Idfoto);
+      console.log('idpublicacion');
+      console.log(this.listapubli[i].Idpublicacion);
+      if (this.listafotos[j][x].Idpublicacion== this.listapubli[i].Idpublicacion){
+        console.log(' es foto de esta publicacion');
+      }
+      else{
+        console.log('No es foto de esta publicacion');
+      }
+      
+      j++;
+    }
+  }
+
+
+  /*while((j<this.listafotos.length)&&(!this.encontrado)){
+        console.log('contador fotos');
+        console.log(j);
+        if (this.listafotos[j].Idpublicacion== this.listapubli[i].Idpublicacion){
+            if(this.listafotos[j].Portada==true){
+              console.log('encontrada');
+              this.listaportadas= this.listafotos[j];
+              this.encontrado=true;
+              console.log(this.listaportadas);
+
+            }
+            else{
+              console.log('No es foto de portada')
+            }
+
+        }
+        else {
+          console.log('No es foto de esta publicacion');
+        }
+       
+        j++;
+      } */
+ }
+
+
+
+
+
  
 
   Subirfoto(){
@@ -139,6 +204,7 @@ export class PerfilPage {
   
 
   Configuracion(){
+    console.log(this.lista);
     let Nombreusuario ={
       Nom:this.NomUsu
     }

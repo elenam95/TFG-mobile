@@ -24,6 +24,7 @@ export class ConfiguracionPage {
   pass:string;
   mail:string;;
   rol:string;
+  perfil:boolean;
   selrol: boolean;//ion-toggle
   fotousu:string; //dentro de la clase usuario (guardara el nombre que descargue de la base de datos)
   imagenusu: string; //necesito cargar foto usu
@@ -31,7 +32,7 @@ export class ConfiguracionPage {
   //guardamos datos de los cambios
   file: File; //file.name nombre de la foto nueva, cuando el usuario quiera cambiar de foto
   
-  usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu};
+  usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   
 
 
@@ -55,7 +56,12 @@ export class ConfiguracionPage {
       //Descargamos la foto del usuario 
       this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
       this.Cargarfotousu(response));
+      console.log (this.usuario.Perfil);
+      this.perfil= this.usuario.Perfil;
+      console.log (this.perfil);
     });
+
+    
 
     if (this.usuario.Rol == 'Empresa'){
       console.log('es una empresa');
@@ -68,9 +74,6 @@ export class ConfiguracionPage {
       this.selrol=false;
       this.rol='Persona';
     }
-
-
-
 
   }
 
@@ -141,10 +144,17 @@ export class ConfiguracionPage {
    console.log(this.rol);
  }
 
+ cambioperfil($event){
+   // Cuando cambiemos el icon-toggle perfil, cambiaremos el perfil usuario privado/público
+   //True= perfil privado  y false= perfil público
+   console.log('Se ha cambiado el perfil a '+this.perfil);
+ }
+
  Cambiardatos(){ //Cambiar datos personales del usuario
   this.usuario.NomUsu=this.nomUsu;
   this.usuario.Nombre=this.nombre;
   this.usuario.Rol= this.rol;
+  this.usuario.Perfil= this.perfil;
   console.log(this.usuario);
 
   this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("datos de usuarios modificados"));
