@@ -60,7 +60,7 @@ export class SubircontenidoPage {
                         Web: this.web, Nota:this.nota, Positivo:this.positivo, Negativo: this.negativo, 
                         Dia: this.dia, Idpublicacion: this.idpublicacion};
 
-     this.http.post<any>(this.APIUrl, fotografias).subscribe();
+  //   this.http.post<any>(this.APIUrl, fotografias).subscribe();
 
   // Subir foto al contenedor de imagenes 
   const formData: FormData = new FormData(); //utilizamos objeto de la clase formData

@@ -30,6 +30,8 @@ export class PerfilPage {
   listafotos: any []= []; //lista de fotografias
   lista: any []= new Array(); //=[] VACIO
   listaportadas: any []=[];
+  listaprueba: any[]=[];
+  res: Response;
   
 
 
@@ -45,6 +47,7 @@ export class PerfilPage {
   perfil:boolean;
   a:number;
   encontrado: boolean;
+  imgportada:string;
   usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   
   
@@ -68,12 +71,10 @@ export class PerfilPage {
       });
   // Descargar fotos del usuario
   this.Descargardatos();
+  this.Descargarportadas();
 
   }
 
-
-
-  
 
   Descargardatos(){
     //Descargamos nombre de la foto del usuario 
@@ -118,8 +119,6 @@ export class PerfilPage {
 
   }
   
-
-
  Cargarfotousu(response: Response){
 
   const blob = new Blob([response.blob()], {type: 'image/jpg'});
@@ -137,57 +136,76 @@ export class PerfilPage {
 
  }
 
- Mostrarpublicaciones(){
+ Encontrarportada(){
+   // Funcion que recorre todas las publicaciones y guarda las fotos de portada de las publicaciones en listaportadas
    this.encontrado=false;
    var j=0;
    var x=0;
-   // bucle que recorra todas las publicaciones 
-  for(var i=0; i < this.listapubli.length; i++){
-    console.log('contador publi');
-    console.log(i);
-    console.log(this.listafotos.length);
-    // bucle que busque la foto de portada de cada publicacion 
-    while((j<this.listafotos.length)&&(!this.encontrado)){
-      console.log('contador fotos');
+   console.log(this.listafotos[1].length);
+   console.log(this.listafotos[0].length);
+   console.log(this.listafotos.length);
+    // bucle que recorra todas las publicaciones 
+    while(j<this.listafotos.length){
+      console.log('j');
       console.log(j);
-      console.log('idfoto');
-      console.log(this.listafotos[j][x].Idfoto);
-      console.log('idpublicacion');
-      console.log(this.listapubli[i].Idpublicacion);
-      if (this.listafotos[j][x].Idpublicacion== this.listapubli[i].Idpublicacion){
-        console.log(' es foto de esta publicacion');
+      // bucle que busque la foto de portada de cada publicacion 
+      while((x<this.listafotos[j].length)&&(!this.encontrado)){
+        console.log('x');
+        console.log(x);
+        if(this.listafotos[j][x].Portada==true){
+          console.log('encontrada');
+          this.listaportadas[j]= this.listafotos[j][x];
+          this.encontrado=true;
+
+        }
+        else{
+          console.log('No es foto de portada');
+        }
+        x++;
       }
-      else{
-        console.log('No es foto de esta publicacion');
-      }
-      
+
       j++;
+      x=0;
+      this.encontrado= false;
     }
-  }
+    console.log(this.listaportadas);
+    console.log(this.listaportadas[0].Foto);
+    this.Descargarportadas();
+ }
+
+ Descargarportadas(){
+   //Descargarmos las fotos de portada 
+    this.listaprueba[0]='tilandia2.jpg';
+    this.listaprueba[1]='fotoespaña.jpg';
+
+   for (var i=0; i<this.listaprueba.length; i++){
+    this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaprueba[i], {responseType: ResponseContentType.Blob} ).
+    subscribe( response => 
+    this.Cargarfotoportada(response));
+    
+    console.log(this.listaprueba[i]);
+   }
+
+  
+ 
+ }
+
+ Cargarfotoportada(response: Response){
+
+  const blob = new Blob([response.blob()], {type: 'image/jpg'});
+  //Colocamos la imagen que esta en blob en la carpeta img correspondiente
+  const reader= new FileReader();
+  reader.addEventListener('load', ()=>{
+    // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
+    this.imgportada = reader.result.toString();
+  },false);
+
+   // Aqui es donde ordeno que se lea la imagen y se prepare la URL
+   if (blob) {
+    reader.readAsDataURL(blob);
+}
 
 
-  /*while((j<this.listafotos.length)&&(!this.encontrado)){
-        console.log('contador fotos');
-        console.log(j);
-        if (this.listafotos[j].Idpublicacion== this.listapubli[i].Idpublicacion){
-            if(this.listafotos[j].Portada==true){
-              console.log('encontrada');
-              this.listaportadas= this.listafotos[j];
-              this.encontrado=true;
-              console.log(this.listaportadas);
-
-            }
-            else{
-              console.log('No es foto de portada')
-            }
-
-        }
-        else {
-          console.log('No es foto de esta publicacion');
-        }
-       
-        j++;
-      } */
  }
 
 
