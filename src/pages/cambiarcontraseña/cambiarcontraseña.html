@@ -13,7 +13,7 @@
 <ion-content padding>
     <ion-item>
         <ion-label fixed>Contraseña</ion-label>
-        <ion-input type="text" name="pass" placeholder="Escribe tu contraseña" required [(ngModel)]="pass" ></ion-input>
+        <ion-input type="text"  name="pass" placeholder="Escribe tu contraseña" required [(ngModel)]="pass" ></ion-input>
       </ion-item>
      <ion-item>
         <ion-label fixed>Nueva Contraseña </ion-label>
@@ -24,5 +24,6 @@
           <ion-input type="text" name="nuevapass2" placeholder="Repite nueva contraseña" required [(ngModel)]="nuevapass2" ></ion-input>
          </ion-item>
          <button (click)=Cambiarpass(); ion-button shape="round" class="centered">Cambiar contraseña</button>
-
+        
 </ion-content>
+

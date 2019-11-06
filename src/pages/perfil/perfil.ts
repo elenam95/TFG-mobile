@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SubircontenidoPage} from '../subircontenido/subircontenido';
 import {ConfiguracionPage} from '../configuracion/configuracion';
+import {CrearmiviajePage} from '../crearmiviaje/crearmiviaje';
 import {HttpClient} from '@angular/common/http';
 import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
@@ -30,7 +31,6 @@ export class PerfilPage {
   listafotos: any []= []; //lista de fotografias
   lista: any []= new Array(); //=[] VACIO
   listaportadas: any []=[];
-  listaprueba: any[]=[];
   res: Response;
   
 
@@ -38,6 +38,7 @@ export class PerfilPage {
   idpubli: number;
   file: File;
   imagenusu: string;
+  imgprueba:string;
   NomUsu: string;
   nombre: string;
   pass:string;
@@ -47,7 +48,7 @@ export class PerfilPage {
   perfil:boolean;
   a:number;
   encontrado: boolean;
-  imgportada:string;
+  imgportada:string []=[];
   usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   
   
@@ -61,7 +62,8 @@ export class PerfilPage {
 
   ionViewDidLoad() { // función que se realiza al cargarse la página
     console.log('ionViewDidLoad PerfilPage');
-    //descargar publicaciones y fotografias  de la base de datos
+    //descargar publicaciones  de la base de datos
+    console.log('descargando publicaciones');
     this.http.get<any>(this.APIUrl +'/'+ this.NomUsu + '/publicaciones' ).
         subscribe( listapublicaciones => { 
                this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
@@ -71,11 +73,9 @@ export class PerfilPage {
       });
   // Descargar fotos del usuario
   this.Descargardatos();
-  this.Descargarportadas();
+ // this.Descargarportadas();
 
   }
-
-
   Descargardatos(){
     //Descargamos nombre de la foto del usuario 
     /*let fotousu;  (NO ME FUNCIONA PORQ NO SE COMO CONVERTIR LA RESPUESTA EN UN STRING! SOLO DESCARGABA EL NOMBRE DE LA FOTO)
@@ -86,6 +86,7 @@ export class PerfilPage {
     }); */
 
     //Descargar datos del usuario 
+    console.log('descargando datos y foto usuario');
     this.http.get<any>(this.APIUrl + '/' + this.NomUsu).subscribe(usu =>{
       this.usuario = usu;
       console.log(this.usuario);
@@ -95,28 +96,6 @@ export class PerfilPage {
     });
  
     
-  }
-
-  Descargarfotos(){
-    // Función para decargar fotos de las publicaciones 
-    console.log(this.listapubli.length);
-    for (var i=0; i < this.listapubli.length; i++ ){
-      console.log(i);
-     this.lista[i] = this.listapubli[i].Idpublicacion;
-   
-    }
-    console.log(this.lista);
-   // this.prueba2();
-   for(var j=0; j < this.listapubli.length; j++){
-    this.http.get<any>('http://localhost:3000/api/publicacions'+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
-      (listafotografias) =>{
-        this.listafotos.push(listafotografias);
-        
-     }
-    );
-   }
-   console.log(this.listafotos);
-
   }
   
  Cargarfotousu(response: Response){
@@ -136,9 +115,43 @@ export class PerfilPage {
 
  }
 
+
+
+
+  Descargarfotos(){
+    // Función para decargar fotos de las publicaciones 
+    console.log('descargando datos de las fotos de publicaciones');
+    console.log(this.listapubli.length);
+    for (var i=0; i < this.listapubli.length; i++ ){
+      console.log(i);
+     this.lista[i] = this.listapubli[i].Idpublicacion;
+   
+    }
+    console.log(this.lista);
+    let cont =0;
+   // this.prueba2();
+   for(var j=0; j < this.listapubli.length; j++){
+    this.http.get<any>('http://localhost:3000/api/publicacions'+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
+      (listafotografias) =>{
+        cont++;
+        this.listafotos.push(listafotografias);
+        if(cont ===this.listapubli.length){
+          this.Encontrarportada();
+        }
+        
+     }
+    );
+   }
+   console.log(this.listafotos);
+  
+
+  }
+  
+ 
  Encontrarportada(){
    // Funcion que recorre todas las publicaciones y guarda las fotos de portada de las publicaciones en listaportadas
    this.encontrado=false;
+   let cont=0;
    var j=0;
    var x=0;
    console.log(this.listafotos[1].length);
@@ -155,6 +168,8 @@ export class PerfilPage {
         if(this.listafotos[j][x].Portada==true){
           console.log('encontrada');
           this.listaportadas[j]= this.listafotos[j][x];
+          cont++;
+          
           this.encontrado=true;
 
         }
@@ -165,25 +180,26 @@ export class PerfilPage {
       }
 
       j++;
+      if(cont ===this.listafotos.length){
+        this.Descargarportadas();
+      }
       x=0;
       this.encontrado= false;
     }
     console.log(this.listaportadas);
     console.log(this.listaportadas[0].Foto);
-    this.Descargarportadas();
  }
 
- Descargarportadas(){
+ Descargarportadas(){ //Modificar!
    //Descargarmos las fotos de portada 
-    this.listaprueba[0]='tilandia2.jpg';
-    this.listaprueba[1]='fotoespaña.jpg';
+  
 
-   for (var i=0; i<this.listaprueba.length; i++){
-    this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaprueba[i], {responseType: ResponseContentType.Blob} ).
-    subscribe( response => 
-    this.Cargarfotoportada(response));
-    
-    console.log(this.listaprueba[i]);
+  console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
+   for (var i=0; i<this.listaportadas.length; i++){
+    this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
+    subscribe( response => {
+    //  this.listaresponse.push(response);
+      this.Cargarfotoportada(response)});
    }
 
   
@@ -192,12 +208,15 @@ export class PerfilPage {
 
  Cargarfotoportada(response: Response){
 
+
   const blob = new Blob([response.blob()], {type: 'image/jpg'});
   //Colocamos la imagen que esta en blob en la carpeta img correspondiente
   const reader= new FileReader();
   reader.addEventListener('load', ()=>{
     // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
-    this.imgportada = reader.result.toString();
+    this.imgportada.push(reader.result.toString());
+ //   console.log ('YYYY ' + this.imgportada);
+  //  this.imgprueba = reader.result.toString();
   },false);
 
    // Aqui es donde ordeno que se lea la imagen y se prepare la URL
@@ -210,13 +229,11 @@ export class PerfilPage {
 
 
 
-
-
- 
-
   Subirfoto(){
-    console.log("HOla");
-    this.navCtrl.push(SubircontenidoPage);
+    let Nombreusuario ={
+      Nom:this.NomUsu
+    }
+    this.navCtrl.push(CrearmiviajePage, {Nom: Nombreusuario.Nom});
   }
 
   

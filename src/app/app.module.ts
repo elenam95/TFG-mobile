@@ -12,6 +12,7 @@ import {PerfilPageModule} from '../pages/perfil/perfil.module';
 import {SubircontenidoPageModule} from '../pages/subircontenido/subircontenido.module';
 import {ConfiguracionPageModule} from '../pages/configuracion/configuracion.module';
 import {CambiarcontraseñaPageModule} from '../pages/cambiarcontraseña/cambiarcontraseña.module';
+import {CrearmiviajePageModule} from '../pages/crearmiviaje/crearmiviaje.module';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -32,6 +33,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
     SubircontenidoPageModule,
     ConfiguracionPageModule,
     CambiarcontraseñaPageModule,
+    CrearmiviajePageModule,
     HttpClientModule,
     HttpModule,
   ],

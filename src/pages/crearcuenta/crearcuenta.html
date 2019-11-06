@@ -29,13 +29,15 @@
       <ion-input type="password" name="pass" placeholder="escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>Rol</ion-label>
-        <ion-input type="text" name="rol" placeholder="escribe tu rol" required [(ngModel)]="rol"></ion-input>
-       <!--<ion-select placeholder="¿Eres una empresa?">
-          <ion-select-option value="f">Persona</ion-select-option>
-          <ion-select-option value="m">Empresa</ion-select-option>
-        </ion-select>--> 
+        
+            <ion-label>Rol</ion-label>
+            <ion-select [(ngModel)]="rol" value="text">
+              <ion-option value="Persona">Persona</ion-option>
+              <ion-option value="Empresa">Empresa</ion-option>
+            </ion-select>
+          
       </ion-item>
     <button (click)=Crearcuenta(); ion-button shape="round">Crear cuenta</button>
+   
   </ion-list>
 </ion-content>

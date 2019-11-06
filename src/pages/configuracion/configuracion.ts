@@ -52,6 +52,7 @@ export class ConfiguracionPage {
     //Descargar datos del usuario 
     this.http.get<any>(this.APIUrl + '/' + this.nomUsu).subscribe(usu =>{
       this.usuario = usu;
+      console.log('miramos usuario descargado');
       console.log(this.usuario);
       //Descargamos la foto del usuario 
       this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 

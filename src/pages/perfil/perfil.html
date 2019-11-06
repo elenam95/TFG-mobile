@@ -18,7 +18,7 @@
   </div>
   <button (click)=Subirfoto(); ion-button shape="round">Subir fotografia</button>
   <button (click)=Configuracion(); ion-button shape="round">Configuración</button>
-  <button (click)=Encontrarportada(); ion-button shape="round">Descargar fotos</button>
+  <button (click)=Cargarfotoportada(); ion-button shape="round">Descargar fotos</button>
 
 
   <div>
@@ -33,13 +33,29 @@
     </div>
   </div>
 
+
+  <ion-list>
+    <ion-item *ngFor="let portada of imgportada" >
+      <ion-thumbnail slot="start">
+        {{portada}}
+        <ion-img [src]="portada" height='80' width='80' ></ion-img>
+      </ion-thumbnail>
+    </ion-item>
+  </ion-list>
+
+
   <div style="text-align:center">
-    <ul *ngFor="let Portadas of listaprueba"  >
-    <ion-img [src]="imgportada" height='80' width='80' ></ion-img>
+    <ul>
+    <ion-img [src]="imgportada[0]" height='80' width='80' ></ion-img>
     </ul>
     </div>
 
-
+    <div style="text-align:center">
+      <ul *ngFor="let portada of imgportada">
+        {{portada}}
+      <ion-img [src]="portada" height='80' width='80' ></ion-img>
+      </ul>
+      </div>
 
 
 </ion-content>
