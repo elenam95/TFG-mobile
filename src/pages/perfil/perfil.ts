@@ -6,6 +6,7 @@ import {CrearmiviajePage} from '../crearmiviaje/crearmiviaje';
 import {HttpClient} from '@angular/common/http';
 import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
+import { UrlProvider } from '../../providers/url/url';
 
 
 
@@ -22,10 +23,7 @@ import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@ang
   templateUrl: 'perfil.html',
 })
 export class PerfilPage {
-  private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
-  private APIUrlfotos = 'http://localhost:3000/api/publicacions' //url para descargar fotos 
-  private APIUrlfotousu = 'http://localhost:3000/api/imagen/fotosusuarios/download' //url para descargar foto usuario
-
+ 
   
   listapubli: any []; //lista de publicaciones 
   listafotos: any []= []; //lista de fotografias
@@ -54,7 +52,8 @@ export class PerfilPage {
   
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient,private http2:Http ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient,
+                              private http2:Http, public UrlProvider: UrlProvider ) {
     // recoge los datos de la pagina anterior
     this.NomUsu= navParams.get('Nom');
     console.log(this.NomUsu);
@@ -64,7 +63,7 @@ export class PerfilPage {
     console.log('ionViewDidLoad PerfilPage');
     //descargar publicaciones  de la base de datos
     console.log('descargando publicaciones');
-    this.http.get<any>(this.APIUrl +'/'+ this.NomUsu + '/publicaciones' ).
+    this.http.get<any>(this.UrlProvider.getUsuarios + this.NomUsu + '/publicaciones' ).
         subscribe( listapublicaciones => { 
                this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
                console.log('publicaciones:' + this.listapubli.length);
@@ -87,11 +86,11 @@ export class PerfilPage {
 
     //Descargar datos del usuario 
     console.log('descargando datos y foto usuario');
-    this.http.get<any>(this.APIUrl + '/' + this.NomUsu).subscribe(usu =>{
+    this.http.get<any>(this.UrlProvider.getUsuarios + this.NomUsu).subscribe(usu =>{
       this.usuario = usu;
       console.log(this.usuario);
       //Descargamos la foto del usuario 
-      this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
+      this.http2.get(this.UrlProvider.getFotoUsu+this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
       this.Cargarfotousu(response));
     });
  
@@ -131,7 +130,7 @@ export class PerfilPage {
     let cont =0;
    // this.prueba2();
    for(var j=0; j < this.listapubli.length; j++){
-    this.http.get<any>('http://localhost:3000/api/publicacions'+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
+    this.http.get<any>(this.UrlProvider.getPublicaciones+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
       (listafotografias) =>{
         cont++;
         this.listafotos.push(listafotografias);
@@ -196,7 +195,7 @@ export class PerfilPage {
 
   console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
    for (var i=0; i<this.listaportadas.length; i++){
-    this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
+    this.http2.get(this.UrlProvider.getDescargarFotoPubli+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
     subscribe( response => {
     //  this.listaresponse.push(response);
       this.Cargarfotoportada(response)});

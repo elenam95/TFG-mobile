@@ -25,37 +25,25 @@
       <h2> LISTA DE PUBLICACIONES </h2><!--en listapubli se llaman PUBLICACIONES-->
       <div style="text-align:center">
       <ul *ngFor="let PUBLICACIONES of listapubli"  > <!--iterar: crear un elemento para cada persona de la lista-->
-         <!-- <li *ngIf="imagenusu">   condición: solo si la persona es un alumno-->
+        
                {{PUBLICACIONES.Titulo}} - {{PUBLICACIONES.Idpublicacion}}
-              <!-- </li>-->
+              
               
       </ul>
     </div>
   </div>
+ggggggggg
+  <ion-img [src]="imgportada[1]" height='80' width='80' ></ion-img>
 
+    <ion-list style="text-align:center">
+        <ion-item *ngFor="let portada of imgportada; let i = index">
+          
+          <img [src]="imgportada[i]" height='80' width='80' >
+        </ion-item>
+    
+      </ion-list>
 
-  <ion-list>
-    <ion-item *ngFor="let portada of imgportada" >
-      <ion-thumbnail slot="start">
-        {{portada}}
-        <ion-img [src]="portada" height='80' width='80' ></ion-img>
-      </ion-thumbnail>
-    </ion-item>
-  </ion-list>
-
-
-  <div style="text-align:center">
-    <ul>
-    <ion-img [src]="imgportada[0]" height='80' width='80' ></ion-img>
-    </ul>
-    </div>
-
-    <div style="text-align:center">
-      <ul *ngFor="let portada of imgportada">
-        {{portada}}
-      <ion-img [src]="portada" height='80' width='80' ></ion-img>
-      </ul>
-      </div>
+    
 
 
 </ion-content>

@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http'; 
 import { t } from '@angular/core/src/render3';
 import {CambiarcontraseñaPage} from '../cambiarcontraseña/cambiarcontraseña';
+import { AlertController } from 'ionic-angular';
+import { UrlProvider } from '../../providers/url/url';
 
 /**
  * Generated class for the ConfiguracionPage page.
@@ -39,7 +41,8 @@ export class ConfiguracionPage {
   private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, private http2:Http ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
+                              private http2:Http, public alertCtrl: AlertController, public UrlProvider: UrlProvider ) {
      // recoge los datos de la pagina anterior
      this.nomUsu= navParams.get('Nom');
      console.log(this.nomUsu);
@@ -50,12 +53,12 @@ export class ConfiguracionPage {
     
 
     //Descargar datos del usuario 
-    this.http.get<any>(this.APIUrl + '/' + this.nomUsu).subscribe(usu =>{
+    this.http.get<any>(this.UrlProvider.getUsuarios + this.nomUsu).subscribe(usu =>{
       this.usuario = usu;
       console.log('miramos usuario descargado');
       console.log(this.usuario);
       //Descargamos la foto del usuario 
-      this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
+      this.http2.get(this.UrlProvider.getFotoUsu +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
       this.Cargarfotousu(response));
       console.log (this.usuario.Perfil);
       this.perfil= this.usuario.Perfil;
@@ -135,20 +138,35 @@ export class ConfiguracionPage {
 
  myChange($event){
    // Cuando cambiemos el icon-toggle selrol, cambiaremos el rol del usuario
-   console.log('Se ha cambiado el selrol a '+this.selrol);
-   if (this.selrol==true){
-     this.rol='Empresa';
-   }
-   else{
-    this.rol='Persona';
-   }
-   console.log(this.rol);
+   
+    const alert = this.alertCtrl.create({
+      title: 'Modificado',
+      subTitle: 'Tu información personal ha sido modificada',
+      buttons: ['OK']
+    });
+    alert.present();
+    if (this.selrol==true){
+      this.selrol=true;
+      this.rol='Empresa';
+      console.log('Se ha cambiado el selrol a '+this.selrol);
+    }
+    else{
+     this.selrol=false;
+     this.rol='Persona';
+     console.log('Se ha cambiado el selrol a '+this.selrol);
+    }
  }
 
  cambioperfil($event){
    // Cuando cambiemos el icon-toggle perfil, cambiaremos el perfil usuario privado/público
    //True= perfil privado  y false= perfil público
    console.log('Se ha cambiado el perfil a '+this.perfil);
+   const alert = this.alertCtrl.create({
+    title: 'Modificado',
+    subTitle: 'El estado de tu perfil ha sido modificado',
+    buttons: ['OK']
+  });
+  alert.present();
  }
 
  Cambiardatos(){ //Cambiar datos personales del usuario
@@ -168,5 +186,9 @@ export class ConfiguracionPage {
   
   this.navCtrl.push(CambiarcontraseñaPage, {usu: usuarios.usu});
  }
+
+ showConfirm() {
+  
+}
 
 }

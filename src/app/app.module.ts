@@ -18,6 +18,8 @@ import {CrearmiviajePageModule} from '../pages/crearmiviaje/crearmiviaje.module'
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { UrlProvider } from '../providers/url/url';
+import { LoginProvider } from '../providers/login/login';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UrlProvider,
+    LoginProvider
   ]
 })
 export class AppModule {}

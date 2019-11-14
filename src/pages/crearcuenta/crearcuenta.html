@@ -37,6 +37,16 @@
             </ion-select>
           
       </ion-item>
+
+      <ion-item>
+        
+        <ion-label>Perfil</ion-label>
+        <ion-select [(ngModel)]="perfil" value="text">
+          <ion-option value="Publico">Público</ion-option>
+          <ion-option value="Privado">Privado</ion-option>
+        </ion-select>
+      
+  </ion-item>
     <button (click)=Crearcuenta(); ion-button shape="round">Crear cuenta</button>
    
   </ion-list>
