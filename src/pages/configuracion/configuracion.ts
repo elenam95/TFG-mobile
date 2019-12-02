@@ -6,6 +6,7 @@ import { t } from '@angular/core/src/render3';
 import {CambiarcontraseñaPage} from '../cambiarcontraseña/cambiarcontraseña';
 import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 /**
  * Generated class for the ConfiguracionPage page.
@@ -53,6 +54,25 @@ export class ConfiguracionPage {
     
 
     //Descargar datos del usuario 
+    this.UrlProvider.getUsuario(this.nomUsu).subscribe(
+      usu =>{
+              this.usuario = usu;
+              console.log(this.usuario);
+
+              //Descargamos la foto del usuario 
+              this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe(
+                 response => 
+                            this.Cargarfotousu(response));
+                            console.log (this.usuario.Perfil);
+                            this.perfil= this.usuario.Perfil;
+                            console.log (this.perfil);
+
+      }
+    );
+
+
+
+/*
     this.http.get<any>(this.UrlProvider.getUsuarios + this.nomUsu).subscribe(usu =>{
       this.usuario = usu;
       console.log('miramos usuario descargado');
@@ -63,7 +83,7 @@ export class ConfiguracionPage {
       console.log (this.usuario.Perfil);
       this.perfil= this.usuario.Perfil;
       console.log (this.perfil);
-    });
+    });*/
 
     
 

@@ -59,41 +59,41 @@ export class PerfilPage {
     console.log(this.NomUsu);
   }
 
-  ionViewDidLoad() { // función que se realiza al cargarse la página
+  ionViewDidLoad() { 
     console.log('ionViewDidLoad PerfilPage');
+
     //descargar publicaciones  de la base de datos
-    console.log('descargando publicaciones');
-    this.http.get<any>(this.UrlProvider.getUsuarios + this.NomUsu + '/publicaciones' ).
-        subscribe( listapublicaciones => { 
-               this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
-               console.log('publicaciones:' + this.listapubli.length);
-               console.log(this.listapubli);
-               this.Descargarfotos();     
-      });
-  // Descargar fotos del usuario
-  this.Descargardatos();
- // this.Descargarportadas();
+         console.log('descargando publicaciones');
+         this.UrlProvider.getPublicacion(this.NomUsu).subscribe(
+          
+           listapublicaciones => {  
+                  
+                  this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
+                  console.log(this.listapubli);
+                  this.Descargarfotos(); 
+           }
+
+
+         );
+     // Descargar fotos del usuario
+     this.Descargardatos();
 
   }
   Descargardatos(){
-    //Descargamos nombre de la foto del usuario 
-    /*let fotousu;  (NO ME FUNCIONA PORQ NO SE COMO CONVERTIR LA RESPUESTA EN UN STRING! SOLO DESCARGABA EL NOMBRE DE LA FOTO)
-    this.http.get<any>(this.APIUrl +'/'+ this.NomUsu +'?filter=%7B%22fields%22%3A%7B%22Fotousu%22%3Atrue%7D%7D' ).
-    subscribe (foto =>{
-      fotousu = foto;
-      console.log(fotousu);
-    }); */
-
     //Descargar datos del usuario 
     console.log('descargando datos y foto usuario');
-    this.http.get<any>(this.UrlProvider.getUsuarios + this.NomUsu).subscribe(usu =>{
-      this.usuario = usu;
-      console.log(this.usuario);
-      //Descargamos la foto del usuario 
-      this.http2.get(this.UrlProvider.getFotoUsu+this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
-      this.Cargarfotousu(response));
-    });
- 
+    this.UrlProvider.getUsuario(this.NomUsu).subscribe(
+      usu =>{
+              this.usuario = usu;
+              console.log(this.usuario);
+
+              //Descargamos la foto del usuario
+              this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/'+this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( 
+                response => 
+                           this.Cargarfotousu(response));
+                
+      });
+
     
   }
   
@@ -130,16 +130,19 @@ export class PerfilPage {
     let cont =0;
    // this.prueba2();
    for(var j=0; j < this.listapubli.length; j++){
-    this.http.get<any>(this.UrlProvider.getPublicaciones+'/'+this.lista[j]+'/'+'publi-fotos').subscribe(
-      (listafotografias) =>{
-        cont++;
-        this.listafotos.push(listafotografias);
-        if(cont ===this.listapubli.length){
-          this.Encontrarportada();
-        }
-        
-     }
-    );
+      this.UrlProvider.getFotopubli(this.lista[j]).subscribe(
+        (listafotografias) =>{
+                                cont++;
+                                this.listafotos.push(listafotografias);
+                                if(cont ===this.listapubli.length){
+
+                                      this.Encontrarportada();
+                                }
+          
+       }
+
+      );
+
    }
    console.log(this.listafotos);
   
@@ -191,14 +194,12 @@ export class PerfilPage {
 
  Descargarportadas(){ //Modificar!
    //Descargarmos las fotos de portada 
-  
-
-  console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
-   for (var i=0; i<this.listaportadas.length; i++){
-    this.http2.get(this.UrlProvider.getDescargarFotoPubli+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
-    subscribe( response => {
-    //  this.listaresponse.push(response);
-      this.Cargarfotoportada(response)});
+    console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
+    for (var i=0; i<this.listaportadas.length; i++){
+         this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
+        subscribe( response => {
+                                //  this.listaresponse.push(response);
+                                this.Cargarfotoportada(response)});
    }
 
   

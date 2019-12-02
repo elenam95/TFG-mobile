@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {PerfilPage} from '../perfil/perfil';
 import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
+import { Usuario } from '../../app/Usuario';
+import {LoginProvider} from '../../providers/login/login';
 
 
 /**
@@ -22,9 +24,18 @@ export class LoginPage {
   nombre: string;
   pass:string;
   res:string;
+  NomUsu: string;
+  mail:string;
+  fotousu:string;
+  perfil:boolean;
+  rol: string;
+  usu: Usuario;
+  resultado:string;
 
+ // usu = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
-                              public alertCtrl: AlertController, public UrlProvider: UrlProvider) {
+                              public alertCtrl: AlertController, public UrlProvider: UrlProvider,
+                              public LoginProvider: LoginProvider) {
   }
 
   ionViewDidLoad() {
@@ -35,46 +46,49 @@ export class LoginPage {
 
   Autentificar(){
     console.log('entra funcioon autentificar');
-   this.res= this.UrlProvider.getUsuarios.toString();
-    console.log('res:'+this.res);
-    this.http.get<any>(this.UrlProvider.getUsuarios + this.nombre).subscribe(
-      usuario => {
+    this.UrlProvider.getUsuario(this.nombre).subscribe(
+      usuario =>{
 
+                  this.usu = usuario;
+                  console.log(this.usu);
+                  if (usuario != null){
 
-        if (usuario != null){
-              console.log('hay un usuario');
-     
-              if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
-                  console.log('coinciden');
-                  let Nombreusuario = { Nom:this.nombre };
-                  // Abre la pagina perfil y le pasa el parametro NomUsu
-                  this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
-              } else {
-                  console.log("NO coinciden");
-                  const alert = this.alertCtrl.create({
-                    title: 'Error',
-                    subTitle: 'El usuario o contraseña son incorrectos',
-                    buttons: ['OK']
-                  });
-                  alert.present();
-             } 
-        }   
+                        console.log('hay un usuario');
 
+                        if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
+
+                              console.log('coinciden');
+                              let Nombreusuario = { Nom:this.nombre };
+                              // Abre la pagina perfil y le pasa el parametro NomUsu
+                              this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
+            
+                        }
+                        else{ 
+                              console.log('no coinciden');
+                              const alert = this.alertCtrl.create({
+                                  title: 'Error',
+                                  subTitle: 'El usuario o contraseña son incorrectos',
+                                  buttons: ['OK']
+                              });
+                              alert.present();
+                          }
+                    }
 
       },
-       (err)=> {
-            console.log("NO existe este usuario");
-            const alert = this.alertCtrl.create({
-              title: 'Error',
-              subTitle: 'El usuario no existe',
-              buttons: ['OK']
-            });
-            alert.present();
-             //this.mensaje = 'usuario no encontrado';
-         }   
-      
-    );
 
+                  (err)=> {
+
+                        console.log("NO existe este usuario");
+                        const alert = this.alertCtrl.create({
+                                title: 'Error',
+                                subTitle: 'El usuario no existe',
+                                buttons: ['OK']
+                            });
+                        alert.present();
+         
+                    } 
+
+      );
   }
 
 

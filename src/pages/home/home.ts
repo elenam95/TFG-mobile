@@ -18,13 +18,6 @@ export class HomePage {
 
   Login(){
     console.log("HOla");
-    this.UrlProvider.getUsuarios().subscribe(
-      usuario => {
-        console.log(usuario);
-      }
-    );
-
-  
     this.navCtrl.push(LoginPage);
   }
   Registrarse(){

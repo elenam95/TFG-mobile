@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UrlProvider } from '../../providers/url/url';
+import { Usuario } from '../../app/Usuario';
+import { Observable } from 'rxjs/Observable';
 
 /*
   Generated class for the LoginProvider provider.
@@ -9,11 +12,13 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class LoginProvider {
+  usu: Usuario;
+  res: string;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public UrlProvider: UrlProvider) {
     console.log('Hello LoginProvider Provider');
   }
 
-  
+ 
 
 }
