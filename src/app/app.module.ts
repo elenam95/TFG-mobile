@@ -13,7 +13,8 @@ import {SubircontenidoPageModule} from '../pages/subircontenido/subircontenido.m
 import {ConfiguracionPageModule} from '../pages/configuracion/configuracion.module';
 import {CambiarcontraseñaPageModule} from '../pages/cambiarcontraseña/cambiarcontraseña.module';
 import {CrearmiviajePageModule} from '../pages/crearmiviaje/crearmiviaje.module';
-
+import {FotosviajePageModule} from '../pages/fotosviaje/fotosviaje.module';
+import {RecomendacionesPageModule} from '../pages/recomendaciones/recomendaciones.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -36,6 +37,8 @@ import { LoginProvider } from '../providers/login/login';
     ConfiguracionPageModule,
     CambiarcontraseñaPageModule,
     CrearmiviajePageModule,
+    FotosviajePageModule,
+    RecomendacionesPageModule,
     HttpClientModule,
     HttpModule,
   ],
