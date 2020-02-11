@@ -44,6 +44,14 @@ export class UrlProvider {
 
   }
 
+  public getNumPubli (): Observable<any>{
+    return this.http.get(this.Urlpublicaciones + "/count");
+  }
+
+  public existeIdPubli(id: number): Observable<any>{
+    return this.http.get(this.Urlpublicaciones + id + "/exists");
+  }
+
   
 
   //URLs IMAGEN 
@@ -54,6 +62,19 @@ export class UrlProvider {
   public getDescargarFotoPubli(){
     return this.http.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/');
   }
+
+  public subirImgPubli(name: string, file:File){
+    // Subir foto al contenedor de imagenes 
+ const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
+ formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
+ // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
+ //enviamos la foto a nuestro contenedor fotospublicaciones
+ this.http.post('http://localhost:3000/api/imagenes/fotospublicaciones/upload', formData).subscribe(() => console.log('subida a contenedor'));
+
+    
+  }
+
+
 
   
   

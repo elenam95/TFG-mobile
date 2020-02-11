@@ -21,6 +21,7 @@ import { HttpModule } from '@angular/http';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { UrlProvider } from '../providers/url/url';
 import { LoginProvider } from '../providers/login/login';
+import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { LoginProvider } from '../providers/login/login';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UrlProvider,
-    LoginProvider
+    LoginProvider,
+    CrearviajeProvider
   ]
 })
 export class AppModule {}
