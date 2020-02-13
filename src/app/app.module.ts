@@ -15,6 +15,7 @@ import {CambiarcontraseñaPageModule} from '../pages/cambiarcontraseña/cambiarc
 import {CrearmiviajePageModule} from '../pages/crearmiviaje/crearmiviaje.module';
 import {FotosviajePageModule} from '../pages/fotosviaje/fotosviaje.module';
 import {RecomendacionesPageModule} from '../pages/recomendaciones/recomendaciones.module';
+import {PublicacionPageModule} from '../pages/publicacion/publicacion.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -22,6 +23,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { UrlProvider } from '../providers/url/url';
 import { LoginProvider } from '../providers/login/login';
 import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
+import { PublicacionProvider } from '../providers/publicacion/publicacion';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
     CrearmiviajePageModule,
     FotosviajePageModule,
     RecomendacionesPageModule,
+    PublicacionPageModule,
     HttpClientModule,
     HttpModule,
   ],
@@ -57,7 +60,8 @@ import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UrlProvider,
     LoginProvider,
-    CrearviajeProvider
+    CrearviajeProvider,
+    PublicacionProvider
   ]
 })
 export class AppModule {}

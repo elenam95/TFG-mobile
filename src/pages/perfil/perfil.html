@@ -31,13 +31,12 @@
       </ul>
     </div>
   </div>
-ggggggggg
-  <ion-img [src]="imgportada[1]" height='80' width='80' ></ion-img>
+
 
     <ion-list style="text-align:center">
         <ion-item *ngFor="let portada of imgportada; let i = index">
-          
-          <img [src]="imgportada[i]" height='80' width='80' >
+
+          <img [src]="imgportada[i]"  (click)=MostrarPubli(i); height='80' width='80' >
         </ion-item>
     
       </ion-list>

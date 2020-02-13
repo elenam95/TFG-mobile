@@ -11,79 +11,83 @@
 </ion-header>
 
 <ion-content padding>
-
-     <!-- Boton subir foto-->
-     <ion-item>
-      <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
-        <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
-        <ion-img [src]="imagen" height='80' width='80' ></ion-img>
-     <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-     <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
-    </ion-item>
-
+   <!-- Boton subir foto-->
+   <ion-item>
+    <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
+      <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
+      <ion-img [src]="imagen" height='80' width='80' ></ion-img>
+   <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
+   <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
+  </ion-item>
 
 
 
-    <ion-item>
-      <ion-label>¿Qué vemos en la fotografía?</ion-label>
-          <ion-select [(ngModel)]="rol" value="string">
+<ul *ngFor="let foto of listafotos; let i = index">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Galería</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+          <ion-label>¿Qué vemos en la fotografía?</ion-label>
+          <ion-select [(ngModel)]="listarol[i]" value="string">
             <ion-option value="Hotel">Hotel</ion-option>
             <ion-option value="Paisaje">Paisaje</ion-option>
             <ion-option value="Restaurante">Restaurante</ion-option>
           </ion-select>
-    </ion-item>  
-    <ion-item>
-      <ion-label>¿A que punto de la ruta pertenece?</ion-label>
-          <ion-select [(ngModel)]="ruta" value="string">
-            <ion-option value="Hotel">Hotel</ion-option>
-            <ion-option value="Paisaje">Paisaje</ion-option>
-            <ion-option value="Restaurante">Restaurante</ion-option>
-          </ion-select>
-    </ion-item> 
-    <ion-item>
-      <ion-label>Añade una descripción</ion-label>
-      <ion-input type="text" [(ngModel)]="descripcion" name="descripcion"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Añade la web del lugar</ion-label>
-      <ion-textarea [(ngModel)]="web" name="web"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Añade un aspecto positivo del lugar</ion-label>
-      <ion-textarea [(ngModel)]="positivo" name="positivo"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Añade un aspecto negativo del lugar</ion-label>
-      <ion-textarea [(ngModel)]="negativo" name="negativo"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>¿Quieres añadir esta fotografía como portada de la publicación?</ion-label>
-          <ion-select [(ngModel)]="portada" value="string">
-            <ion-option value=">Si">Si</ion-option>
-            <ion-option value="No">No</ion-option>
-          </ion-select>
-    </ion-item> 
-    <button ion-button (click)="submit" block>Add Todo</button>
-    <ion-item> 
-      <ion-label>Nota</ion-label>
-      <ion-select [(ngModel)]="nota" value="number">
-        <ion-option value="1">1</ion-option>
-        <ion-option value="2">2</ion-option>
-        <ion-option value="3">3</ion-option>
-        <ion-option value="4">4</ion-option>
-        <ion-option value="5">5</ion-option>
-        <ion-option value="6">6</ion-option>
-        <ion-option value="7">7</ion-option>
-        <ion-option value="8">8</ion-option>
-        <ion-option value="9">9</ion-option>
-        <ion-option value="10">10</ion-option>
-      </ion-select>
-    
-</ion-item>
+      </ion-item>  
+      <ion-item>
+        <ion-label>¿A que punto de la ruta pertenece?</ion-label>
+            <ion-select [(ngModel)]="listaruta[i]" value="string">
+              <ion-option value="Hotel">Hotel</ion-option>
+              <ion-option value="Paisaje">Paisaje</ion-option>
+              <ion-option value="Restaurante">Restaurante</ion-option>
+            </ion-select>
+      </ion-item> 
+      <ion-item>
+        <ion-label>Añade una descripción</ion-label>
+        <ion-input type="text" [(ngModel)]="listadescripcion[i]" name="descripcion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Añade la web del lugar</ion-label>
+        <ion-textarea [(ngModel)]="listaweb[i]" name="web"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Añade un aspecto positivo del lugar</ion-label>
+        <ion-textarea [(ngModel)]="listapositivo[i]" name="positivo"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Añade un aspecto negativo del lugar</ion-label>
+        <ion-textarea [(ngModel)]="listanegativo[i]" name="negativo"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>¿Quieres añadir esta fotografía como portada de la publicación?</ion-label>
+            <ion-select [(ngModel)]="listaportada[i]" value="boolean">
+              <ion-option value="true">Si</ion-option>
+              <ion-option value="false">No</ion-option>
+            </ion-select>
+      </ion-item>
+      <ion-item> 
+        <ion-label>Nota</ion-label>
+        <ion-select [(ngModel)]="listanota[i]" value="number">
+          <ion-option value="1">1</ion-option>
+          <ion-option value="2">2</ion-option>
+          <ion-option value="3">3</ion-option>
+          <ion-option value="4">4</ion-option>
+          <ion-option value="5">5</ion-option>
+          <ion-option value="6">6</ion-option>
+          <ion-option value="7">7</ion-option>
+          <ion-option value="8">8</ion-option>
+          <ion-option value="9">9</ion-option>
+          <ion-option value="10">10</ion-option>
+        </ion-select>
+      
+  </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ul>
 <button (click)=Subirpublicacion(); ion-button shape="round">Subirpublicacion</button>
-
-
-
-
+<button (click)=PonFoto(); ion-button shape="round">Añadir nueva foto</button>
   <button (click)=Continuar(); ion-button shape="round">Continuar</button>
 </ion-content>

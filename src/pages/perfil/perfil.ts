@@ -3,10 +3,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SubircontenidoPage} from '../subircontenido/subircontenido';
 import {ConfiguracionPage} from '../configuracion/configuracion';
 import {CrearmiviajePage} from '../crearmiviaje/crearmiviaje';
+import {PublicacionPage} from '../publicacion/publicacion';
 import {HttpClient} from '@angular/common/http';
 import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
+
 
 
 
@@ -64,7 +66,7 @@ export class PerfilPage {
 
     //descargar publicaciones  de la base de datos
          console.log('descargando publicaciones');
-         this.UrlProvider.getPublicacion(this.NomUsu).subscribe(
+         this.UrlProvider.getPublicacionesUsu(this.NomUsu).subscribe(
           
            listapublicaciones => {  
                   
@@ -103,6 +105,7 @@ export class PerfilPage {
   //Colocamos la imagen que esta en blob en la carpeta img correspondiente
   const reader= new FileReader();
   reader.addEventListener('load', ()=>{
+    
     // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
     this.imagenusu = reader.result.toString();
   },false);
@@ -130,7 +133,7 @@ export class PerfilPage {
     let cont =0;
    // this.prueba2();
    for(var j=0; j < this.listapubli.length; j++){
-      this.UrlProvider.getFotopubli(this.lista[j]).subscribe(
+      this.UrlProvider.getFotospubli(this.lista[j]).subscribe(
         (listafotografias) =>{
                                 cont++;
                                 this.listafotos.push(listafotografias);
@@ -196,8 +199,11 @@ export class PerfilPage {
    //Descargarmos las fotos de portada 
     console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
     for (var i=0; i<this.listaportadas.length; i++){
+      console.log("queremos ver");
+        console.log(this.listaportadas[i].Idpublicacion);
          this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
         subscribe( response => {
+
                                 //  this.listaresponse.push(response);
                                 this.Cargarfotoportada(response)});
    }
@@ -246,6 +252,17 @@ export class PerfilPage {
     // Abre la pagina perfil y le pasa el parametro NomUsu
 
     this.navCtrl.push(ConfiguracionPage, {Nom: Nombreusuario.Nom});
+  }
+
+  MostrarPubli(i: number){
+    console.log("es un boton" );
+    console.log(i);
+    this.idpubli= this.listaportadas[i].Idpublicacion;
+    console.log(this.idpubli);
+    let Idpublicacion = { Idpubli: this.idpubli}
+    let Nombreusuario ={Nom:this.NomUsu}
+  
+    this.navCtrl.push( PublicacionPage , {Idpubli: Idpublicacion.Idpubli, Nom:Nombreusuario.Nom});
   }
 
 }

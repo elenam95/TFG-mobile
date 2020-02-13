@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../app/Usuario';
 import { Observable } from 'rxjs/Observable';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http'
+import { Fotografia } from '../../app/Fotografia';
 
 /*
   Generated class for the UrlProvider provider.
@@ -14,12 +15,13 @@ import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@ang
 export class UrlProvider {
   URLusuarios: string;
   Urlpublicaciones : string;
+  Urlfotografias: string;
 
   constructor(public http: HttpClient,  private http2:Http) {
     console.log('Hello UrlProvider Provider');
     this.URLusuarios= 'http://localhost:3000/api/usuarios/';
     this.Urlpublicaciones= 'http://localhost:3000/api/publicacions/';
-
+    this.Urlfotografias= 'http://localhost:3000/api/fotografias/';
   }
 
   //URLs USUARIO
@@ -33,15 +35,16 @@ export class UrlProvider {
   }
 
   //URLs PUBLICACIONES 
+
+  public getPublicacion (idpubli: string): Observable<any>{
+    //Descarga los datos de una publicacion mediante su id
+    return  this.http.get<Usuario>( this.Urlpublicaciones + idpubli);
+  }
   
 
-  public getPublicacion(nombre: string): Observable<any> {
+  public getPublicacionesUsu(nombre: string): Observable<any> {
+    //descarga todas las publicaciones de un usuario
     return this.http.get<Usuario>( this.URLusuarios + nombre + '/publicaciones');
-  }
-
-  public getFotopubli(id : number): Observable<any> {
-    return this.http.get<Usuario>( this.Urlpublicaciones + id + '/publi-fotos');
-
   }
 
   public getNumPubli (): Observable<any>{
@@ -52,7 +55,25 @@ export class UrlProvider {
     return this.http.get(this.Urlpublicaciones + id + "/exists");
   }
 
-  
+
+  //URLs FOTOGRAFIAS
+
+  public getFotospubli(id : string): Observable<any> {
+    // Me devuelve todas las fotografias de una publicación
+    return this.http.get<Usuario>( this.Urlpublicaciones + id + '/publi-fotos');
+
+  }
+
+  public SubirFoto(foto: Fotografia){
+    console.log("vamos a hacer la llamada");
+    console.log(foto);
+
+    return this.http.post<any>(this.Urlfotografias, foto ).subscribe(() => console.log('subida a contenedor'));
+  }
+
+
+
+
 
   //URLs IMAGEN 
   //(no se bien como hacerlo aun)
