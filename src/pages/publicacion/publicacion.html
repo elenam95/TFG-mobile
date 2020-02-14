@@ -27,10 +27,13 @@
 
     <ion-card-content>
       {{prueba1}}
+    
           
     <ion-slides>
-      <ion-slide  *ngFor="let ruta of listarutas">
-        <h1>{{ruta}}</h1>
+      <ion-slide  *ngFor="let p of listafotos_ruta">
+        <h1>{{p.Foto}}</h1>
+        <label *ngIf="portada == true">@{{idusuario}} {{publicacion.Descripcion}}</label>
+       
       </ion-slide>
     </ion-slides>
     

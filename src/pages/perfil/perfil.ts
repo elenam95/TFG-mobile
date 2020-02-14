@@ -127,8 +127,9 @@ export class PerfilPage {
     for (var i=0; i < this.listapubli.length; i++ ){
       console.log(i);
      this.lista[i] = this.listapubli[i].Idpublicacion;
-   
     }
+
+    console.log("this.lista");
     console.log(this.lista);
     let cont =0;
    // this.prueba2();
@@ -161,7 +162,8 @@ export class PerfilPage {
    var x=0;
    console.log(this.listafotos[1].length);
    console.log(this.listafotos[0].length);
-   console.log(this.listafotos.length);
+   console.log("this.listafotos");
+   console.log(this.listafotos);
     // bucle que recorra todas las publicaciones 
     while(j<this.listafotos.length){
       console.log('j');
