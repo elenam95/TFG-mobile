@@ -62,7 +62,7 @@ export class RecomendacionesPage {
 
   Continuar(){
   // INTRODUCIR RECOMENDACION EN LA PUBLICACION
-    this.publicacion.Recomendacion=";;";
+    this.publicacion.Recomendacion="";
 
     for (var i=0; i < this.listanum.length; i++){
       this.publicacion.Recomendacion= this.publicacion.Recomendacion.concat(this.listapreguntas[i]+ "\\\\" + this.listarecomendaciones[i] + ";;");

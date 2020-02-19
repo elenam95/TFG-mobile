@@ -15,6 +15,9 @@ export class PublicacionProvider {
 
   imagenusu: string;
   encontrado: boolean= false;
+  listarecomendaciones: any[];
+  separador: string = ";;";
+
   constructor(public http: HttpClient,  public UrlProvider: UrlProvider) {
     console.log('Hello PublicacionProvider Provider');
   }
@@ -51,6 +54,9 @@ export class PublicacionProvider {
      
     return listapublis;
   }
+
+  
+  
   
 
 

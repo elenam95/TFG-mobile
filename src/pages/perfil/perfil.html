@@ -11,35 +11,34 @@
 </ion-header>
 
 <ion-content padding>
+ 
+
+  <ion-icon (click)=Configuracion(); name="cog-outline" ></ion-icon>
+  <ion-icon  (click)=Subirfoto(); name="add-circle-outline"></ion-icon>
   <div style="text-align:center">
   <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
   <h1 ion-text class="centered" style="display:inline">@{{NomUsu}}</h1>
   <!-- display:inline para que salga uno al lado del otro-->
   </div>
-  <button (click)=Subirfoto(); ion-button shape="round">Subir fotografia</button>
-  <button (click)=Configuracion(); ion-button shape="round">Configuración</button>
   
 
-  <div>
-      <h2> LISTA DE PUBLICACIONES </h2><!--en listapubli se llaman PUBLICACIONES-->
+   <!-- <div>
+      <h2> LISTA DE PUBLICACIONES </h2>    //en listapubli se llaman PUBLICACIONES
       <div style="text-align:center">
-      <ul *ngFor="let PUBLICACIONES of listapubli"  > <!--iterar: crear un elemento para cada persona de la lista-->
+      <ul *ngFor="let PUBLICACIONES of listapubli"  >  //iterar: crear un elemento para cada persona de la lista
         
                {{PUBLICACIONES.Titulo}} - {{PUBLICACIONES.Idpublicacion}}
               
               
       </ul>
     </div>
-  </div>
+  </div> -->
 
-
-    <ion-list style="text-align:center">
-        <ion-item *ngFor="let portada of imgportada; let i = index">
-
+      <div class="row row-cols-1 row-cols-md-3">
+        <div class="card" *ngFor="let portada of imgportada; let i = index">
           <img [src]="imgportada[i]"  (click)=MostrarPubli(i); height='80' width='80' >
-        </ion-item>
-    
-      </ion-list>
+        </div>
+      </div>
 
     
 

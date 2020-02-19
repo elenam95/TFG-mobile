@@ -11,15 +11,26 @@
 </ion-header>
 
 <ion-content padding>
-<ion-list>
-  <ion-item>
-    <ion-label fixed>Nombre usuario</ion-label>
-    <ion-input type="text" name="nombre" placeholder="escribe el nombre" required [(ngModel)]="nombre" ></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Contraseña</ion-label>
-    <ion-input type="password" name="pass" placeholder="escribe la Contraseña" required [(ngModel)]="pass"></ion-input>
-  </ion-item>
-  <button (click)=Autentificar(); ion-button shape="round">Login</button>
-</ion-list>
+
+<form (ngSubmit)="Autentificar();">
+  <div class="form-row align-items-center">
+    <div class="col-sm-3 my-1">
+      <label class="sr-only" for="inlineFormInputName">Nombre de usuario</label>
+      <ion-input type="text" name="nombre" placeholder="escribe el nombre" required [(ngModel)]="nombre" ></ion-input>
+
+    </div>
+    <div class="col-sm-3 my-1">
+      <label class="sr-only" for="inlineFormInputGroupUsername">Contraseña</label>
+      <div class="input-group">
+        <ion-input type="password" class="form-control" name="pass" placeholder="escribe la Contraseña" required [(ngModel)]="pass"></ion-input>
+      </div>
+    </div>
+    <div class="col-auto my-1">
+      <button type="submit" class="btn btn-primary" ion-button shape="round">Login</button>
+    </div>
+  </div>
+</form>
+
+
+
 </ion-content>
