@@ -50,10 +50,8 @@ export class FotosviajePage {
   listaportada: boolean[]=[];
   listaruta: string[]=[];
   //idpublicacion:number;
- /* fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion,
-  Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo, 
-  Portada: this.portada, Ruta: this.ruta, Idpublicacion: this.idpublicacion}*/
-
+  fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion, Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo,   Portada: this.portada, puntoruta: this.ruta, Idpublicacion: this.idpublicacion};
+  listaf: Fotografia[]=[];
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,public UrlProvider: UrlProvider ) {
    
     this.NomUsu= navParams.get('Nom');
@@ -69,7 +67,16 @@ export class FotosviajePage {
     console.log('ionViewDidLoad FotosviajePage');
     this.listapuntosruta= this.rutas.split(";;");
     this.listapuntosruta.length= this.listapuntosruta.length-1;
-    console.log(this.listapuntosruta)
+    console.log(this.listapuntosruta);
+
+    
+      //ENCONTRAR ID FOTO
+      this.UrlProvider.getAllFotos().subscribe( 
+        res=>{  // guardamos id ultima foto
+           this.Idfoto= res[res.length-1].Idfoto;
+           this.Idfoto= this.Idfoto+1;
+           console.log(this.Idfoto);
+         });
   }
 
   Activarinput(){
@@ -99,46 +106,35 @@ export class FotosviajePage {
  }
 
 
+ PonFoto(){
+  this.listafotos.push(1);
+  
+  }
 
 
 
   Subirpublicacion(){
-    let fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion, Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo,   Portada: this.portada, puntoruta: this.ruta, Idpublicacion: this.idpublicacion}
-    for(var i=0; i < this.listafotos.length; i++){
-        fotografia.Idpublicacion= this.idpublicacion;
-        fotografia.Foto= "hola";
-        fotografia.Descripcion= this.listadescripcion[i];
-        fotografia.Rol= this.listarol[i];
-        fotografia.Web= this.listaweb[i];
-        fotografia.Nota= this.listanota[i];
-        fotografia.Positivo= this.listapositivo[i];
-        fotografia.Negativo= this.listanegativo[i];
-        fotografia.puntoruta= this.listaruta[i];
-        fotografia.Portada= this.listaportada[i];
-        console.log(fotografia);
+    let Foto;
+    this.foto="hola";
+   for(var i=0; i < this.listafotos.length; i++){
+      this.Idfoto= this.Idfoto+i;
+      console.log(this.Idfoto);
+
+            //Creamos la fotografia
+             Foto= new Fotografia(this.Idfoto, this.foto, this.listadescripcion[i], this.listarol[i], this.listaweb[i],
+              this.listanota[i], this.listapositivo[i], this.listanegativo[i], this.listapuntosruta[i], this.listaportada[i], 
+              this.idpublicacion);
+              console.log(Foto);
+              this.listaf.push(Foto);
+              console.log(this.listaf);
     
-      //ENCONTRAR ID FOTO
-      this.UrlProvider.getAllFotos().subscribe( 
-        res=>{  // guardamos id ultima foto
-                this.Idfoto= res[res.length-1].Idfoto;
-                console.log(this.Idfoto);
-
-                //Subir foto
-                fotografia.Idfoto= this.Idfoto+1;
-                console.log(fotografia.Idfoto);
-                this.UrlProvider.SubirFoto(fotografia);
-        });
-
-
-     //   this.UrlProvider.SubirFoto(fotografia);
-    //  this.http.post<any>("http://localhost:3000/api/fotografias/", fotografia).subscribe();
-}
-  
+            //Subir fotografia 
+            this.UrlProvider.SubirFoto(this.listaf[i]);
+    
+   }
+   
   }
 
-  PonFoto(){
-    this.listafotos.push(1);
-    }
 
   Continuar(){
 
