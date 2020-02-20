@@ -38,7 +38,7 @@
 
     <ion-input type="text" name="descripcion" placeholder="Añade la descripcion del vaije" required [(ngModel)]="descripcion" ></ion-input>
   
-      <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
+     
 
       <ul *ngFor="let punto of numerosruta; let i = index">
         <div>
@@ -46,6 +46,8 @@
          <ion-input type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>
       </div>
       </ul>
+
+      <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
 
       <button (click)="Continuar();"  ion-button shape="round">Continuar</button>
 

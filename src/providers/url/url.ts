@@ -36,6 +36,12 @@ export class UrlProvider {
 
   //URLs PUBLICACIONES 
 
+  public getPublicaciones ():Observable<any>{
+    //Descarga todas las publicaciones
+    return  this.http.get<Usuario>( this.Urlpublicaciones);
+  }
+  
+
   public getPublicacion (idpubli: string): Observable<any>{
     //Descarga los datos de una publicacion mediante su id
     return  this.http.get<Usuario>( this.Urlpublicaciones + idpubli);
@@ -55,8 +61,18 @@ export class UrlProvider {
     return this.http.get(this.Urlpublicaciones + id + "/exists");
   }
 
+  public subirPublicacion (publi: any){
+    return this.http.post<any>(this.Urlpublicaciones, publi).subscribe(() => console.log('publicacion subida'));
+  }
+
 
   //URLs FOTOGRAFIAS
+
+  public getAllFotos(): Observable<any> {
+    // Me devuelve todas las fotografias 
+    return this.http.get<any>( this.Urlfotografias);
+
+  }
 
   public getFotospubli(id : string): Observable<any> {
     // Me devuelve todas las fotografias de una publicación
@@ -65,10 +81,9 @@ export class UrlProvider {
   }
 
   public SubirFoto(foto: Fotografia){
-    console.log("vamos a hacer la llamada");
     console.log(foto);
 
-    return this.http.post<any>(this.Urlfotografias, foto ).subscribe(() => console.log('subida a contenedor'));
+    return this.http.post<any>(this.Urlfotografias, foto ).subscribe(() => console.log('foto subida'));
   }
 
 

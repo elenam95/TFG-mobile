@@ -8,7 +8,7 @@ export class Fotografia{
     Nota:number;
     Positivo:string;
     Negativo:string;
-    Ruta:string;
+    puntoruta:string;
     Portada:boolean;
     Idpublicacion:number;
   
@@ -24,7 +24,7 @@ export class Fotografia{
         this. Nota =  Nota;
         this.Positivo = Positivo;
         this.Negativo = Negativo;
-        this.Ruta = Ruta;
+        this.puntoruta = Ruta;
         this.Portada =Portada;
         this.Idpublicacion =Idpublicacion;
     }

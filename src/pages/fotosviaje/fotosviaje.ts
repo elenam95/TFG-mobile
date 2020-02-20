@@ -22,7 +22,6 @@ export class FotosviajePage {
 
   NomUsu: string;
   publicacion:string []=[];
-  puntosruta: number;
   rol: string;
   descripcion:string;
   web:string;
@@ -37,6 +36,8 @@ export class FotosviajePage {
   file:File;
   imagen:string;
   listafotos:number []=[1];
+  rutas:any;
+  listapuntosruta:any[]=[];
   // CAMPOS DE LA FOTOGRAFIA
   listaIdfoto: number[]=[];
   listafoto: string[]=[];
@@ -57,14 +58,18 @@ export class FotosviajePage {
    
     this.NomUsu= navParams.get('Nom');
     this.publicacion= navParams.get('Publi');
-    this.puntosruta= navParams.get('Puntos');
+    this.rutas = navParams.get('Rutas');
+    this.idpublicacion=navParams.get('Idpubli');
     console.log(this.NomUsu);
     console.log(this.publicacion);
-    console.log(this.puntosruta);
+    console.log(this.idpublicacion);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FotosviajePage');
+    this.listapuntosruta= this.rutas.split(";;");
+    this.listapuntosruta.length= this.listapuntosruta.length-1;
+    console.log(this.listapuntosruta)
   }
 
   Activarinput(){
@@ -98,48 +103,47 @@ export class FotosviajePage {
 
 
   Subirpublicacion(){
-    let fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion,
-      Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo, 
-      Portada: this.portada, Ruta: this.ruta, Idpublicacion: this.idpublicacion}
-    fotografia.Idpublicacion= 10;
- //   this.fotografia.Idpublicacion= this.idpublicacion;
+    let fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion, Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo,   Portada: this.portada, puntoruta: this.ruta, Idpublicacion: this.idpublicacion}
     for(var i=0; i < this.listafotos.length; i++){
-        fotografia.Idfoto= i+10;
+        fotografia.Idpublicacion= this.idpublicacion;
         fotografia.Foto= "hola";
-        fotografia.Descripcion= "this.listadescripcion[i]";
-        fotografia.Rol= "this.listarol[i]";
-        fotografia.Web= "this.listaweb[i]";
+        fotografia.Descripcion= this.listadescripcion[i];
+        fotografia.Rol= this.listarol[i];
+        fotografia.Web= this.listaweb[i];
         fotografia.Nota= this.listanota[i];
-        fotografia.Positivo= "this.listapositivo[i]";
-        fotografia.Negativo= "this.listanegativo[i]";
-        fotografia.Ruta= this.listaruta[i];
+        fotografia.Positivo= this.listapositivo[i];
+        fotografia.Negativo= this.listanegativo[i];
+        fotografia.puntoruta= this.listaruta[i];
         fotografia.Portada= this.listaportada[i];
         console.log(fotografia);
-      //  this.UrlProvider.SubirFoto(this.fotografia);
-      this.http.post<any>("http://localhost:3000/api/fotografias/", fotografia).subscribe();
+    
+      //ENCONTRAR ID FOTO
+      this.UrlProvider.getAllFotos().subscribe( 
+        res=>{  // guardamos id ultima foto
+                this.Idfoto= res[res.length-1].Idfoto;
+                console.log(this.Idfoto);
+
+                //Subir foto
+                fotografia.Idfoto= this.Idfoto+1;
+                console.log(fotografia.Idfoto);
+                this.UrlProvider.SubirFoto(fotografia);
+        });
+
+
+     //   this.UrlProvider.SubirFoto(fotografia);
+    //  this.http.post<any>("http://localhost:3000/api/fotografias/", fotografia).subscribe();
 }
   
   }
 
   PonFoto(){
     this.listafotos.push(1);
-    console.log(this.listafotos);
-    console.log(this.listarol);
-    console.log(this.listaruta);
-    console.log(this.listadescripcion);
-    console.log(this.listaweb);
-    console.log(this.listanota);
-    console.log(this.listapositivo);
-    console.log(this.listanegativo);
-    console.log(this.listaportada);
-
     }
 
   Continuar(){
 
     let Nombreusuario = { Nom:this.NomUsu };
     let publicaciones={Publi:this.publicacion};
-    let numruta= {Puntos:this.puntosruta}
 
   }
 

@@ -27,7 +27,7 @@ export class CrearmiviajePage {
   puntosruta:string []=[];
   numerosruta:number []=[1];
 
-  publicacion= {Titulo: this.titulo, Descripcion: this.descripcion, Duracion:this.duracion, Ruta:this.ruta, Recomendacion:this.recomendacion, Idpublicacion: this.idpublicacion}
+  publicacion= {Titulo: this.titulo, Descripcion: this.descripcion, Duracion:this.duracion, Ruta:this.ruta, Recomendacion:this.recomendacion, Idpublicacion: this.idpublicacion, IdNomUsu: this.NomUsu}
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // recoge los datos de la pagina anterior
@@ -37,6 +37,7 @@ export class CrearmiviajePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CrearmiviajePage');
+    
   }
 
   PonRuta(){
@@ -47,10 +48,11 @@ export class CrearmiviajePage {
   }
 
   Continuar(){
+    this.publicacion.IdNomUsu= this.NomUsu;
     this.publicacion.Titulo= this.titulo;
     this.publicacion.Descripcion= this.descripcion;
     this.publicacion.Duracion= this.duracion;
-    this.publicacion.Ruta= ";;"
+    this.publicacion.Ruta= ""
     for(var i=0; i < this.puntosruta.length; i++){
         
       this.publicacion.Ruta= this.publicacion.Ruta.concat(this.puntosruta[i]+ ";;");
@@ -60,9 +62,8 @@ export class CrearmiviajePage {
 
     let Nombreusuario = { Nom:this.NomUsu };
     let publicaciones={Publi:this.publicacion};
-    let numruta= {Puntos:this.puntosruta.length}
     // Abre la pagina perfil y le pasa el parametro NomUsu
-    this.navCtrl.push(RecomendacionesPage, {Nom: Nombreusuario.Nom, Publi: publicaciones.Publi, Puntos: numruta.Puntos });
+    this.navCtrl.push(RecomendacionesPage, {Nom: Nombreusuario.Nom, Publi: publicaciones.Publi });
 
   }
 
