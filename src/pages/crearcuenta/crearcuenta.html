@@ -11,43 +11,63 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label fixed>Correo electrónico</ion-label>
-      <ion-input type="text" name="mail" placeholder="escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label fixed>Nombre</ion-label>
-        <ion-input type="text" name="nombre" placeholder="escribe tu nombre" required [(ngModel)]="nombre" ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Nombre usuario</ion-label>
-      <ion-input type="text" name="nomUsu" placeholder="escribe tu nombre de usuario" required [(ngModel)]="nomUsu" ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Contraseña</ion-label>
-      <ion-input type="password" name="pass" placeholder="escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
-    </ion-item>
-    <ion-item>
-        
-            <ion-label>Rol</ion-label>
-            <ion-select [(ngModel)]="rol" value="text">
-              <ion-option value="Persona">Persona</ion-option>
-              <ion-option value="Empresa">Empresa</ion-option>
-            </ion-select>
-          
-      </ion-item>
 
-      <ion-item>
-        
-        <ion-label>Perfil</ion-label>
-        <ion-select [(ngModel)]="perfil" value="text">
-          <ion-option value="Publico">Público</ion-option>
-          <ion-option value="Privado">Privado</ion-option>
-        </ion-select>
-      
+   <!-- Mostrar foto usuario-->
+   <div style="text-align:center">
+    <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
+    </div>
+
+   <!-- Boton foto de perfil-->
+   <ion-item>
+    <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
+      <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
+   <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
+   <button (click)=Activarinput(); ion-button shape="round" class="centered">Añadir foto perfil</button>
   </ion-item>
-    <button (click)=Crearcuenta(); ion-button shape="round">Crear cuenta</button>
-   
-  </ion-list>
+
+  <form (ngSubmit)="Crearcuenta();">
+    <div class="form-row align-items-center">
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputName">Correo electrónico</label>
+        <ion-input type="text" name="mail" placeholder="escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
+  
+      </div>
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Nombre</label>
+        <div class="input-group">
+          <ion-input type="text" class="form-control" name="nombre" placeholder="escribe tu nombre" required [(ngModel)]="nombre"></ion-input>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Nombre usuario</label>
+        <div class="input-group">
+          <ion-input type="text" class="form-control" name="nomUsu" placeholder="escribe tu nombre de usuario" required [(ngModel)]="nomUsu"></ion-input>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Contraseña</label>
+        <div class="input-group">
+          <ion-input type="password" class="form-control" name="pass" placeholder="escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label>¿Rol?:</label>
+        <select name="rol" required [(ngModel)]="rol">
+            <option value="Persona">Persona</option>
+            <option value="Empresa">Empresa</option>
+        </select>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label>¿Perfil?:</label>
+        <select name="perfil" required [(ngModel)]="perfil">
+            <option value="Publico">Publico</option>
+            <option value="Privado">Privado</option>
+        </select>
+      </div>
+      <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary" ion-button shape="round">Crear Cuenta</button>
+      </div>
+    </div>
+  </form>
+
 </ion-content>

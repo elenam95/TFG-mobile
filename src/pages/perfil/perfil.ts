@@ -132,7 +132,6 @@ export class PerfilPage {
     console.log("this.lista");
     console.log(this.lista);
     let cont =0;
-   // this.prueba2();
    for(var j=0; j < this.listapubli.length; j++){
       this.UrlProvider.getFotospubli(this.lista[j]).subscribe(
         (listafotografias) =>{
@@ -160,8 +159,6 @@ export class PerfilPage {
    let cont=0;
    var j=0;
    var x=0;
-   console.log(this.listafotos[1].length);
-   console.log(this.listafotos[0].length);
    console.log("this.listafotos");
    console.log(this.listafotos);
     // bucle que recorra todas las publicaciones 
@@ -223,8 +220,7 @@ export class PerfilPage {
   reader.addEventListener('load', ()=>{
     // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
     this.imgportada.push(reader.result.toString());
- //   console.log ('YYYY ' + this.imgportada);
-  //  this.imgprueba = reader.result.toString();
+   // console.log ('YYYY ' + this.imgportada);
   },false);
 
    // Aqui es donde ordeno que se lea la imagen y se prepare la URL

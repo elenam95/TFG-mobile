@@ -22,19 +22,11 @@ export class FotosviajePage {
 
   NomUsu: string;
   publicacion:string []=[];
-  rol: string;
-  descripcion:string;
-  web:string;
-  nota:number;
-  positivo:string;
-  negativo:string;
-  ruta:string;
-  portada:boolean;
   Idfoto:number;
   foto:string;
   idpublicacion:number;
   file:File;
-  imagen:string;
+  imagen:string[]=[];
   listafotos:number []=[1];
   rutas:any;
   listapuntosruta:any[]=[];
@@ -50,8 +42,8 @@ export class FotosviajePage {
   listaportada: boolean[]=[];
   listaruta: string[]=[];
   //idpublicacion:number;
-  fotografia={Idfoto:this.Idfoto, Foto: this.foto, Descripcion: this.descripcion, Rol: this.rol, Web: this.web, Nota: this.nota, Positivo: this.positivo, Negativo: this.negativo,   Portada: this.portada, puntoruta: this.ruta, Idpublicacion: this.idpublicacion};
   listaf: Fotografia[]=[];
+  listafile: File []=[];
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,public UrlProvider: UrlProvider ) {
    
     this.NomUsu= navParams.get('Nom');
@@ -87,49 +79,46 @@ export class FotosviajePage {
 
   Mostrar($event){  
     //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
-   this.file = $event.target.files[0];
-   console.log ('fichero' +this.file.name);
-   const reader = new FileReader();
-   reader.readAsDataURL(this.file);
-   reader.onload =() => {
-     console.log ('ya');
-     this.imagen =reader.result.toString();
-   }
+  
+    this.file = $event.target.files[0];
+    console.log ('fichero' +this.file.name);
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload =() => {
+      console.log ('ya');
+      this.imagen.push(reader.result.toString()) ;
+    }
+    this.listafile.push(this.file);
+    console.log(this.listafile);
+  
 
-    this.Subircontenedor();
-
- }
-
- Subircontenedor(){
-    this.UrlProvider.subirImgPubli(this.file.name, this.file);
-   // this.fotografia.Foto= this.file.name;
  }
 
 
  PonFoto(){
-  this.listafotos.push(1);
-  
+  this.listafotos.push(1); 
   }
 
 
 
   Subirpublicacion(){
     let Foto;
-    this.foto="hola";
    for(var i=0; i < this.listafotos.length; i++){
       this.Idfoto= this.Idfoto+i;
       console.log(this.Idfoto);
 
             //Creamos la fotografia
-             Foto= new Fotografia(this.Idfoto, this.foto, this.listadescripcion[i], this.listarol[i], this.listaweb[i],
-              this.listanota[i], this.listapositivo[i], this.listanegativo[i], this.listapuntosruta[i], this.listaportada[i], 
+             Foto= new Fotografia(this.Idfoto, this.listafile[i].name, this.listadescripcion[i], this.listarol[i], this.listaweb[i],
+              this.listanota[i], this.listapositivo[i], this.listanegativo[i], this.listaruta[i], this.listaportada[i], 
               this.idpublicacion);
-              console.log(Foto);
               this.listaf.push(Foto);
               console.log(this.listaf);
-    
+              console.log(this.listaruta);
             //Subir fotografia 
             this.UrlProvider.SubirFoto(this.listaf[i]);
+
+            //Subir contenedor 
+            this.UrlProvider.subirImgPubli(this.listafile[i].name, this.listafile[i]);
     
    }
    

@@ -11,14 +11,6 @@
 </ion-header>
 
 <ion-content padding>
-   <!-- Boton subir foto-->
-   <ion-item>
-    <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
-      <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
-      <ion-img [src]="imagen" height='80' width='80' ></ion-img>
-   <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-   <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
-  </ion-item>
 
 
 
@@ -29,8 +21,17 @@
     </ion-card-header>
 
     <ion-card-content>
-  <form (ngSubmit)="Subirpublicacion();">
+  <form >
     <div class="form-row align-items-center">
+
+      <div class="col-sm-3 my-1">
+         <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
+         <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
+          <ion-img [src]="imagen[i]" height='80' width='80' ></ion-img>
+   <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
+         <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
+      </div>
+
       <div class="col-sm-3 my-1">
         <label>¿Qué vemos en la fotografía?:</label>
         <select name="rol" required [(ngModel)]="listarol[i]">
@@ -94,10 +95,7 @@
 
         </select>
       </div>
-
-      <div class="col-auto my-1">
-        <button type="submit" class="btn btn-primary" ion-button shape="round">Publicar</button>
-      </div>
+      
     </div>
   </form>
 </ion-card-content>

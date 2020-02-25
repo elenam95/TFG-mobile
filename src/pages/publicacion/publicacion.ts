@@ -37,6 +37,7 @@ export class PublicacionPage {
   portada: boolean=true;
   recomendacion: boolean= false;
   fotos: boolean= false;
+  listaNumFotos: any[]=[];
 
   
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -78,9 +79,21 @@ export class PublicacionPage {
     //Descargar fotografias de la publicación
     this.UrlProvider.getFotospubli(this.Idpubli).subscribe(
       fotos=>{ this.listafotos=fotos;
-             // this.listafotos_ruta=fotos;
+              console.log(this.listafotos);
               this.listafotos_ruta= this.PublicacionProvider.OrganizarPublis(this.listafotos, "Portada");
+            //  this.listaNumFotos= this.PublicacionProvider.Publicaciones(this.listafotos, "Portada");
                 console.log(this.listafotos_ruta);
+             //   console.log(this.listaNumFotos);
+
+                //Descargamos img de las publicaciones
+             /*   for (var i=0; i<this.listafotos.length; i++){
+                  this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/' + this.listafotos[i].Foto, {responseType: ResponseContentType.Blob} ).subscribe(
+                    response => { 
+                                //  console.log(response);
+                                  this.Cargarfotospublicaciones(response);
+                    }); 
+                }*/
+            
                
                 //Descargamos portada del contenedor 
                 this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/' + this.listafotos_ruta[0].Foto, {responseType: ResponseContentType.Blob} ).subscribe(
@@ -108,6 +121,7 @@ export class PublicacionPage {
       
       // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
       this.imagenusu = reader.result.toString();
+      //console.log(this.imagenusu);
       return this.imagenusu;
     },false);
   
@@ -120,8 +134,8 @@ export class PublicacionPage {
   }
 
   public Cargarfotospublicaciones(response: Response){
-    //Cargar foto publicaciones
     this.imgcontenedor=[];
+    //Cargar foto publicaciones
     const blob = new Blob([response.blob()], {type: 'image/jpg'});
     //Colocamos la imagen que esta en blob en la carpeta img correspondiente
     const reader= new FileReader();
@@ -138,6 +152,7 @@ export class PublicacionPage {
       reader.readAsDataURL(blob);
       
   }
+ 
 
 }
 
@@ -161,9 +176,11 @@ export class PublicacionPage {
     }
 
     this.listafotos_ruta=[];
+    console.log("this.listafotos_ruta");
+    console.log(this.listafotos_ruta);
    this.listafotos_ruta= this.PublicacionProvider.OrganizarPublis(this.listafotos, name);
    console.log(this.listafotos_ruta);
-   console.log(this.recomendacion);
+  // console.log(this.recomendacion);
 
    //descargamos fotos contenedor 
    for (var i=0; i<this.listafotos_ruta.length; i++){
@@ -171,6 +188,7 @@ export class PublicacionPage {
       response => { 
                     console.log(response);
                     this.Cargarfotospublicaciones(response);
+                   
       });
    }
    

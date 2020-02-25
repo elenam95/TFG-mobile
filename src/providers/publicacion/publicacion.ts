@@ -55,6 +55,26 @@ export class PublicacionProvider {
     return listapublis;
   }
 
+
+  public Publicaciones (listafotos: any[], puntoruta: string){
+    let listapublis: any[]=[];
+    if (puntoruta === "Portada"){
+      for (var i=0; i < listafotos.length; i++){
+        if(listafotos[i].Portada==true){
+           listapublis.push(i);
+          }
+      }
+    } else {
+      for (var j=0; j < listafotos.length; j++){
+        if(listafotos[j].puntoruta === puntoruta){
+              listapublis.push(j);
+          }
+      }
+
+    }
+    return listapublis;
+  }
+
   
   
   

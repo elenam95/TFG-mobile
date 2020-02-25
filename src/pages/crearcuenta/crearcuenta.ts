@@ -24,11 +24,10 @@ export class CrearcuentaPage {
   nomUsu:string;
   rol:string;
   perfil:string;
-
-  
-  private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
-
-  
+  fotousu: string;
+  file: File;
+  imagenusu: string;
+  post: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
                               public alertCtrl: AlertController, public UrlProvider: UrlProvider) {
@@ -38,9 +37,30 @@ export class CrearcuentaPage {
     console.log('ionViewDidLoad CrearcuentaPage');
   }
 
-  Crearcuenta()
-  {
-    let usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Perfil: this.perfil};
+  Activarinput(){
+    // hacemos click en el boton que esta invisible para el usuario
+    console.log('activar input');
+    document.getElementById('inp').click();
+  }
+
+
+  Mostrar($event){  
+    //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
+   this.file = $event.target.files[0];
+   console.log ('fichero' +this.file.name);
+   const reader = new FileReader();
+   reader.readAsDataURL(this.file);
+   reader.onload =() => {
+     console.log ('ya');
+     this.imagenusu =reader.result.toString();
+   }
+   this.fotousu= this.file.name;
+
+ }
+
+
+  Crearcuenta(){
+    let usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
     
     //Consultamos si existe un usuario con este nomUsu
     this.UrlProvider.getUsuario(this.nomUsu).subscribe(
@@ -78,27 +98,27 @@ export class CrearcuentaPage {
                   (err)=> {
                           console.log("vamos a registrar al nuevo usuario");
                           //Creamos el nuevo usuario
-                          this.http.post<any>(this.APIUrl, usuario).subscribe();
-                          console.log("usuario registrado");
-                          let Nombreusuario ={Nom:this.nombre}
-                          // Abre la pagina perfil y le pasa el parametro NomUsu
-                           this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom}); 
+                          this.UrlProvider.SubirUsu(usuario).subscribe(
+                            () => {
+                                   console.log('usuario subido')
+                                  this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
+                                    () => {
+                                             console.log('subida a contenedor')
+                                              let Nombreusuario ={Nom:this.nomUsu}
+                                             // Abre la pagina perfil y le pasa el parametro NomUsu
+                                              this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
+                                    });
+                            });
 
                   }
 
                 );
 
-        
-
         }
-
-
-
 
     );
  
 
   }
-  
- 
+
 }

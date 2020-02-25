@@ -16,12 +16,16 @@ export class UrlProvider {
   URLusuarios: string;
   Urlpublicaciones : string;
   Urlfotografias: string;
+  UrlContenedorPublis: string;
+  UrlContenedorUsu: string;
 
   constructor(public http: HttpClient,  private http2:Http) {
     console.log('Hello UrlProvider Provider');
     this.URLusuarios= 'http://localhost:3000/api/usuarios/';
     this.Urlpublicaciones= 'http://localhost:3000/api/publicacions/';
     this.Urlfotografias= 'http://localhost:3000/api/fotografias/';
+    this.UrlContenedorPublis ='http://localhost:3000/api/imagenes/fotospublicaciones';
+    this.UrlContenedorUsu='http://localhost:3000/api/imagenes/fotosusuarios/';
   }
 
   //URLs USUARIO
@@ -32,6 +36,10 @@ export class UrlProvider {
 
   public getMail(mail: string){
     return this.http.get('http://localhost:3000/api/usuarios/findOne?filter={"where":{"Mail":"' +mail +'"}} ');
+  }
+
+  public SubirUsu(usuario: any){
+    return this.http.post<any>(this.URLusuarios, usuario);
   }
 
   //URLs PUBLICACIONES 
@@ -93,10 +101,10 @@ export class UrlProvider {
   //URLs IMAGEN 
   //(no se bien como hacerlo aun)
   public getDescargarFotoUsu(Fotousu: string): Observable<any>{
-    return this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/'+ Fotousu);
+    return this.http2.get(this.UrlContenedorUsu +'download'+ Fotousu);
   }
   public getDescargarFotoPubli(){
-    return this.http.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/');
+    return this.http.get(this.UrlContenedorPublis + 'download');
   }
 
   public subirImgPubli(name: string, file:File){
@@ -105,9 +113,17 @@ export class UrlProvider {
  formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
  // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
  //enviamos la foto a nuestro contenedor fotospublicaciones
- this.http.post('http://localhost:3000/api/imagenes/fotospublicaciones/upload', formData).subscribe(() => console.log('subida a contenedor'));
+ this.http.post(this.UrlContenedorPublis + 'upload', formData).subscribe(() => console.log('subida a contenedor'));
 
     
+  }
+
+  public SubirImgUsu(name: string, file:File){
+    // Subir foto usuario al contenedor de imagenes 
+      const formData: FormData = new FormData(); 
+      formData.append(file.name, file); 
+      return this.http.post(this.UrlContenedorUsu + 'upload', formData);
+
   }
 
 

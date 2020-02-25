@@ -42,9 +42,6 @@ export class CrearmiviajePage {
 
   PonRuta(){
     this.numerosruta.push(1);
-    console.log(this.puntosruta);
-    console.log(this.numerosruta);
-    console.log(this.titulo + this.duracion + this.descripcion);
   }
 
   Continuar(){

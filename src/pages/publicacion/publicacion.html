@@ -27,45 +27,45 @@
 
     <ion-card-content>
     
-    
-    <ion-slides>
-      <ion-slide  *ngFor="let p of listafotos_ruta; let i = index">
-
-        <h1>{{p.Foto}}</h1>
+      <ion-slides>
+        <ion-slide  *ngFor="let p of listafotos_ruta; let i = index">
+  
+          <h1>{{p.Foto}}</h1>
+           
+  
+          <div *ngIf="portada == true"> 
+            <label >@{{idusuario}} {{publicacion.Descripcion}}</label>
+            <ion-img  [src]="imgcontenedor[i]" height='80' width='80' ></ion-img>
+          </div>
+  
+          <div *ngIf="fotos == true"> 
+            <ion-img  [src]="imgcontenedor[i]" height='80' width='80' ></ion-img>
+            <pre>
+              <label>{{p.Rol}}</label><label >{{p.Nota}}</label>
+              </pre>
+              <label>{{p.Descripcion}}</label>
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <label >{{p.Positivo}}</label>
+              <ion-icon name="close-circle-outline"></ion-icon>
+              <label >{{p.Negativo}}</label>
+              <button type="button" class="btn btn-secondary">Ir a la web</button>
+          </div>
+  
+          
+          <label *ngIf=" recomendacion == false ">foto</label>
          
-
-        <div *ngIf="portada == true"> 
-          <label >@{{idusuario}} {{publicacion.Descripcion}}</label>
-          <ion-img  [src]="imgcontenedor[i]" height='80' width='80' ></ion-img>
-        </div>
-
-        <div *ngIf="fotos == true"> 
-          <pre>
-            <label>{{p.Rol}}</label><label *ngIf="fotos == true" >{{p.Nota}}</label>
-            </pre>
-            <label>{{p.Descripcion}}</label>
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-            <label >{{p.Positivo}}</label>
-            <ion-icon name="close-circle-outline"></ion-icon>
-            <label >{{p.Negativo}}</label>
-            <button type="button" class="btn btn-secondary">Ir a la web</button>
-        </div>
-
-        
-        <label *ngIf=" recomendacion == false ">foto</label>
-       
-        <label *ngIf=" recomendacion == true">recomendacion</label>
-       
-       
-        <!--   <div *ngIf="recomendacion == true">-->
-         <!--   <div  *ngFor="let r of listarecomendaciones" > -->
-             <!--  <ion-icon  name="alert-circle-outline"></ion-icon>-->
-            <!-- <label >{{r}}</label>-->
-         <!-- </div> -->
-       <!--  </div> -->
-        
-      </ion-slide>
-    </ion-slides>
+          <label *ngIf=" recomendacion == true">recomendacion</label>
+         
+         
+          <!--   <div *ngIf="recomendacion == true">-->
+           <!--   <div  *ngFor="let r of listarecomendaciones" > -->
+               <!--  <ion-icon  name="alert-circle-outline"></ion-icon>-->
+              <!-- <label >{{r}}</label>-->
+           <!-- </div> -->
+         <!--  </div> -->
+          
+        </ion-slide>
+      </ion-slides>
     
     </ion-card-content>
   </ion-card>
