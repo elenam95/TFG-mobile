@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import { ConfiguracionPageModule } from '../configuracion/configuracion.module';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
+import {PerfilProvider} from '../../providers/perfil/perfil';
 
 
 
@@ -31,6 +32,7 @@ export class PerfilPage {
   listafotos: any []= []; //lista de fotografias
   lista: any []= new Array(); //=[] VACIO
   listaportadas: any []=[];
+  listaordenada: any []=[];
   res: Response;
   
 
@@ -46,7 +48,6 @@ export class PerfilPage {
   rol:string;
   fotousu:string;
   perfil:boolean;
-  a:number;
   encontrado: boolean;
   imgportada:string []=[];
   usuario = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
@@ -55,7 +56,7 @@ export class PerfilPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient,
-                              private http2:Http, public UrlProvider: UrlProvider ) {
+                              private http2:Http, public UrlProvider: UrlProvider, public PerfilProvider: PerfilProvider) {
     // recoge los datos de la pagina anterior
     this.NomUsu= navParams.get('Nom');
     console.log(this.NomUsu);
@@ -63,20 +64,15 @@ export class PerfilPage {
 
   ionViewDidLoad() { 
     console.log('ionViewDidLoad PerfilPage');
-
     //descargar publicaciones  de la base de datos
          console.log('descargando publicaciones');
          this.UrlProvider.getPublicacionesUsu(this.NomUsu).subscribe(
-          
            listapublicaciones => {  
-                  
                   this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
                   console.log(this.listapubli);
                   this.Descargarfotos(); 
            }
-
-
-         );
+         )
      // Descargar fotos del usuario
      this.Descargardatos();
 
@@ -90,9 +86,9 @@ export class PerfilPage {
               console.log(this.usuario);
 
               //Descargamos la foto del usuario
-              this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/'+this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( 
+              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu, ).subscribe(
                 response => 
-                           this.Cargarfotousu(response));
+                this.Cargarfotousu(response));
                 
       });
 
@@ -123,10 +119,8 @@ export class PerfilPage {
   Descargarfotos(){
     // Función para decargar fotos de las publicaciones 
     console.log('descargando datos de las fotos de publicaciones');
-    console.log(this.listapubli.length);
     for (var i=0; i < this.listapubli.length; i++ ){
-      console.log(i);
-     this.lista[i] = this.listapubli[i].Idpublicacion;
+         this.lista[i] = this.listapubli[i].Idpublicacion;
     }
 
     console.log("this.lista");
@@ -139,7 +133,9 @@ export class PerfilPage {
                                 this.listafotos.push(listafotografias);
                                 if(cont ===this.listapubli.length){
 
-                                      this.Encontrarportada();
+                                     this.listaportadas= this.PerfilProvider.EncontrarPortada(this.listafotos);
+                                     this.listaordenada =this.PerfilProvider.OrdenarPortadas(this.lista, this.listaportadas);
+                                     this.Descargarportadas();
                                 }
           
        }
@@ -153,58 +149,16 @@ export class PerfilPage {
   }
   
  
- Encontrarportada(){
-   // Funcion que recorre todas las publicaciones y guarda las fotos de portada de las publicaciones en listaportadas
-   this.encontrado=false;
-   let cont=0;
-   var j=0;
-   var x=0;
-   console.log("this.listafotos");
-   console.log(this.listafotos);
-    // bucle que recorra todas las publicaciones 
-    while(j<this.listafotos.length){
-      console.log('j');
-      console.log(j);
-      // bucle que busque la foto de portada de cada publicacion 
-      while((x<this.listafotos[j].length)&&(!this.encontrado)){
-        console.log('x');
-        console.log(x);
-        if(this.listafotos[j][x].Portada==true){
-          console.log('encontrada');
-          this.listaportadas[j]= this.listafotos[j][x];
-          cont++;
-          
-          this.encontrado=true;
-
-        }
-        else{
-          console.log('No es foto de portada');
-        }
-        x++;
-      }
-
-      j++;
-      if(cont ===this.listafotos.length){
-        this.Descargarportadas();
-      }
-      x=0;
-      this.encontrado= false;
-    }
-    console.log(this.listaportadas);
-    console.log(this.listaportadas[0].Foto);
- }
-
  Descargarportadas(){ //Modificar!
    //Descargarmos las fotos de portada 
-    console.log("funcion descargarportadas " + this.listaportadas[0].Foto);
-    for (var i=0; i<this.listaportadas.length; i++){
+    for (var i=0; i<this.listaordenada.length; i++){
       console.log("queremos ver");
-        console.log(this.listaportadas[i].Idpublicacion);
-         this.http2.get('http://localhost:3000/api/imagenes/fotospublicaciones/download/'+this.listaportadas[i].Foto, {responseType: ResponseContentType.Blob} ).
-        subscribe( response => {
+        console.log(this.listaordenada[i].Idpublicacion);
+        this.UrlProvider.getDescargarFotoPubli(this.listaordenada[i].Foto).subscribe(
+          response => {
 
-                                //  this.listaresponse.push(response);
-                                this.Cargarfotoportada(response)});
+                       this.Cargarfotoportada(response)}
+        );
    }
 
   

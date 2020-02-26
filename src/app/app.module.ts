@@ -24,6 +24,7 @@ import { UrlProvider } from '../providers/url/url';
 import { LoginProvider } from '../providers/login/login';
 import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
 import { PublicacionProvider } from '../providers/publicacion/publicacion';
+import { PerfilProvider } from '../providers/perfil/perfil';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { PublicacionProvider } from '../providers/publicacion/publicacion';
     UrlProvider,
     LoginProvider,
     CrearviajeProvider,
-    PublicacionProvider
+    PublicacionProvider,
+    PerfilProvider
   ]
 })
 export class AppModule {}

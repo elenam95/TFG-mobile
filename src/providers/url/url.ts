@@ -24,7 +24,7 @@ export class UrlProvider {
     this.URLusuarios= 'http://localhost:3000/api/usuarios/';
     this.Urlpublicaciones= 'http://localhost:3000/api/publicacions/';
     this.Urlfotografias= 'http://localhost:3000/api/fotografias/';
-    this.UrlContenedorPublis ='http://localhost:3000/api/imagenes/fotospublicaciones';
+    this.UrlContenedorPublis ='http://localhost:3000/api/imagenes/fotospublicaciones/';
     this.UrlContenedorUsu='http://localhost:3000/api/imagenes/fotosusuarios/';
   }
 
@@ -98,13 +98,12 @@ export class UrlProvider {
 
 
 
-  //URLs IMAGEN 
-  //(no se bien como hacerlo aun)
+  //URLs  CONTENEDOR IMAGEN 
   public getDescargarFotoUsu(Fotousu: string): Observable<any>{
-    return this.http2.get(this.UrlContenedorUsu +'download'+ Fotousu);
+    return this.http2.get(this.UrlContenedorUsu +'download/'+ Fotousu, {responseType: ResponseContentType.Blob});
   }
-  public getDescargarFotoPubli(){
-    return this.http.get(this.UrlContenedorPublis + 'download');
+  public getDescargarFotoPubli(Foto: string): Observable<any>{
+    return this.http2.get(this.UrlContenedorPublis + 'download/'+ Foto, {responseType: ResponseContentType.Blob});
   }
 
   public subirImgPubli(name: string, file:File){

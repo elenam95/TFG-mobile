@@ -39,7 +39,6 @@ export class CrearcuentaPage {
 
   Activarinput(){
     // hacemos click en el boton que esta invisible para el usuario
-    console.log('activar input');
     document.getElementById('inp').click();
   }
 

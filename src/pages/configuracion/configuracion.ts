@@ -59,13 +59,19 @@ export class ConfiguracionPage {
               this.usuario = usu;
               console.log(this.usuario);
 
-              //Descargamos la foto del usuario 
-              this.http2.get('http://localhost:3000/api/imagenes/fotosusuarios/download/' +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe(
-                 response => 
-                            this.Cargarfotousu(response));
-                            console.log (this.usuario.Perfil);
-                            this.perfil= this.usuario.Perfil;
-                            console.log (this.perfil);
+              //Descargamos la foto del usuario
+              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu).subscribe(
+                response => {
+                  this.Cargarfotousu(response);
+                  console.log (this.usuario.Perfil);
+                  this.perfil= this.usuario.Perfil;
+                  console.log (this.perfil);
+                  
+                });
+               
+                /* console.log (this.usuario.Perfil);
+                this.perfil= this.usuario.Perfil;
+                            console.log (this.perfil);*/
 
       }
     );
@@ -143,17 +149,18 @@ export class ConfiguracionPage {
 
   Subirfotousu (){ 
     // Subir foto al contenedor de imagenes 
- const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
- formData.append(this.file.name, this.file); //le pasamos nombre fichero y el propio fichero
- // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
- //enviamos la foto a nuestro contenedor fotospublicaciones
- this.http.post('http://localhost:3000/api/imagenes/fotosusuarios/upload', formData).subscribe(() => console.log('subida a contenedor'));
+ 
+ this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe( 
+   () => {
+            console.log('subida a contenedor')
+    });
  // Subir nombre de la foto a la base de datos 
  this.usuario.Fotousu = this.file.name;
  console.log ('nombre nueva foto'+ this.usuario.Fotousu);
  console.log(this.usuario);
  this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("foto subida a la base de datos usu"));
 
+ // Eliminar antigua foto contenedor 
  }
 
  myChange($event){
