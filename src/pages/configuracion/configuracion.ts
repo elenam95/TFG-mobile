@@ -7,6 +7,7 @@ import {CambiarcontraseñaPage} from '../cambiarcontraseña/cambiarcontraseña';
 import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the ConfiguracionPage page.
@@ -31,6 +32,9 @@ export class ConfiguracionPage {
   selrol: boolean;//ion-toggle
   fotousu:string; //dentro de la clase usuario (guardara el nombre que descargue de la base de datos)
   imagenusu: string; //necesito cargar foto usu
+  fotoanterior: string;
+  ExisteNomUsu:boolean;
+  antiguoNomUsu: string;
 
   //guardamos datos de los cambios
   file: File; //file.name nombre de la foto nueva, cuando el usuario quiera cambiar de foto
@@ -47,18 +51,20 @@ export class ConfiguracionPage {
      // recoge los datos de la pagina anterior
      this.nomUsu= navParams.get('Nom');
      console.log(this.nomUsu);
+     this.antiguoNomUsu= this.nomUsu;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConfiguracionPage');
     
-
+    
     //Descargar datos del usuario 
     this.UrlProvider.getUsuario(this.nomUsu).subscribe(
       usu =>{
               this.usuario = usu;
               console.log(this.usuario);
-
+              this.fotoanterior = this.usuario.Fotousu;
+              console.log(this.fotoanterior);
               //Descargamos la foto del usuario
               this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu).subscribe(
                 response => {
@@ -68,35 +74,15 @@ export class ConfiguracionPage {
                   console.log (this.perfil);
                   
                 });
-               
-                /* console.log (this.usuario.Perfil);
-                this.perfil= this.usuario.Perfil;
-                            console.log (this.perfil);*/
+
 
       }
     );
 
-
-
-/*
-    this.http.get<any>(this.UrlProvider.getUsuarios + this.nomUsu).subscribe(usu =>{
-      this.usuario = usu;
-      console.log('miramos usuario descargado');
-      console.log(this.usuario);
-      //Descargamos la foto del usuario 
-      this.http2.get(this.UrlProvider.getFotoUsu +this.usuario.Fotousu, {responseType: ResponseContentType.Blob} ).subscribe( response => 
-      this.Cargarfotousu(response));
-      console.log (this.usuario.Perfil);
-      this.perfil= this.usuario.Perfil;
-      console.log (this.perfil);
-    });*/
-
-    
-
     if (this.usuario.Rol == 'Empresa'){
       console.log('es una empresa');
       this.selrol=true;
-      this.rol='Empresa;'
+      this.rol='Empresa'
     }
     else 
     {
@@ -105,6 +91,25 @@ export class ConfiguracionPage {
       this.rol='Persona';
     }
 
+  }
+
+  checkboxRol(e){
+    this.selrol= e.target.checked;
+    console.log(this.selrol);
+
+    if (this.selrol == true){
+      console.log('es una empresa');
+      this.rol='Empresa;'
+    }
+    else 
+    {
+      console.log('no es una empresa');
+      this.rol='Persona';
+    }
+  }
+  checkboxPerfil(e){
+    this.perfil= e.target.checked;
+    console.log(this.perfil);
   }
 
   Cargarfotousu(response: Response){
@@ -150,61 +155,99 @@ export class ConfiguracionPage {
   Subirfotousu (){ 
     // Subir foto al contenedor de imagenes 
  
- this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe( 
-   () => {
-            console.log('subida a contenedor')
-    });
- // Subir nombre de la foto a la base de datos 
- this.usuario.Fotousu = this.file.name;
- console.log ('nombre nueva foto'+ this.usuario.Fotousu);
- console.log(this.usuario);
- this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("foto subida a la base de datos usu"));
-
- // Eliminar antigua foto contenedor 
- }
-
- myChange($event){
-   // Cuando cambiemos el icon-toggle selrol, cambiaremos el rol del usuario
-   
-    const alert = this.alertCtrl.create({
-      title: 'Modificado',
-      subTitle: 'Tu información personal ha sido modificada',
-      buttons: ['OK']
-    });
-    alert.present();
-    if (this.selrol==true){
-      this.selrol=true;
-      this.rol='Empresa';
-      console.log('Se ha cambiado el selrol a '+this.selrol);
+      this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe( 
+        () => {
+                  console.log('subida a contenedor')
+        });
+    // Subir nombre de la foto a la base de datos 
+      this.usuario.Fotousu = this.file.name;
+      console.log ('nombre nueva foto'+ this.usuario.Fotousu);
+      console.log(this.usuario);
+      this.UrlProvider.ModificarUsu( this.usuario).subscribe(()=> console.log("Usuario modificado"));
+     
+    // Eliminar antigua foto contenedor si no es foto por defecto
+    if(this.fotoanterior != "pordefecto.png"){
+      this.UrlProvider.EliminarImgUsu(this.fotoanterior).subscribe( ()=> console.log("Foto eliminada"));
+      
     }
-    else{
-     this.selrol=false;
-     this.rol='Persona';
-     console.log('Se ha cambiado el selrol a '+this.selrol);
-    }
+    this.fotoanterior= this.usuario.Fotousu;
+        
+
  }
 
- cambioperfil($event){
-   // Cuando cambiemos el icon-toggle perfil, cambiaremos el perfil usuario privado/público
-   //True= perfil privado  y false= perfil público
-   console.log('Se ha cambiado el perfil a '+this.perfil);
-   const alert = this.alertCtrl.create({
-    title: 'Modificado',
-    subTitle: 'El estado de tu perfil ha sido modificado',
-    buttons: ['OK']
-  });
-  alert.present();
+ 
+ ComprobarNomUsu(){
+  console.log(this.nomUsu);
+  this.UrlProvider.ExisteUsuario(this.nomUsu).subscribe(
+    res => {
+            if(this.nomUsu == this.antiguoNomUsu){
+              this.ExisteNomUsu = false;
+              console.log("el mismo que antes, ok")
+
+            }else {
+                     if (res.exists == true){
+                         console.log("NomUsu ya existe")
+                         this.ExisteNomUsu=true;
+
+                    } else{
+                          console.log("NomUsu no existe")
+                           this.ExisteNomUsu=false;
+                     }
+            }
+    } 
+  );
  }
 
- Cambiardatos(){ //Cambiar datos personales del usuario
+
+ Cambiardatos(){ 
+  this.UrlProvider.ExisteUsuario(this.nomUsu).subscribe(
+    res => {
+            if(this.nomUsu == this.antiguoNomUsu){
+              this.ExisteNomUsu = false;
+              console.log("el mismo que antes, ok")
+              this.ModificarUsuario(false);
+
+            }else {
+                     if (res.exists == true){
+                         console.log("NomUsu ya existe")
+                         this.ExisteNomUsu=true;
+                         const alert = this.alertCtrl.create({
+                          title: 'Error',
+                          subTitle: 'El Nombre de Usuario ya existe',
+                          buttons: ['OK']
+                          });
+                          alert.present();
+
+                    } else{
+                          console.log("NomUsu no existe")
+                          this.ModificarUsuario(true);
+                     }
+            }
+    });
+ 
+ }
+
+ ModificarUsuario(Eliminar: boolean){
+  
   this.usuario.NomUsu=this.nomUsu;
   this.usuario.Nombre=this.nombre;
   this.usuario.Rol= this.rol;
   this.usuario.Perfil= this.perfil;
   console.log(this.usuario);
+/*
+  //Modificamos usuario
+    this.UrlProvider.ModificarUsu( this.usuario).subscribe(
+      ()=> {
+               console.log ("datos de usuarios modificados")
+               if(Eliminar == true){
+                 this.UrlProvider.EliminarUsuario(this.antiguoNomUsu).subscribe(() => console.log("antiguo usu elminiado"));
+               }
+               
+               this.antiguoNomUsu= this.usuario.NomUsu;
+               console.log(this.antiguoNomUsu)
+      });*/
 
-  this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log ("datos de usuarios modificados"));
- }
+}
 
  Cambiarpass(){
   let usuarios={
@@ -214,8 +257,5 @@ export class ConfiguracionPage {
   this.navCtrl.push(CambiarcontraseñaPage, {usu: usuarios.usu});
  }
 
- showConfirm() {
-  
-}
 
 }

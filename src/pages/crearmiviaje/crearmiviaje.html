@@ -11,47 +11,56 @@
 </ion-header>
 
 <ion-content padding>
+  <form>
+    <div class="form-row align-items-center">
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputName">Titulo del viaje</label>
+        <ion-input type="text" name="titulo" placeholder="Escribe un titulo del viaje" required [(ngModel)]="titulo" ></ion-input>
   
-    <ion-input type="text" name="titulo" placeholder="Escribe un titulo del viaje" required [(ngModel)]="titulo" ></ion-input>
-    
-    <ion-item> 
-          <ion-label>Días de duración</ion-label>
-          <ion-select [(ngModel)]="duracion" value="number">
-            <ion-option value="1">1</ion-option>
-            <ion-option value="2">2</ion-option>
-            <ion-option value="3">3</ion-option>
-            <ion-option value="4">4</ion-option>
-            <ion-option value="5">5</ion-option>
-            <ion-option value="6">6</ion-option>
-            <ion-option value="7">7</ion-option>
-            <ion-option value="8">8</ion-option>
-            <ion-option value="9">9</ion-option>
-            <ion-option value="10">10</ion-option>
-            <ion-option value="11">11</ion-option>
-            <ion-option value="12">12</ion-option>
-            <ion-option value="13">13</ion-option>
-            <ion-option value="14">14</ion-option>
-            <ion-option value="15">15</ion-option>
-          </ion-select>
-        
-    </ion-item>
-
-    <ion-input type="text" name="descripcion" placeholder="Añade la descripcion del vaije" required [(ngModel)]="descripcion" ></ion-input>
-  
-     
-
-      <ul *ngFor="let punto of numerosruta; let i = index">
-        <div>
-         <ion-icon name="checkmark-circle-outline"></ion-icon>
-         <ion-input type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>
       </div>
-      </ul>
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Descripción</label>
+        <div class="input-group">
+          <ion-input type="text" class="form-control" name="descripcion" placeholder=" Añade la descripcion del viaje" required [(ngModel)]="descripcion"></ion-input>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label>Días de duración</label>
+        <select name="duracion" required [(ngModel)]="duracion"  value="number">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
 
-      <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
+        </select>
+      </div>
+    </div>
+  </form>
+  <label class="sr-only">Puntos de la ruta</label>
+  <ul *ngFor="let punto of numerosruta; let i = index">
 
-      <button (click)="Continuar();"  ion-button shape="round">Continuar</button>
+    <div>
+     <ion-icon name="checkmark-circle-outline"></ion-icon>
+     <ion-input type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>
+  </div>
+  </ul>
+<button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
 
-   
+<button class="btn btn-primary" (click)=Continuar(); ion-button shape="round">Continuar</button>
+
+
+
   
 
 

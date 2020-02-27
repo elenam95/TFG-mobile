@@ -19,6 +19,4 @@ export class LoginProvider {
     console.log('Hello LoginProvider Provider');
   }
 
- 
-
 }

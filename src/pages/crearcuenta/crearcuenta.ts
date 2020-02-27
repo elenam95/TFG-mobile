@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {PerfilPage} from '../perfil/perfil';
 import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
+import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http'; 
 
 /**
  * Generated class for the CrearcuentaPage page.
@@ -23,11 +24,11 @@ export class CrearcuentaPage {
   mail:string;;
   nomUsu:string;
   rol:string;
-  perfil:string;
+  perfil:boolean;
   fotousu: string;
   file: File;
   imagenusu: string;
-  post: any;
+ 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
                               public alertCtrl: AlertController, public UrlProvider: UrlProvider) {
@@ -35,7 +36,32 @@ export class CrearcuentaPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CrearcuentaPage');
+
+    //Descargar foto por defecto 
+    this.UrlProvider.getDescargarFotoUsu("pordefecto.png").subscribe(
+      response => {
+        this.Cargarfotousu(response);
+        this.fotousu= "pordefecto.png";     
+      });
   }
+
+
+  Cargarfotousu(response: Response){
+
+    const blob = new Blob([response.blob()], {type: 'image/jpg'});
+    //Colocamos la imagen que esta en blob en la carpeta img correspondiente
+    const reader= new FileReader();
+    reader.addEventListener('load', ()=>{
+      // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
+      this.imagenusu = reader.result.toString();
+    },false);
+  
+     // Aqui es donde ordeno que se lea la imagen y se prepare la URL
+     if (blob) {
+      reader.readAsDataURL(blob);
+  }
+  
+   }
 
   Activarinput(){
     // hacemos click en el boton que esta invisible para el usuario
@@ -60,7 +86,7 @@ export class CrearcuentaPage {
 
   Crearcuenta(){
     let usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
-    
+    console.log(usuario);
     //Consultamos si existe un usuario con este nomUsu
     this.UrlProvider.getUsuario(this.nomUsu).subscribe(
      usuario =>{
@@ -100,13 +126,16 @@ export class CrearcuentaPage {
                           this.UrlProvider.SubirUsu(usuario).subscribe(
                             () => {
                                    console.log('usuario subido')
-                                  this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
-                                    () => {
-                                             console.log('subida a contenedor')
-                                              let Nombreusuario ={Nom:this.nomUsu}
-                                             // Abre la pagina perfil y le pasa el parametro NomUsu
-                                              this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
-                                    });
+                                   if (this.fotousu != "pordefecto.png"){
+                                    this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
+                                      () => {
+                                               console.log('subida a contenedor')         
+                                           });
+                                  }
+                                   let Nombreusuario ={Nom:this.nomUsu}
+                                      // Abre la pagina perfil y le pasa el parametro NomUsu
+                                       this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
+                                 
                             });
 
                   }

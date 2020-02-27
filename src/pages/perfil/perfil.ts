@@ -86,7 +86,7 @@ export class PerfilPage {
               console.log(this.usuario);
 
               //Descargamos la foto del usuario
-              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu, ).subscribe(
+              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu ).subscribe(
                 response => 
                 this.Cargarfotousu(response));
                 

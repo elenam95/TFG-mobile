@@ -55,7 +55,7 @@ export class LoginPage {
 
                         console.log('hay un usuario');
 
-                        if (usuario.NomUsu ==this.nombre && usuario.Pass == this.pass ){
+                        if (usuario.NomUsu == this.nombre && usuario.Pass == this.pass ){
 
                               console.log('coinciden');
                               let Nombreusuario = { Nom:this.nombre };

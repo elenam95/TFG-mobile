@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpClient} from '@angular/common/http';
+import { UrlProvider } from '../../providers/url/url';
 
 /**
  * Generated class for the CambiarcontraseñaPage page.
@@ -29,7 +30,7 @@ export class CambiarcontraseñaPage {
 
   private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  private http:HttpClient) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private http:HttpClient, public UrlProvider :UrlProvider  ) {
     this.usuario= navParams.get('usu');
      console.log(this.usuario);
   }
@@ -45,7 +46,8 @@ export class CambiarcontraseñaPage {
       if(this.nuevapass== this.nuevapass2){
         console.log('coinciden contraseñas');
         this.usuario.Pass=this.nuevapass;
-        this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log('contraseña modificada'));
+        this.UrlProvider.ModificarUsu(this.usuario).subscribe(()=> console.log('contraseña modificada'));
+      //  this.http.patch(this.APIUrl, this.usuario).subscribe(()=> console.log('contraseña modificada'));
         
       }
       else{

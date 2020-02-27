@@ -25,28 +25,42 @@
     </ion-item>
 
     <!-- Datos personales-->
-    <ion-item>
-        <ion-label fixed>Nombre usuario</ion-label>
-        <ion-input type="text" name="nomUsu" placeholder="{{usuario.NomUsu}}" required [(ngModel)]="nomUsu" ></ion-input>
-      </ion-item>
-    <ion-item>
-        <ion-label fixed>Nombre</ion-label>
-        <ion-input type="text" name="nomUsu" placeholder="{{usuario.Nombre}}" required [(ngModel)]="nombre" disabled="true" ></ion-input>
-      </ion-item>
-      <ion-item>
-          <ion-label fixed>Mail </ion-label>
-          <ion-input type="text" name="mail" placeholder="{{usuario.Mail}}" required [(ngModel)]="mail"  disabled="true"></ion-input>
-         </ion-item>
-         <ion-item>
-          <ion-label fixed>¿Eres una empresa? </ion-label>
-         <ion-toggle name="selrol" type="boolean" checked="selrol"  [(ngModel)]="selrol" (ionChange)="myChange($event)" ></ion-toggle>
-        </ion-item>
-        <ion-item>
-          <ion-label fixed>Perfil privado </ion-label>
-         <ion-toggle name="perfil" type="boolean" checked="perfil"  [(ngModel)]="perfil" (ionChange)="cambioperfil($event)" ></ion-toggle>
-        </ion-item>
-       <button (click)=Cambiardatos(); ion-button shape="round" class="centered">Cambiar datos personales</button>
-       <button (click)=Cambiarpass(); ion-button shape="round" class="centered">Cambiar contraseña</button>
+    <form (ngSubmit)="Cambiardatos();">
+      <div class="form-row align-items-center">
+        <div class="col-sm-3 my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Nombre usuario</label>
+          <div class="input-group">
+            <ion-input type="text" class="form-control" name="nomUsu" placeholder="{{usuario.NomUsu}}" required [(ngModel)]="nomUsu">{{usuario.NomUsu}}</ion-input>
+            <ion-icon name="help-outline" (click)="ComprobarNomUsu($event)" style="display:inline"></ion-icon>
+            <ion-icon name="checkmark-circle" *ngIf="ExisteNomUsu == false"></ion-icon>
+            <ion-icon name="close-circle" *ngIf="ExisteNomUsu == true"></ion-icon>
+          </div>
+        <div class="col-sm-3 my-1">
+          <label class="sr-only" for="inlineFormInputName">Correo electrónico</label>
+          <ion-input type="text" name="mail" placeholder="{{usuario.Mail}}" required [(ngModel)]="mail" disabled="true" ></ion-input>
+    
+        </div>
+        <div class="col-sm-3 my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Nombre</label>
+          <div class="input-group">
+            <ion-input type="text" class="form-control" name="nombre" placeholder="{{usuario.Nombre}}" required [(ngModel)]="nombre"></ion-input>
+          </div>
+        </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="selrol" [(ngModel)]="selrol"  data-md-icheck (change)="checkboxRol($event)">
+            <label class="form-check-label" for="exampleCheck1">Perfil de Empresa</label>
+          </div>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="perfil" [(ngModel)]="perfil"  data-md-icheck (change)="checkboxPerfil($event)" >
+            <label class="form-check-label" for="exampleCheck1">Perfil privado</label>
+          </div>
+        <div class="col-auto my-1">
+          <button type="submit" class="btn btn-primary" ion-button shape="round">Guardar datos personales</button>
+        </div>
+      </div>
+    </form>
+    <button (click)=Cambiarpass(); ion-button shape="round" class="centered">Cambiar contraseña</button>
   
     
     

@@ -30,16 +30,29 @@ export class UrlProvider {
 
   //URLs USUARIO
 
-  public getUsuario(nombre: string): Observable<Usuario> {
-    return this.http.get<Usuario>( this.URLusuarios + nombre);
+  public getUsuario(NomUsu: string): Observable<Usuario> {
+    return this.http.get<Usuario>( this.URLusuarios + NomUsu);
   }
 
   public getMail(mail: string){
-    return this.http.get('http://localhost:3000/api/usuarios/findOne?filter={"where":{"Mail":"' +mail +'"}} ');
+    return this.http.get(this.URLusuarios +'findOne?filter={"where":{"Mail":"' +mail +'"}} ');
   }
 
   public SubirUsu(usuario: any){
     return this.http.post<any>(this.URLusuarios, usuario);
+  }
+
+  public ModificarUsu ( usuario: any){
+    return this.http.patch<any>(this.URLusuarios, usuario);
+  }
+
+  public ExisteUsuario(NomUsu: string): Observable<any>{
+    return this.http.get(this.URLusuarios + NomUsu + "/exists");
+  }
+  
+  public EliminarUsuario(NomUsu: string){
+    return this.http.delete(this.URLusuarios+ NomUsu);
+
   }
 
   //URLs PUBLICACIONES 
@@ -108,11 +121,11 @@ export class UrlProvider {
 
   public subirImgPubli(name: string, file:File){
     // Subir foto al contenedor de imagenes 
- const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
- formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
- // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
- //enviamos la foto a nuestro contenedor fotospublicaciones
- this.http.post(this.UrlContenedorPublis + 'upload', formData).subscribe(() => console.log('subida a contenedor'));
+      const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
+      formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
+    // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
+    //enviamos la foto a nuestro contenedor fotospublicaciones
+      this.http.post(this.UrlContenedorPublis + 'upload', formData).subscribe(() => console.log('subida a contenedor'));
 
     
   }
@@ -125,6 +138,12 @@ export class UrlProvider {
 
   }
 
+  public EliminarImgUsu (nombre: string){
+    return this.http.delete(this.UrlContenedorUsu + "files/" + nombre);
+
+  }
+
+  
 
 
   
