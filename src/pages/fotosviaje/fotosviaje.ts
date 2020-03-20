@@ -5,6 +5,7 @@ import { CrearviajeProvider } from '../../providers/crearviaje/crearviaje';
 import { UrlProvider } from '../../providers/url/url';
 import { Fotografia } from '../../app/Fotografia';
 import { HttpClient } from '@angular/common/http';
+import { AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the FotosviajePage page.
@@ -41,10 +42,9 @@ export class FotosviajePage {
   listanegativo: string[]=[];
   listaportada: boolean[]=[];
   listaruta: string[]=[];
-  //idpublicacion:number;
   listaf: Fotografia[]=[];
   listafile: File []=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,public UrlProvider: UrlProvider ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,public UrlProvider: UrlProvider, public alertCtrl: AlertController ) {
    
     this.NomUsu= navParams.get('Nom');
     this.publicacion= navParams.get('Publi');
@@ -97,6 +97,39 @@ export class FotosviajePage {
 
  PonFoto(){
   this.listafotos.push(1); 
+  }
+
+  ComprobarPortada (){
+
+    var cont= 0;
+    console.log(this.listaportada)
+
+      for(var i=0; i < this.listaportada.length; i++){
+          console.log(this.listaportada[i])
+          if (this.listaportada[i] ==! false){
+                console.log("encontrado")
+                cont ++;
+          }
+       }
+    console.log(cont);
+    /*   if(cont >= 2){
+      const alert = this.alertCtrl.create({
+
+        title: 'Error',
+
+        subTitle: 'No puede haber más de una foto de portada seleccionada',
+
+        buttons: ['OK']
+
+        });
+
+        alert.present();
+         console.log("Error: hay mas de una portada");
+      } else{
+         //subimos publicacion
+         console.log("subimos publi")
+        // this.Subirpublicacion();
+     }*/
   }
 
 

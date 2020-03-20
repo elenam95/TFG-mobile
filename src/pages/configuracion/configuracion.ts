@@ -66,7 +66,7 @@ export class ConfiguracionPage {
               this.fotoanterior = this.usuario.Fotousu;
               console.log(this.fotoanterior);
               //Descargamos la foto del usuario
-              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu).subscribe(
+              this.UrlProvider.getImgUsu(this.usuario.Fotousu).subscribe(
                 response => {
                   this.Cargarfotousu(response);
                   console.log (this.usuario.Perfil);
@@ -140,38 +140,51 @@ export class ConfiguracionPage {
     //Función que coge el fichero seleccionado y leerlo mediante FileReader para dejar su información en la variable foto, de donde posteriormente se alimentara la imagen 
    this.file = $event.target.files[0];
    console.log ('fichero' +this.file.name);
-   const reader = new FileReader();
-   reader.readAsDataURL(this.file);
-   reader.onload =() => {
-     console.log ('ya');
-     this.imagenusu =reader.result.toString();
-   }
-
-   this.Subirfotousu();
+    //Comprobar si existe nombre fotousu
+    this.UrlProvider.getImgUsu(this.file.name).subscribe(
+      res => {
+                if(res!= null){
+                  console.log("Foto ya existente")
+                  const alert = this.alertCtrl.create({
+                          title: 'Error',
+                          subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre antes de subirlo',
+                          buttons: ['OK']
+                         });
+                  alert.present();
+                }
+      }, (err) =>{
+                 console.log("Foto no existente")
+                 const reader = new FileReader();
+                 reader.readAsDataURL(this.file);
+                 reader.onload =() => {
+                   console.log ('ya');
+                   this.imagenusu =reader.result.toString();
+                 }
+              
+                 this.Subirfotousu();
+          });    
 
  }
 
 
   Subirfotousu (){ 
     // Subir foto al contenedor de imagenes 
- 
-      this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe( 
-        () => {
-                  console.log('subida a contenedor')
-        });
-    // Subir nombre de la foto a la base de datos 
+
+    this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe( 
+      () => {
+              console.log('subida a contenedor')
+             });
+   // Subir nombre de la foto a la base de datos 
       this.usuario.Fotousu = this.file.name;
       console.log ('nombre nueva foto'+ this.usuario.Fotousu);
       console.log(this.usuario);
       this.UrlProvider.ModificarUsu( this.usuario).subscribe(()=> console.log("Usuario modificado"));
-     
-    // Eliminar antigua foto contenedor si no es foto por defecto
-    if(this.fotoanterior != "pordefecto.png"){
-      this.UrlProvider.EliminarImgUsu(this.fotoanterior).subscribe( ()=> console.log("Foto eliminada"));
-      
-    }
-    this.fotoanterior= this.usuario.Fotousu;
-        
+
+   // Eliminar antigua foto contenedor si no es foto por defecto
+      if(this.fotoanterior != "pordefecto.png"){
+             this.UrlProvider.EliminarImgUsu(this.fotoanterior).subscribe( ()=> console.log("Foto eliminada"));
+       }
+     this.fotoanterior= this.usuario.Fotousu;
 
  }
 

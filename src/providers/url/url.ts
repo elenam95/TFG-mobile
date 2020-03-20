@@ -97,7 +97,7 @@ export class UrlProvider {
 
   public getFotospubli(id : string): Observable<any> {
     // Me devuelve todas las fotografias de una publicación
-    return this.http.get<Usuario>( this.Urlpublicaciones + id + '/publi-fotos');
+    return this.http.get<any>( this.Urlpublicaciones + id + '/publi-fotos');
 
   }
 
@@ -112,10 +112,10 @@ export class UrlProvider {
 
 
   //URLs  CONTENEDOR IMAGEN 
-  public getDescargarFotoUsu(Fotousu: string): Observable<any>{
+  public getImgUsu(Fotousu: string): Observable<any>{
     return this.http2.get(this.UrlContenedorUsu +'download/'+ Fotousu, {responseType: ResponseContentType.Blob});
   }
-  public getDescargarFotoPubli(Foto: string): Observable<any>{
+  public getImgPubli(Foto: string): Observable<any>{
     return this.http2.get(this.UrlContenedorPublis + 'download/'+ Foto, {responseType: ResponseContentType.Blob});
   }
 

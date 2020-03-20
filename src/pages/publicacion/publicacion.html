@@ -11,16 +11,14 @@
 </ion-header>
 
 <ion-content padding>
+  
   <ion-card>
-    <ion-card-header>
+  <ion-card-header>
       <ion-card-title>{{Titulo}}</ion-card-title>
       <div style="text-align:center">
         <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
-        <h1 ion-text class="centered" style="display:inline">{{idusuario}}</h1>
+        <h1 ion-text class="centered" style="display:inline">{{NomUsu}}</h1>
         <!-- display:inline para que salga uno al lado del otro-->
-        </div>
-        <div class="btn-group"  role="group" aria-label="Basic example"> 
-          <button *ngFor="let ruta of listarutas" (click)=Mostrarruta(ruta) type="button" class="btn btn-secondary">{{ruta}}</button>
         </div>
     </ion-card-header>
 
@@ -28,41 +26,39 @@
     <ion-card-content>
     
       <ion-slides>
-        <ion-slide  *ngFor="let p of listafotos_ruta; let i = index">
+        <ion-slide  *ngFor="let p of listaorden; let i = index">
   
-          <h1>{{p.Foto}}</h1>
-           
-  
-          <div *ngIf="portada == true"> 
-            <label >@{{idusuario}} {{publicacion.Descripcion}}</label>
-            <ion-img  [src]="imgcontenedor[i]" height='80' width='80' ></ion-img>
+          <h1>{{p}}</h1>
+          
+          <div class="row row-cols-1 row-cols-md-3">
+            <div class="card">
+              <img [src]="imgcontenedor[i]" height='120' width='120' >
+            </div>
+          </div>
+
+          <div *ngIf="p == 'Portada'"> 
+            <label >@{{NomUsu}} {{publicacion.Descripcion}}</label>
           </div>
   
-          <div *ngIf="fotos == true"> 
-            <ion-img  [src]="imgcontenedor[i]" height='80' width='80' ></ion-img>
-            <pre>
-              <label>{{p.Rol}}</label><label >{{p.Nota}}</label>
+          <div *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
+              <pre>
+              <label>{{listaOrdenadaFotos[i].Rol}}</label><label >{{listaOrdenadaFotos[i].Nota}}</label>
               </pre>
-              <label>{{p.Descripcion}}</label>
+              <label>{{listaOrdenadaFotos[i].Descripcion}}</label>
               <ion-icon name="checkmark-circle-outline"></ion-icon>
-              <label >{{p.Positivo}}</label>
+              <label >{{listaOrdenadaFotos[i].Positivo}}</label>
               <ion-icon name="close-circle-outline"></ion-icon>
-              <label >{{p.Negativo}}</label>
+              <label >{{listaOrdenadaFotos[i].Negativo}}</label>
               <button type="button" class="btn btn-secondary">Ir a la web</button>
           </div>
+
+          <div *ngIf="p == 'Recomendaciones'"> 
+              <div *ngFor= "let r of listarecomendaciones">
+                <label>{{r}}</label>
+              </div>
+          </div>
   
-          
-          <label *ngIf=" recomendacion == false ">foto</label>
-         
-          <label *ngIf=" recomendacion == true">recomendacion</label>
-         
-         
-          <!--   <div *ngIf="recomendacion == true">-->
-           <!--   <div  *ngFor="let r of listarecomendaciones" > -->
-               <!--  <ion-icon  name="alert-circle-outline"></ion-icon>-->
-              <!-- <label >{{r}}</label>-->
-           <!-- </div> -->
-         <!--  </div> -->
+
           
         </ion-slide>
       </ion-slides>

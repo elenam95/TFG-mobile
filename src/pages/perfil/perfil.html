@@ -22,18 +22,6 @@
   </div>
   
 
-   <!-- <div>
-      <h2> LISTA DE PUBLICACIONES </h2>    //en listapubli se llaman PUBLICACIONES
-      <div style="text-align:center">
-      <ul *ngFor="let PUBLICACIONES of listapubli"  >  //iterar: crear un elemento para cada persona de la lista
-        
-               {{PUBLICACIONES.Titulo}} - {{PUBLICACIONES.Idpublicacion}}
-              
-              
-      </ul>
-    </div>
-  </div> -->
-
       <div class="row row-cols-1 row-cols-md-3">
         <div class="card" *ngFor="let portada of imgportada; let i = index">
           <img [src]="imgportada[i]"  (click)=MostrarPubli(i); height='80' width='80' >

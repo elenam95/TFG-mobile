@@ -83,7 +83,7 @@ export class RecomendacionesPage {
       
 
              // LLAMAR A LA PAG FOTOSVIAJE
-    let Nombreusuario = { Nom:this.NomUsu };
+   let Nombreusuario = { Nom:this.NomUsu };
    let publicaciones={Publi:this.publicacion};
    let rutas= {Rutas: this.publicacion.Ruta}
    let Idpubli= {Idpubli: this.publicacion.Idpublicacion}

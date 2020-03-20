@@ -38,7 +38,7 @@ export class CrearcuentaPage {
     console.log('ionViewDidLoad CrearcuentaPage');
 
     //Descargar foto por defecto 
-    this.UrlProvider.getDescargarFotoUsu("pordefecto.png").subscribe(
+    this.UrlProvider.getImgUsu("pordefecto.png").subscribe(
       response => {
         this.Cargarfotousu(response);
         this.fotousu= "pordefecto.png";     
@@ -121,21 +121,36 @@ export class CrearcuentaPage {
                             }  
                   },
                   (err)=> {
-                          console.log("vamos a registrar al nuevo usuario");
-                          //Creamos el nuevo usuario
-                          this.UrlProvider.SubirUsu(usuario).subscribe(
-                            () => {
-                                   console.log('usuario subido')
-                                   if (this.fotousu != "pordefecto.png"){
-                                    this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
-                                      () => {
-                                               console.log('subida a contenedor')         
-                                           });
-                                  }
-                                   let Nombreusuario ={Nom:this.nomUsu}
-                                      // Abre la pagina perfil y le pasa el parametro NomUsu
-                                       this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
+                          //Comprobar si nombre fotousu ya existe
+                          this.UrlProvider.getImgUsu(this.file.name).subscribe(
+                            res => {
+                                      if(res!= null){
+                                        console.log("Foto ya existente")
+                                        const alert = this.alertCtrl.create({
+                                                title: 'Error',
+                                                subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre antes de subirlo',
+                                                buttons: ['OK']
+                                               });
+                                        alert.present();
+                                      }
+                            }, (err) =>{
+                                       console.log("Foto no existente")
+                                       console.log("vamos a registrar al nuevo usuario");
+                                      //Creamos el nuevo usuario
+                                      this.UrlProvider.SubirUsu(usuario).subscribe(
+                                        () => {
+                                                 console.log('usuario subido')
+                                                 if (this.fotousu != "pordefecto.png"){
+                                                       this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
+                                                        () => {
+                                                                 console.log('subida a contenedor')         
+                                                               });
+                                                   }
+                                                  let Nombreusuario ={Nom:this.nomUsu}
+                                                   // Abre la pagina perfil y le pasa el parametro NomUsu
+                                                     this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
                                  
+                                       });
                             });
 
                   }

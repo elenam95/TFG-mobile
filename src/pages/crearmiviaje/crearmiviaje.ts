@@ -53,7 +53,7 @@ export class CrearmiviajePage {
     this.publicacion.Ruta= ""
     for(var i=0; i < this.puntosruta.length; i++){
         
-      this.publicacion.Ruta= this.publicacion.Ruta.concat(this.puntosruta[i]+ ";;");
+      this.publicacion.Ruta= this.publicacion.Ruta.concat(this.puntosruta[i].trim()+ ";;");
         console.log(this.publicacion.Ruta);
     }
     console.log(this.publicacion);

@@ -33,7 +33,7 @@ export class PerfilPage {
   lista: any []= new Array(); //=[] VACIO
   listaportadas: any []=[];
   listaordenada: any []=[];
-  res: Response;
+  listaNomFoto: string[]=[];
   
 
 
@@ -64,8 +64,8 @@ export class PerfilPage {
 
   ionViewDidLoad() { 
     console.log('ionViewDidLoad PerfilPage');
+    this.imgportada=[];
     //descargar publicaciones  de la base de datos
-         console.log('descargando publicaciones');
          this.UrlProvider.getPublicacionesUsu(this.NomUsu).subscribe(
            listapublicaciones => {  
                   this.listapubli = listapublicaciones; //descargo publicaciones en la listapubli
@@ -83,16 +83,15 @@ export class PerfilPage {
     this.UrlProvider.getUsuario(this.NomUsu).subscribe(
       usu =>{
               this.usuario = usu;
-              console.log(this.usuario);
 
               //Descargamos la foto del usuario
-              this.UrlProvider.getDescargarFotoUsu(this.usuario.Fotousu ).subscribe(
-                response => 
-                this.Cargarfotousu(response));
-                
-      });
+              this.UrlProvider.getImgUsu(this.usuario.Fotousu ).subscribe(
+                response =>  { console.log(response);
+                                this.Cargarfotousu(response)} );
 
-    
+                
+                
+      }); 
   }
   
  Cargarfotousu(response: Response){
@@ -122,9 +121,6 @@ export class PerfilPage {
     for (var i=0; i < this.listapubli.length; i++ ){
          this.lista[i] = this.listapubli[i].Idpublicacion;
     }
-
-    console.log("this.lista");
-    console.log(this.lista);
     let cont =0;
    for(var j=0; j < this.listapubli.length; j++){
       this.UrlProvider.getFotospubli(this.lista[j]).subscribe(
@@ -134,6 +130,8 @@ export class PerfilPage {
                                 if(cont ===this.listapubli.length){
 
                                      this.listaportadas= this.PerfilProvider.EncontrarPortada(this.listafotos);
+                                     console.log("LISTA PORTADAS ");
+                                     console.log(this.listaportadas);
                                      this.listaordenada =this.PerfilProvider.OrdenarPortadas(this.lista, this.listaportadas);
                                      this.Descargarportadas();
                                 }
@@ -143,6 +141,7 @@ export class PerfilPage {
       );
 
    }
+   console.log("lista de fotos");
    console.log(this.listafotos);
   
 
@@ -152,20 +151,24 @@ export class PerfilPage {
  Descargarportadas(){ //Modificar!
    //Descargarmos las fotos de portada 
     for (var i=0; i<this.listaordenada.length; i++){
-      console.log("queremos ver");
-        console.log(this.listaordenada[i].Idpublicacion);
-        this.UrlProvider.getDescargarFotoPubli(this.listaordenada[i].Foto).subscribe(
+        this.UrlProvider.getImgPubli(this.listaordenada[i].Foto).subscribe(
           response => {
-
-                       this.Cargarfotoportada(response)}
-        );
+                        this.listaNomFoto = response.url.split("download/");
+                        for(var j=0; j<this.listaordenada.length; j++){
+                         
+                              if(this.listaordenada[j].Foto == this.listaNomFoto[1]){
+                                     this.Cargarfotoportada(response, j);
+                               }
+                         
+                         }        
+          });
    }
 
   
  
  }
 
- Cargarfotoportada(response: Response){
+ Cargarfotoportada(response: Response, posicion: number){
 
 
   const blob = new Blob([response.blob()], {type: 'image/jpg'});
@@ -173,8 +176,10 @@ export class PerfilPage {
   const reader= new FileReader();
   reader.addEventListener('load', ()=>{
     // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
-    this.imgportada.push(reader.result.toString());
-   // console.log ('YYYY ' + this.imgportada);
+    //this.imgportada.push(reader.result.toString());
+    console.log(posicion)
+    console.log(response.url)
+    this.imgportada[posicion] = reader.result.toString();
   },false);
 
    // Aqui es donde ordeno que se lea la imagen y se prepare la URL
@@ -197,7 +202,6 @@ export class PerfilPage {
   
 
   Configuracion(){
-    console.log(this.lista);
     let Nombreusuario ={
       Nom:this.NomUsu
     }
@@ -209,7 +213,7 @@ export class PerfilPage {
   MostrarPubli(i: number){
     console.log("es un boton" );
     console.log(i);
-    this.idpubli= this.listaportadas[i].Idpublicacion;
+    this.idpubli= this.listaordenada[i].Idpublicacion;
     console.log(this.idpubli);
     let Idpublicacion = { Idpubli: this.idpubli}
     let Nombreusuario ={Nom:this.NomUsu}

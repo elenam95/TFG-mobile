@@ -15,9 +15,7 @@ export class PerfilProvider {
  
   listaportadas: any []=[];
   listaordenada: any []=[];
-  listaNumPubli: number []=[];
   encontrado: boolean;
-  enc: boolean;
 
 
   constructor(public http: HttpClient, public UrlProvider : UrlProvider  ) {
@@ -27,12 +25,14 @@ export class PerfilProvider {
 
 public EncontrarPortada(listafotos: any[]){
  // Funcion que recorre todas las publicaciones y guarda las fotos de portada de las publicaciones en listaportadas
- this.encontrado=false;
- let cont=0;
- var j=0;
- var x=0;
- console.log("this.listafotos");
- console.log(listafotos);
+ 
+  //Inicializamos
+  this.listaportadas=[];
+  this.listaordenada=[];
+  this.encontrado=false;
+  let cont=0;
+  var j=0;
+  var x=0;
   // bucle que recorra todas las publicaciones 
   while(j<listafotos.length){
     console.log('j');
@@ -45,6 +45,7 @@ public EncontrarPortada(listafotos: any[]){
         console.log('encontrada');
         this.listaportadas[j]= listafotos[j][x];
         cont++;
+       // console.log(this.listaportadas);
         
         this.encontrado=true;
 
@@ -63,9 +64,9 @@ public EncontrarPortada(listafotos: any[]){
     x=0;
     this.encontrado= false;
   }
+  console.log("lista de portadas");
   console.log(this.listaportadas);
-  console.log(this.listaportadas[0].Foto);
-
+  return this.listaportadas;
 
 }
 
@@ -80,8 +81,6 @@ public OrdenarPortadas(lista: any[], listap: any[]){
     }
   }
   console.log("lista ordenada");
-  console.log(lista);
-  console.log(listap);
   console.log(this.listaordenada);
   return this.listaordenada;
 
