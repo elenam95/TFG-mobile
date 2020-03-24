@@ -79,7 +79,7 @@ export class RecomendacionesPage {
             //Subir la publicacion
             this.publicacion.Idpublicacion= this.idpublicacion+1;
             console.log(this.publicacion);
-            this.UrlProvider.subirPublicacion(this.publicacion);
+         //   this.UrlProvider.subirPublicacion(this.publicacion);
       
 
              // LLAMAR A LA PAG FOTOSVIAJE

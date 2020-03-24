@@ -106,7 +106,8 @@ export class FotosviajePage {
 
       for(var i=0; i < this.listaportada.length; i++){
           console.log(this.listaportada[i])
-          if (this.listaportada[i] ==! false){
+
+          if (this.listaportada[i]==true){
                 console.log("encontrado")
                 cont ++;
           }
@@ -126,10 +127,14 @@ export class FotosviajePage {
         alert.present();
          console.log("Error: hay mas de una portada");
       } else{
+          
          //subimos publicacion
          console.log("subimos publi")
         // this.Subirpublicacion();
      }*/
+
+     
+
   }
 
 

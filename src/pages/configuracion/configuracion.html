@@ -12,17 +12,17 @@
 
 <ion-content padding>
    <!-- Mostrar foto usuario-->
-  <div style="text-align:center">
-        <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
-        </div>
+  <div class="textocentrado">
+        <ion-img class="imgusu" [src]="imagenusu" height='80' width='80' ></ion-img>
+        <button (click)=Activarinput(); ion-button shape="round" class="centered">Cambiar foto de perfil</button>
+  </div>
   
   <!-- Boton cambiar foto de perfil-->
   <ion-item>
       <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
         <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
      <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-     <button (click)=Activarinput(); ion-button shape="round" class="centered">Cambiar foto de perfil</button>
-    </ion-item>
+      </ion-item>
 
     <!-- Datos personales-->
     <form (ngSubmit)="Cambiardatos();">

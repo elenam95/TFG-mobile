@@ -13,58 +13,58 @@
 <ion-content padding>
 
    <!-- Mostrar foto usuario-->
-   <div style="text-align:center">
-    <ion-img [src]="imagenusu" height='80' width='80' ></ion-img>
-    </div>
+   <div class="textocentrado">
+    <ion-img class="imgusu" [src]="imagenusu" height='80' width='80' ></ion-img>
+    <button (click)=Activarinput(); ion-button shape="round" class="centered">Añadir foto perfil</button>
+  </div>
 
    <!-- Boton foto de perfil-->
    <ion-item>
     <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
       <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
    <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-   <button (click)=Activarinput(); ion-button shape="round" class="centered">Añadir foto perfil</button>
   </ion-item>
 
   <form (ngSubmit)="Crearcuenta();">
     <div class="form-row align-items-center">
       <div class="col-sm-3 my-1">
         <label class="sr-only" for="inlineFormInputName">Correo electrónico</label>
-        <ion-input type="text" name="mail" placeholder="escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
+        <ion-input type="text" name="mail" placeholder="Escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
   
       </div>
       <div class="col-sm-3 my-1">
         <label class="sr-only" for="inlineFormInputGroupUsername">Nombre</label>
         <div class="input-group">
-          <ion-input type="text" class="form-control" name="nombre" placeholder="escribe tu nombre" required [(ngModel)]="nombre"></ion-input>
+          <ion-input type="text" class="form-control" name="nombre" placeholder="Escribe tu nombre" required [(ngModel)]="nombre"></ion-input>
         </div>
       </div>
       <div class="col-sm-3 my-1">
         <label class="sr-only" for="inlineFormInputGroupUsername">Nombre usuario</label>
         <div class="input-group">
-          <ion-input type="text" class="form-control" name="nomUsu" placeholder="escribe tu nombre de usuario" required [(ngModel)]="nomUsu"></ion-input>
+          <ion-input type="text" class="form-control" name="nomUsu" placeholder="Escribe tu nombre de usuario" required [(ngModel)]="nomUsu"></ion-input>
         </div>
       </div>
       <div class="col-sm-3 my-1">
         <label class="sr-only" for="inlineFormInputGroupUsername">Contraseña</label>
         <div class="input-group">
-          <ion-input type="password" class="form-control" name="pass" placeholder="escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
+          <ion-input type="password" class="form-control" name="pass" placeholder="Escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
         </div>
       </div>
-      <div class="col-sm-3 my-1">
-        <label>¿Rol?:</label>
-        <select name="rol" required [(ngModel)]="rol">
+      <div class="col-sm-3 my-1 divselect">
+        <label>¿Rol?:  </label>
+        <select class="rol" name="rol" required [(ngModel)]="rol">
             <option value="Persona">Persona</option>
             <option value="Empresa">Empresa</option>
         </select>
       </div>
-      <div class="col-sm-3 my-1">
-        <label>¿Perfil?:</label>
-        <select name="perfil" required [(ngModel)]="perfil">
-            <option value="false">Publico</option>
+      <div class="divselect">
+        <label >¿Perfil?:</label>
+        <select class="perfil" name="perfil" required [(ngModel)]="perfil">
+            <option  value="false">Publico</option>
             <option value="true">Privado</option>
         </select>
       </div>
-      <div class="col-auto my-1">
+      <div class=" textocentrado">
         <button type="submit" class="btn btn-primary" ion-button shape="round">Crear Cuenta</button>
       </div>
     </div>
