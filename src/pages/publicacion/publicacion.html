@@ -12,35 +12,25 @@
 
 <ion-content padding>
   
-  <ion-card>
-  <ion-card-header>
-      <ion-card-title>{{Titulo}}</ion-card-title>
       <div style="text-align:center">
         <ion-img class="imgusu"[src]="imagenusu" height='80' width='80' ></ion-img>
         <h1 ion-text class="centered" style="display:inline">{{NomUsu}}</h1>
         <!-- display:inline para que salga uno al lado del otro-->
         </div>
-    </ion-card-header>
-
-
-    <ion-card-content>
-    
       <ion-slides>
         <ion-slide  *ngFor="let p of listaorden; let i = index">
-  
-          <h1>{{p}}</h1>
-          
+          <h1>{{p}}</h1> 
           <div class="row row-cols-1 row-cols-md-3">
             <div class="card">
-              <img [src]="imgcontenedor[i]" height='120' width='120' >
+              <img class="fotos" [src]="imgcontenedor[i]" height='120' width='120' >
             </div>
           </div>
 
           <div *ngIf="p == 'Portada'"> 
-            <label >@{{NomUsu}} {{publicacion.Descripcion}}</label>
+            <label class="text" >@{{NomUsu}} {{publicacion.Descripcion}}</label>
           </div>
   
-          <div *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
+          <div class="bloque" *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
               <pre>
               <label>{{listaOrdenadaFotos[i].Rol}}</label><label >{{listaOrdenadaFotos[i].Nota}}</label>
               </pre>
@@ -63,8 +53,7 @@
         </ion-slide>
       </ion-slides>
     
-    </ion-card-content>
-  </ion-card>
+ 
   
 
 </ion-content>

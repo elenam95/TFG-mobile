@@ -17,7 +17,8 @@
 @import "../theme/mixins";
 
 .imgusu{
-    @include imgusu;   
+    @include imgusu;
+     
 }
 
 .textocentrado{
@@ -30,20 +31,39 @@
     padding: 20px;
 }
 
-
+.button{
+//box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    padding: 2%;
+    background-color: $azulclaro; 
+    //border-radius: 10%;
+    border: 2px solid rgb(16, 32, 177); 
+}
+.button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    background-color: rgb(16, 32, 177); 
+    cursor:pointer;
+  }
 
 .input{
   width: 100%;
   padding: 0%;
   margin: 2%;
-  border: 1px solid #000000;
-  border-radius: 4px;
+  border-bottom: 1px solid $azuloscuro;
   box-sizing: border-box;
+  color: $azulletra;
 }
 
 .divselect{
     padding: 2%;
     margin: 3%;  
 }
+
+label, h1{
+    color: $azulletra;
+    font-weight: bolder;
+    
+}
+
+
 
 

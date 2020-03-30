@@ -24,9 +24,9 @@
           <ion-input type="text" class="form-control" name="descripcion" placeholder=" Añade la descripcion del viaje" required [(ngModel)]="descripcion"></ion-input>
         </div>
       </div>
-      <div class="col-sm-3 my-1">
+      <div class=" divselect">
         <label>Días de duración</label>
-        <select name="duracion" required [(ngModel)]="duracion"  value="number">
+        <select class="dias" name="duracion" required [(ngModel)]="duracion"  value="number">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -50,10 +50,12 @@
   <label class="sr-only">Puntos de la ruta</label>
   <ul *ngFor="let punto of numerosruta; let i = index">
 
-    <div>
-     <ion-icon name="checkmark-circle-outline"></ion-icon>
-     <ion-input type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>
-  </div>
+  <div class="enlinea">
+   
+    <ion-icon  name="checkmark-circle-outline"></ion-icon>  
+    <ion-input  class="text" type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>  
+  
+    </div>
   </ul>
 <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
 
