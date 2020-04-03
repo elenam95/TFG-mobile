@@ -12,41 +12,59 @@
 
 <ion-content padding>
   
-      <div style="text-align:center">
-        <ion-img class="imgusu"[src]="imagenusu" height='80' width='80' ></ion-img>
+      <div class="cabecera" >
+        <ion-img class="imgusu"[src]="imagenusu" height='40' width='40' ></ion-img>
         <h1 ion-text class="centered" style="display:inline">{{NomUsu}}</h1>
         <!-- display:inline para que salga uno al lado del otro-->
         </div>
+
       <ion-slides>
-        <ion-slide  *ngFor="let p of listaorden; let i = index">
-          <h1>{{p}}</h1> 
-          <div class="row row-cols-1 row-cols-md-3">
-            <div class="card">
-              <img class="fotos" [src]="imgcontenedor[i]" height='120' width='120' >
+        <ion-slide  *ngFor="let p of listaorden; let i = index"> 
+          
+          <div class="polaroid">
+            <div class="ruta">{{p}}</div> 
+            <img [src]="imgcontenedor[i]" alt="5 Terre" style="width:100%">
+            <div class="container">
+              <div *ngIf="p == 'Portada'"> 
+                <label >{{NomUsu}}</label>
+                <label class="text" >{{publicacion.Descripcion}}</label>
+              </div>
+      
+              <div  *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
+                <div style="display: inline;"> 
+                  <label style=" font-size: 15px;" >{{listaOrdenadaFotos[i].Rol}}</label>
+                  <label class="nota" >{{listaOrdenadaFotos[i].Nota}}</label>
+                </div>
+                <div style="display: block;"> 
+                  <label  >{{NomUsu}}</label>
+                  <label class=" text" >{{listaOrdenadaFotos[i].Descripcion}}</label>
+
+                </div>
+             
+                <div style="display: block">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <label class="text" >{{listaOrdenadaFotos[i].Positivo}}</label>
+                 </div>
+                <div style="display: block">
+                  <ion-icon  name="close-circle-outline"></ion-icon>
+                  <label class="text" >{{listaOrdenadaFotos[i].Negativo}}</label>
+                 </div>
+                
+                 
+                
+              </div>
+    
+              <div *ngIf="p == 'Recomendaciones'"> 
+                  <div *ngFor= "let r of listarecomendaciones">
+                    <label  >{{NomUsu}}</label>
+                    <label class=" text" >{{r}}</label>
+                  </div>
+              </div>
             </div>
           </div>
+          
 
-          <div *ngIf="p == 'Portada'"> 
-            <label class="text" >@{{NomUsu}} {{publicacion.Descripcion}}</label>
-          </div>
-  
-          <div class="bloque" *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
-              <pre>
-              <label>{{listaOrdenadaFotos[i].Rol}}</label><label >{{listaOrdenadaFotos[i].Nota}}</label>
-              </pre>
-              <label>{{listaOrdenadaFotos[i].Descripcion}}</label>
-              <ion-icon name="checkmark-circle-outline"></ion-icon>
-              <label >{{listaOrdenadaFotos[i].Positivo}}</label>
-              <ion-icon name="close-circle-outline"></ion-icon>
-              <label >{{listaOrdenadaFotos[i].Negativo}}</label>
-              <button type="button" class="btn btn-secondary">Ir a la web</button>
-          </div>
-
-          <div *ngIf="p == 'Recomendaciones'"> 
-              <div *ngFor= "let r of listarecomendaciones">
-                <label>{{r}}</label>
-              </div>
-          </div>
+         
   
 
           

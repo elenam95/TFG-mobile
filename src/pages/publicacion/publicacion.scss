@@ -1,9 +1,60 @@
 page-publicacion {
+    
 
-    ion-slides{
+    .cabecera{
+        overflow: hidden;
+        border-bottom: 1px solid $azuloscuro;
+        text-align: left;
+    }
+
+    div.ruta {
+        @include letra; 
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        text-align: left;
+        padding: 10px 20px;
+      }
+    div.polaroid {
+        width: 100%;
+        top: 8px;
+        left: 0px;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin-bottom: 25px;
+      }
+      
+      div.container { 
+        text-align: left;
+        padding: 10px 20px;
+        height: auto;
+        label.text{
+            color: #000000; 
+            font-weight:normal ;
+          }
+        label.nota{
+            font-size: 15px;
+            right: 15px;
+            position: absolute;
+        }
+      }
+     
+      img{ //responsive
+        max-width: 100%;
+        height: auto;
+    }
+
+
+  /*  ion-slides{
         margin-top: 0%;
         width: 100%;
-        height:absolute;
+       // height:absolute;
+        .content{
+           // background-color: #ddd;
+            padding: 10px;
+          //  height: 200px; /* Should be removed. Only for demonstration 
+        }
         h1, label{
             margin: 0%;
             padding: 0%;
@@ -19,6 +70,6 @@ page-publicacion {
         }
     
        
-    }
+    }*/
   
 }

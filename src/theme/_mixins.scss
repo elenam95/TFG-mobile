@@ -4,3 +4,8 @@
 
 }
 
+@mixin letra {
+    color: $azulletra;
+    font-weight: bolder; 
+}
+

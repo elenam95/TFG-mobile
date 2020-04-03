@@ -59,8 +59,7 @@
 }
 
 label, h1{
-    color: $azulletra;
-    font-weight: bolder;
+    @include letra;
     
 }
 
