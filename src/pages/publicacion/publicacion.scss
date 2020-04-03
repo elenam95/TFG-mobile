@@ -5,6 +5,9 @@ page-publicacion {
         overflow: hidden;
         border-bottom: 1px solid $azuloscuro;
         text-align: left;
+        h1{
+            font-size: 20px;
+        }
     }
 
     div.ruta {
@@ -29,14 +32,21 @@ page-publicacion {
         text-align: left;
         padding: 10px 20px;
         height: auto;
+        label{
+            font-size: 17px;
+        }
         label.text{
+            font-size: 17px;
             color: #000000; 
             font-weight:normal ;
           }
         label.nota{
-            font-size: 15px;
+            font-size: 12px;
             right: 15px;
             position: absolute;
+        }
+        ion-icon {
+            font-size: 20px; //Preferred size here
         }
       }
      

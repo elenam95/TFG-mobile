@@ -5,6 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <ion-navbar>
     <ion-title>publicacion</ion-title>
   </ion-navbar>
@@ -14,7 +15,7 @@
   
       <div class="cabecera" >
         <ion-img class="imgusu"[src]="imagenusu" height='40' width='40' ></ion-img>
-        <h1 ion-text class="centered" style="display:inline">{{NomUsu}}</h1>
+        <h1 ion-text  style="display:inline">{{NomUsu}}</h1>
         <!-- display:inline para que salga uno al lado del otro-->
         </div>
 
@@ -22,7 +23,10 @@
         <ion-slide  *ngFor="let p of listaorden; let i = index"> 
           
           <div class="polaroid">
-            <div class="ruta">{{p}}</div> 
+            <div class="ruta">
+              <i class="glyphicon glyphicon-map-marker"></i>
+              {{p}}
+            </div> 
             <img [src]="imgcontenedor[i]" alt="5 Terre" style="width:100%">
             <div class="container">
               <div *ngIf="p == 'Portada'"> 
@@ -32,7 +36,8 @@
       
               <div  *ngIf="p != 'Portada' && p!='Recomendaciones'"> 
                 <div style="display: inline;"> 
-                  <label style=" font-size: 15px;" >{{listaOrdenadaFotos[i].Rol}}</label>
+                  <i class="glyphicon glyphicon-picture"></i>
+                  <label style=" font-size: 12px;" >{{listaOrdenadaFotos[i].Rol}}</label>
                   <label class="nota" >{{listaOrdenadaFotos[i].Nota}}</label>
                 </div>
                 <div style="display: block;"> 
@@ -42,11 +47,11 @@
                 </div>
              
                 <div style="display: block">
-                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <i class="glyphicon glyphicon-thumbs-up"></i>
                   <label class="text" >{{listaOrdenadaFotos[i].Positivo}}</label>
                  </div>
                 <div style="display: block">
-                  <ion-icon  name="close-circle-outline"></ion-icon>
+                  <i class="glyphicon glyphicon-thumbs-down"></i>
                   <label class="text" >{{listaOrdenadaFotos[i].Negativo}}</label>
                  </div>
                 
@@ -55,8 +60,9 @@
               </div>
     
               <div *ngIf="p == 'Recomendaciones'"> 
+                <label  >{{NomUsu}}</label>
                   <div *ngFor= "let r of listarecomendaciones">
-                    <label  >{{NomUsu}}</label>
+                    <i class="glyphicon glyphicon-globe"></i>
                     <label class=" text" >{{r}}</label>
                   </div>
               </div>
