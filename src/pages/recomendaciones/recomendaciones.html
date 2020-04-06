@@ -5,6 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <ion-navbar>
     <ion-title>recomendaciones</ion-title>
   </ion-navbar>
@@ -15,7 +16,7 @@
   <label class="sr-only">Recomendaciones</label>
   <ul *ngFor="let num of listanum; let i = index">
     <div>
-     <ion-icon name="checkmark-circle-outline"></ion-icon>
+     <i class="glyphicon glyphicon-pushpin"></i>
      <ion-input type="text" name="listarecomendaciones" placeholder="Escribe tu recomendación" required [(ngModel)]="listarecomendaciones[i]" ></ion-input>
     </div>
   </ul>

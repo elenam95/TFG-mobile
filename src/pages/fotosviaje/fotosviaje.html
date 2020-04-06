@@ -13,95 +13,75 @@
 <ion-content padding>
 
 
+<div *ngFor="let foto of listafotos; let i = index">
 
-  <ul *ngFor="let foto of listafotos; let i = index">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Galería</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-  <form >
-    <div class="form-row align-items-center">
-
-      <div class="col-sm-3 my-1">
-         <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
-         <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
-          <ion-img [src]="imagen[i]" height='80' width='80' ></ion-img>
-   <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-         <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
-      </div>
-
-      <div class="col-sm-3 my-1">
-        <label>¿Qué vemos en la fotografía?:</label>
-        <select name="rol" required [(ngModel)]="listarol[i]">
-            <option value="Hotel">Hotel</option>
-            <option value="Restaurante">Restaurante</option>
-            <option value="Paisaje">Paisaje</option>
-        </select>
-      </div>
-
-      <div class="col-sm-3 my-1">
-        <label>¿Qué lugar es?:</label>
-        <select name="ruta" required [(ngModel)]="listaruta[i]">
-            <option *ngFor="let ruta of listapuntosruta"  value="{{ruta}}">{{ruta}}</option>
-        </select>
-      </div>
-     
-      <div class="col-sm-3 my-1">
-        <div class="input-group">
-          <label>Descripción:</label>
-          <ion-input type="text" class="form-control" name="descripcion" placeholder="escribe descripcion" required [(ngModel)]="listadescripcion[i]"></ion-input>
-        </div>
-      </div>
-      <div class="col-sm-3 my-1">
-        <div class="input-group">
-          <label>Añade web del lugar:</label>
-          <ion-input type="text" class="form-control" name="web" placeholder="escribe web" required [(ngModel)]="listaweb[i]"></ion-input>
-        </div>
-      </div>
-      <div class="col-sm-3 my-1">
-        <div class="input-group">
-          <label>Añade aspecto positivo del lugar:</label>
-          <ion-input type="text" class="form-control" name="pos" placeholder="escribe aspecto positivo" required [(ngModel)]="listapositivo[i]"></ion-input>
-        </div>
-      </div>
-      <div class="col-sm-3 my-1">
-        <div class="input-group">
-          <label>Añade aspecto negativo del lugar:</label>
-          <ion-input type="text" class="form-control" name="neg" placeholder="escribe aspecto negativo" required [(ngModel)]="listanegativo[i]"></ion-input>
-        </div>
-      </div>
-      <div class="col-sm-3 my-1">
-        <label>¿Quieres añadir esta fotografía como portada?:</label>
-        <select name="portada" required [(ngModel)]="listaportada[i]">
-            <option value="true">Si</option>
-            <option value="false">No</option>
-        </select>
-      </div>
-      <div class="col-sm-3 my-1">
-        <label>Nota del lugar:</label>
-        <select name="nota" required [(ngModel)]="listanota[i]">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-           <option value="5">5</option>
-           <option value="6">6</option>
-           <option value="7">7</option>
-           <option value="8">8</option>
-           <option value="9">9</option>
-           <option value="10">10</option>
-
-        </select>
-      </div>
-      
+    <div class="polaroid">
+      <!--el boton input que selecciona la imagen lo ponemos en modo que no sea visible para el usuario-->
+      <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
+       <img [src]="imagen[i]"  style="width:100%">
+        <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
+      <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
+   
+   <div class="container">
+    <div >
+      <label>¿Qué vemos en la fotografía?:</label>
+      <select  name="rol" required [(ngModel)]="listarol[i]">
+          <option value="Hotel">Hotel</option>
+          <option value="Restaurante">Restaurante</option>
+          <option value="Paisaje">Paisaje</option>
+      </select>
     </div>
-  </form>
-</ion-card-content>
-</ion-card>
-</ul>
+    <div >
+      <label>¿Qué lugar es?:</label>
+      <select name="ruta" required [(ngModel)]="listaruta[i]">
+          <option *ngFor="let ruta of listapuntosruta"  value="{{ruta}}">{{ruta}}</option>
+      </select>
+    </div>
+    <div class="input-group">
+        <label>Escribe un pie de foto:</label>
+        <ion-input type="text" class="form-control" name="descripcion" placeholder="escribe descripcion" required [(ngModel)]="listadescripcion[i]"></ion-input>
+    </div>
+    <div class="input-group">
+        <label>Añade web del lugar:</label>
+        <ion-input type="text" class="form-control" name="web" placeholder="escribe web" required [(ngModel)]="listaweb[i]"></ion-input>
+    </div>
+    <div class="input-group">
+        <label>Añade aspecto positivo del lugar:</label>
+        <ion-input type="text" class="form-control" name="pos" placeholder="escribe aspecto positivo" required [(ngModel)]="listapositivo[i]"></ion-input>
+    </div>
+   <div class="input-group">
+        <label>Añade aspecto negativo del lugar:</label>
+        <ion-input type="text" class="form-control" name="neg" placeholder="escribe aspecto negativo" required [(ngModel)]="listanegativo[i]"></ion-input>
+    </div>
+    <div >
+      <label>¿Quieres añadir esta fotografía como portada?:</label>
+      <select name="portada" required [(ngModel)]="listaportada[i]">
+          <option value="true">Si</option>
+          <option value="false">No</option>
+      </select>
+    </div>
+    <div >
+      <label>Nota del lugar:</label>
+      <select name="nota" required [(ngModel)]="listanota[i]">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+         <option value="5">5</option>
+         <option value="6">6</option>
+         <option value="7">7</option>
+         <option value="8">8</option>
+         <option value="9">9</option>
+         <option value="10">10</option>
 
-<button (click)=PonFoto(); ion-button shape="round">Añadir nueva foto</button>
-<button (click)=ComprobarPortada(); ion-button shape="round">Subirpublicacion</button>
+      </select>
+    </div>
+   </div>
+  </div>
+    
+</div>
+  
+
+  <button class="boton" (click)=PonFoto(); ion-button shape="round">Añadir nueva foto</button>
+  <button class="boton" (click)=ComprobarPortada(); ion-button shape="round">Subirpublicacion</button>
 </ion-content>

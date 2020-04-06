@@ -5,6 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <ion-navbar>
     <ion-title>crearmiviaje</ion-title>
   </ion-navbar>
@@ -12,21 +13,21 @@
 
 <ion-content padding>
   <form>
-    <div class="form-row align-items-center">
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputName">Titulo del viaje</label>
+    <div >
+      <div >
+        <label >Titulo del viaje</label>
         <ion-input type="text" name="titulo" placeholder="Escribe un titulo del viaje" required [(ngModel)]="titulo" ></ion-input>
   
       </div>
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputGroupUsername">Descripción</label>
-        <div class="input-group">
-          <ion-input type="text" class="form-control" name="descripcion" placeholder=" Añade la descripcion del viaje" required [(ngModel)]="descripcion"></ion-input>
+      <div >
+        <label >Descripción</label>
+        <div>
+          <ion-input type="text" name="descripcion" placeholder=" Añade la descripcion del viaje" required [(ngModel)]="descripcion"></ion-input>
         </div>
       </div>
-      <div class=" divselect">
+      <div >
         <label>Días de duración</label>
-        <select class="dias" name="duracion" required [(ngModel)]="duracion"  value="number">
+        <select  name="duracion" required [(ngModel)]="duracion"  value="number">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -46,28 +47,20 @@
         </select>
       </div>
     </div>
-  </form>
-  <label class="sr-only">Puntos de la ruta</label>
-  <ul *ngFor="let punto of numerosruta; let i = index">
-
-  <div class="enlinea">
-   
-    <ion-icon  name="checkmark-circle-outline"></ion-icon>  
-    <ion-input  class="text" type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>  
   
-    </div>
-  </ul>
+  <label >Puntos de la ruta</label>
+  <div *ngFor="let punto of numerosruta; let i = index">
+
+  <div  >
+    <i class="glyphicon glyphicon-map-marker" style="display: inline;" ></i> 
+    <ion-input  type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>  
+  </div>
+  </div>
+
 <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
 
-<button class="btn btn-primary" (click)=Continuar(); ion-button shape="round">Continuar</button>
+<button  (click)=Continuar(); ion-button shape="round">Continuar</button>
 
-
-
-  
-
-
-
-
-
+</form>
 
 </ion-content>
