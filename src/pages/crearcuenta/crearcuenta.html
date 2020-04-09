@@ -5,6 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <ion-navbar>
     <ion-title>Crearcuenta</ion-title>
   </ion-navbar>
@@ -26,46 +27,46 @@
   </ion-item>
 
   <form (ngSubmit)="Crearcuenta();">
-    <div class="form-row align-items-center">
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputName">Correo electrónico</label>
-        <ion-input type="text" name="mail" placeholder="Escribe tu correo electrónico" required [(ngModel)]="mail" ></ion-input>
+    <div >
+      <div>
+        <label >Correo electrónico</label>
+        <ion-input type="text" name="mail" placeholder="Escribe tu correo electrónico" required  [(ngModel)]="mail" ></ion-input>
   
       </div>
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputGroupUsername">Nombre</label>
-        <div class="input-group">
-          <ion-input type="text" class="form-control" name="nombre" placeholder="Escribe tu nombre" required [(ngModel)]="nombre"></ion-input>
+      <div >
+        <label >Nombre</label>
+        <div >
+          <ion-input type="text" name="nombre" placeholder="Escribe tu nombre" required valeu="true" [(ngModel)]="nombre"></ion-input>
         </div>
       </div>
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputGroupUsername">Nombre usuario</label>
-        <div class="input-group">
-          <ion-input type="text" class="form-control" name="nomUsu" placeholder="Escribe tu nombre de usuario" required [(ngModel)]="nomUsu"></ion-input>
+      <div >
+        <label >Nombre usuario</label>
+        <div >
+          <ion-input type="text"  name="nomUsu" placeholder="Escribe tu nombre de usuario" required="true" [(ngModel)]="nomUsu"></ion-input>
         </div>
       </div>
-      <div class="col-sm-3 my-1">
-        <label class="sr-only" for="inlineFormInputGroupUsername">Contraseña</label>
-        <div class="input-group">
-          <ion-input type="password" class="form-control" name="pass" placeholder="Escribe tu Contraseña" required [(ngModel)]="pass"></ion-input>
+      <div >
+        <label >Contraseña</label>
+        <div >
+          <ion-input type="password" name="pass" placeholder="Escribe tu Contraseña"required="true"[(ngModel)]="pass"></ion-input>
         </div>
       </div>
-      <div class="col-sm-3 my-1 divselect">
+      <div >
         <label>¿Rol?:  </label>
-        <select class="rol" name="rol" required [(ngModel)]="rol">
+        <select class="rol" name="rol" required="true" [(ngModel)]="rol">
             <option value="Persona">Persona</option>
             <option value="Empresa">Empresa</option>
         </select>
       </div>
       <div class="divselect">
         <label >¿Perfil?:</label>
-        <select class="perfil" name="perfil" required [(ngModel)]="perfil">
+        <select class="perfil" name="perfil" required="true" [(ngModel)]="perfil">
             <option  value="false">Publico</option>
             <option value="true">Privado</option>
         </select>
       </div>
       <div class=" textocentrado">
-        <button type="submit" class="btn btn-primary" ion-button shape="round">Crear Cuenta</button>
+        <button type="submit" ion-button shape="round">Crear Cuenta</button>
       </div>
     </div>
   </form>

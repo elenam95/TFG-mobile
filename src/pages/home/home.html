@@ -12,4 +12,11 @@
     <ion-icon size="small" name="airplane-outline"></ion-icon>
     
     
+
+    <form (ngSubmit)="Crearcuenta();">
+      <label >Correo electrónico</label>
+      <ion-input type="text" name="mail" placeholder="Escribe tu correo electrónico" required="true"  [(ngModel)]="mail" ></ion-input>
+
+      <button type="submit" ion-button shape="round">Crear Cuenta</button>
+    </form>
   </ion-content>

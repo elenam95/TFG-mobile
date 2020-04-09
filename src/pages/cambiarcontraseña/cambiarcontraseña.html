@@ -13,26 +13,26 @@
 <ion-content padding>
 
          <form (ngSubmit)="Cambiarpass()">
-          <div class="form-row align-items-center">
-            <div class="col-sm-3 my-1">
-              <label class="sr-only" for="inlineFormInputName">Contraseña</label>
+          <div >
+            <div >
+              <label >Contraseña</label>
               <ion-input type="password"  name="pass" placeholder="Escribe tu contraseña" required [(ngModel)]="pass" ></ion-input>
      
             </div>
-            <div class="col-sm-3 my-1">
-              <label class="sr-only" for="inlineFormInputGroupUsername">Nueva Contraseña</label>
-              <div class="input-group">
+            <div >
+              <label >Nueva Contraseña</label>
+              <div>
                 <ion-input type="password" name="nuevapass" placeholder="Escribe nueva contraseña" required [(ngModel)]="nuevapass" ></ion-input>
               </div>
             </div>
-            <div class="col-sm-3 my-1">
-              <label class="sr-only" for="inlineFormInputGroupUsername">Repite Nueva Contraseña</label>
-              <div class="input-group">
+            <div >
+              <label>Repite Nueva Contraseña</label>
+              <div >
                 <ion-input type="password" name="nuevapass2" placeholder="Repite nueva contraseña" required [(ngModel)]="nuevapass2" ></ion-input>
               </div>
             </div>
-            <div class="col-auto my-1">
-              <button type="submit" class="btn btn-primary" ion-button shape="round">Guardar contraseña</button>
+            <div >
+              <button type="submit"  ion-button shape="round">Guardar contraseña</button>
             </div>
           </div>
         </form>

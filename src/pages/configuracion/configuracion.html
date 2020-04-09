@@ -26,37 +26,34 @@
 
     <!-- Datos personales-->
     <form (ngSubmit)="Cambiardatos();">
-      <div class="form-row align-items-center">
-        <div class="col-sm-3 my-1">
-          <label class="sr-only" for="inlineFormInputGroupUsername">Nombre usuario</label>
-          <div class="input-group">
-            <ion-input type="text" class="form-control" name="nomUsu" placeholder="{{usuario.NomUsu}}" required [(ngModel)]="nomUsu">{{usuario.NomUsu}}</ion-input>
-            <ion-icon name="help-outline" (click)="ComprobarNomUsu($event)" style="display:inline"></ion-icon>
-            <ion-icon name="checkmark-circle" *ngIf="ExisteNomUsu == false"></ion-icon>
-            <ion-icon name="close-circle" *ngIf="ExisteNomUsu == true"></ion-icon>
-          </div>
-        <div class="col-sm-3 my-1">
-          <label class="sr-only" for="inlineFormInputName">Correo electrónico</label>
+      <div >
+        <div >
+          <label >Nombre usuario</label>
+            <ion-input type="text" name="nomUsu" placeholder="{{usuario.NomUsu}}" required [(ngModel)]="nomUsu">{{usuario.NomUsu}}</ion-input>
+            <i class="icon glyphicon glyphicon-question-sign" (click)="ComprobarNomUsu($event)" style="display:inline"></i>
+            <i class="icon glyphicon glyphicon-ok-sign" *ngIf="ExisteNomUsu == false" style="display:inline"></i>
+            <i class="icon glyphicon glyphicon-remove-sign" *ngIf="ExisteNomUsu == true" style="display:inline"></i>
+
+        <div >
+          <label>Correo electrónico</label>
           <ion-input type="text" name="mail" placeholder="{{usuario.Mail}}" required [(ngModel)]="mail" disabled="true" ></ion-input>
     
         </div>
-        <div class="col-sm-3 my-1">
-          <label class="sr-only" for="inlineFormInputGroupUsername">Nombre</label>
-          <div class="input-group">
-            <ion-input type="text" class="form-control" name="nombre" placeholder="{{usuario.Nombre}}" required [(ngModel)]="nombre"></ion-input>
+        <div >
+          <label >Nombre</label>
+            <ion-input type="text" name="nombre" placeholder="{{usuario.Nombre}}" required [(ngModel)]="nombre">{{usuario.Nombre}}</ion-input>
+        </div>
+          <div >
+            <input type="checkbox" name="selrol" [(ngModel)]="selrol"  data-md-icheck (change)="checkboxRol($event)">
+            <label>Perfil de Empresa</label>
           </div>
         </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="selrol" [(ngModel)]="selrol"  data-md-icheck (change)="checkboxRol($event)">
-            <label class="form-check-label" for="exampleCheck1">Perfil de Empresa</label>
+        <div>
+            <input type="checkbox" name="perfil" [(ngModel)]="perfil"  data-md-icheck (change)="checkboxPerfil($event)" >
+            <label >Perfil privado</label>
           </div>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="perfil" [(ngModel)]="perfil"  data-md-icheck (change)="checkboxPerfil($event)" >
-            <label class="form-check-label" for="exampleCheck1">Perfil privado</label>
-          </div>
-        <div class="col-auto my-1">
-          <button type="submit" class="btn btn-primary" ion-button shape="round">Guardar datos personales</button>
+        <div>
+          <button type="submit"  ion-button shape="round">Guardar datos personales</button>
         </div>
       </div>
     </form>

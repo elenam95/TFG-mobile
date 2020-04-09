@@ -5,15 +5,14 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <ion-navbar>
     <ion-title>perfil</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
- 
-  <ion-icon (click)=Configuracion(); name="cog-outline" ></ion-icon>
-  <ion-icon  (click)=Subirfoto(); name="add-circle-outline"></ion-icon>
+
   <div>
   <ion-img class="imgusu" [src]="imagenusu" height='80' width='80' ></ion-img>
   <h1 ion-text style="display: inline;">{{NomUsu}}</h1>
@@ -21,15 +20,19 @@
   <!-- display:inline para que salga uno al lado del otro-->
   </div >
   
-      <div  class="row row-cols-1 row-cols-md-3">
+      <div  class="row row-cols-1 row-cols-md-3 imgs">
         <div class="card" *ngFor="let portada of imgportada; let i = index">
           <img class="imgs" [src]="imgportada[i]"  (click)=MostrarPubli(i); height='80' width='80' >
         </div>
       </div>
 
+<div class="footer">
+  <i class="icono glyphicon glyphicon-wrench" (click)=Configuracion();></i>
+  <i class="icono glyphicon glyphicon-plus" (click)=Subirfoto();></i>
+  <i class="icono glyphicon glyphicon-user"></i>
+</div>
 
-
-     
+ 
     
 
 

@@ -83,7 +83,7 @@ export class UrlProvider {
   }
 
   public subirPublicacion (publi: any){
-    return this.http.post<any>(this.Urlpublicaciones, publi).subscribe(() => console.log('publicacion subida'));
+    return this.http.post<any>(this.Urlpublicaciones, publi);
   }
 
 
@@ -104,7 +104,7 @@ export class UrlProvider {
   public SubirFoto(foto: Fotografia){
     console.log(foto);
 
-    return this.http.post<any>(this.Urlfotografias, foto ).subscribe(() => console.log('foto subida'));
+    return this.http.post<any>(this.Urlfotografias, foto );
   }
 
 
@@ -119,13 +119,13 @@ export class UrlProvider {
     return this.http2.get(this.UrlContenedorPublis + 'download/'+ Foto, {responseType: ResponseContentType.Blob});
   }
 
-  public subirImgPubli(name: string, file:File){
+  public subirImgPubli(file:File){
     // Subir foto al contenedor de imagenes 
       const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
       formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
     // este objeto será lo que enviamos posteriormente al post del contenedor de imagenes
     //enviamos la foto a nuestro contenedor fotospublicaciones
-      this.http.post(this.UrlContenedorPublis + 'upload', formData).subscribe(() => console.log('subida a contenedor'));
+     return  this.http.post(this.UrlContenedorPublis + 'upload', formData);
 
     
   }

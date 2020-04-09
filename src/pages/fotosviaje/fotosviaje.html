@@ -20,7 +20,7 @@
       <input #file id="inp" type="file" accept='image/*' (change)="Mostrar($event)" style="display: none">
        <img [src]="imagen[i]"  style="width:100%">
         <!--en su lugar colocaremos un boton que llame a la función activar input, ya que el usuario si no lo visualiza no puedo clickarlo y por tanto activarlo-->
-      <button (click)=Activarinput(); ion-button shape="round" class="centered">Subir foto</button>
+      <button (click)=Activarinput(i); ion-button shape="round" class="centered">Subir foto</button>
    
    <div class="container">
     <div >
@@ -37,21 +37,21 @@
           <option *ngFor="let ruta of listapuntosruta"  value="{{ruta}}">{{ruta}}</option>
       </select>
     </div>
-    <div class="input-group">
+    <div>
         <label>Escribe un pie de foto:</label>
-        <ion-input type="text" class="form-control" name="descripcion" placeholder="escribe descripcion" required [(ngModel)]="listadescripcion[i]"></ion-input>
+        <ion-input type="text"  name="descripcion" placeholder="escribe descripcion" required [(ngModel)]="listadescripcion[i]"></ion-input>
     </div>
-    <div class="input-group">
+    <div>
         <label>Añade web del lugar:</label>
-        <ion-input type="text" class="form-control" name="web" placeholder="escribe web" required [(ngModel)]="listaweb[i]"></ion-input>
+        <ion-input type="text"  name="web" placeholder="escribe web" required [(ngModel)]="listaweb[i]"></ion-input>
     </div>
-    <div class="input-group">
+    <div >
         <label>Añade aspecto positivo del lugar:</label>
-        <ion-input type="text" class="form-control" name="pos" placeholder="escribe aspecto positivo" required [(ngModel)]="listapositivo[i]"></ion-input>
+        <ion-input type="text" name="pos" placeholder="escribe aspecto positivo" required [(ngModel)]="listapositivo[i]"></ion-input>
     </div>
-   <div class="input-group">
+   <div >
         <label>Añade aspecto negativo del lugar:</label>
-        <ion-input type="text" class="form-control" name="neg" placeholder="escribe aspecto negativo" required [(ngModel)]="listanegativo[i]"></ion-input>
+        <ion-input type="text"  name="neg" placeholder="escribe aspecto negativo" required [(ngModel)]="listanegativo[i]"></ion-input>
     </div>
     <div >
       <label>¿Quieres añadir esta fotografía como portada?:</label>

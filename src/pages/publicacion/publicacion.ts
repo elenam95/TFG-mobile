@@ -5,6 +5,9 @@ import { UrlProvider } from '../../providers/url/url';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 import {Location } from '@angular/common';
+import {ConfiguracionPage} from '../configuracion/configuracion';
+import {CrearmiviajePage} from '../crearmiviaje/crearmiviaje';
+import {PerfilPage} from '../perfil/perfil';
 
 
 /**
@@ -169,6 +172,26 @@ export class PublicacionPage {
 
   }
 
+  public Configuracion(){
+    let Nombreusuario ={
+      Nom:this.NomUsu
+    }
+    // Abre la pagina perfil y le pasa el parametro NomUsu
+
+    this.navCtrl.push(ConfiguracionPage, {Nom: Nombreusuario.Nom});
+  }
+  public Subirfoto(){
+    let Nombreusuario ={
+      Nom:this.NomUsu
+    }
+    this.navCtrl.push(CrearmiviajePage, {Nom: Nombreusuario.Nom});
+  }
+
+  public MiPerfil(){
+    let Nombreusuario = { Nom:this.NomUsu };
+   
+    this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
+  }
  
 
 

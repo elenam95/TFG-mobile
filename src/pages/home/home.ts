@@ -25,6 +25,10 @@ export class HomePage {
     this.navCtrl.push(CrearcuentaPage);
   }
 
+  Crearcuenta(){
+    let mail;
+    console.log(mail);
+  }
 
 
 }

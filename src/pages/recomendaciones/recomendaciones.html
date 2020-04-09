@@ -13,9 +13,9 @@
 
 <ion-content padding>
 
-  <label class="sr-only">Recomendaciones</label>
+  <label >Recomendaciones</label>
   <ul *ngFor="let num of listanum; let i = index">
-    <div>
+    <div class="icono">
      <i class="glyphicon glyphicon-pushpin"></i>
      <ion-input type="text" name="listarecomendaciones" placeholder="Escribe tu recomendación" required [(ngModel)]="listarecomendaciones[i]" ></ion-input>
     </div>

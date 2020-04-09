@@ -87,6 +87,7 @@ export class RecomendacionesPage {
    let publicaciones={Publi:this.publicacion};
    let rutas= {Rutas: this.publicacion.Ruta}
    let Idpubli= {Idpubli: this.publicacion.Idpublicacion}
+   
    // Abre la pagina perfil y le pasa el parametro NomUsu
    this.navCtrl.push(FotosviajePage, {Nom: Nombreusuario.Nom, Publi: publicaciones.Publi, Rutas:rutas.Rutas, Idpubli:Idpubli.Idpubli });
  
