@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertController } from 'ionic-angular';
 import {PerfilPage} from '../perfil/perfil';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { isRightSide, isTrueProperty } from 'ionic-angular/umd/util/util';
 
 /**
  * Generated class for the FotosviajePage page.
@@ -35,6 +36,7 @@ export class FotosviajePage {
   listapuntosruta:any[]=[];
   posicion: number;
   contador: number =0;
+  encontrado: boolean = false;
   // CAMPOS DE LA FOTOGRAFIA
   listaIdfoto: number[]=[];
   listafoto: string[]=[];
@@ -192,6 +194,7 @@ export class FotosviajePage {
 
 SubirPublicacion(){
   let Foto;
+  var cont=0;
   if (this.contador == this.listafotos.length){
     console.log("Podemos subir ")
   // Subir publicacion 
@@ -211,22 +214,57 @@ SubirPublicacion(){
                               console.log(this.listaruta);
                               //Subir fotografia 
                               this.UrlProvider.SubirFoto(this.listaf[i]).subscribe(
-                                () => { console.log('foto subida');
-                                        //Subir contenedor 
-                                        console.log(this.listafile[i].name);
-                                        this.UrlProvider.subirImgPubli( this.listafile[i]);
-                                        //Abrir pag Perfil
-                                        let Nombreusuario = { Nom:this.NomUsu };
-                                        // Abre la pagina perfil y le pasa el parametro NomUsu
-                                       this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
+                                () => { console.log('foto subida');         
+                              }, (err)=> {cont++;
+                                          this.Error("fotografia", cont);
                               });
+                              this.UrlProvider.subirImgPubli(this.listafile[i].name,  this.listafile[i]).subscribe(
+                                () => {console.log("foto subida contenedor");
+                                }, (err)=> {
+                                 this.Error("img contenedor", cont);
+                          
+                                
+                             });
+
                      
            }
+          }, (err)=> { cont++;
+                        this.Error("publicacion", cont);
+                        
           });
 
     
 }
 }
 
+
+
+Error(nom: string, contador: number){
+
+  if(contador==1){
+
+    console.log("ERROR: " + nom + " no subida");
+    const alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: 'Ha habido un error en la subida de la publicación. Por favor revise todos los campos y vuelva a intentarlo.',
+      buttons: ['OK']
+     });
+    alert.present();
+
+    if(nom !== "publicacion"){
+         this.UrlProvider.EliminarPubli(this.idpublicacion).subscribe(
+            ()=> console.log("publicacion eliminada"));
+
+          for(var i=0; i < this.listafile.length; i++){
+              this.UrlProvider.EliminarImgPubli(this.listafile[i].name).subscribe(
+              ()=> console.log("img eliminada"));
+          }
+
+    }
+  }
+
+
+}
+ 
 
 }

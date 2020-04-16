@@ -86,6 +86,9 @@ export class UrlProvider {
     return this.http.post<any>(this.Urlpublicaciones, publi);
   }
 
+  public EliminarPubli (Idpubli: number){
+    return this.http.delete(this.Urlpublicaciones+ Idpubli);
+  }
 
   //URLs FOTOGRAFIAS
 
@@ -103,8 +106,11 @@ export class UrlProvider {
 
   public SubirFoto(foto: Fotografia){
     console.log(foto);
+    return this.http.post<any>(this.Urlfotografias, foto);
+  }
 
-    return this.http.post<any>(this.Urlfotografias, foto );
+  public EliminarFoto(Idfoto: number){
+    return this.http.delete(this.Urlfotografias+ Idfoto);
   }
 
 
@@ -119,7 +125,7 @@ export class UrlProvider {
     return this.http2.get(this.UrlContenedorPublis + 'download/'+ Foto, {responseType: ResponseContentType.Blob});
   }
 
-  public subirImgPubli(file:File){
+  public subirImgPubli(name: string, file:File){
     // Subir foto al contenedor de imagenes 
       const formData: FormData = new FormData(); //utilizamos objeto de la clase formData
       formData.append(file.name, file); //le pasamos nombre fichero y el propio fichero
@@ -141,6 +147,10 @@ export class UrlProvider {
   public EliminarImgUsu (nombre: string){
     return this.http.delete(this.UrlContenedorUsu + "files/" + nombre);
 
+  }
+
+  public EliminarImgPubli (nombre: string){
+    return this.http.delete(this.UrlContenedorPublis + "files/" + nombre);
   }
 
   
