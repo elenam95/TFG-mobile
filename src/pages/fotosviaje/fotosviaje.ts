@@ -9,6 +9,8 @@ import { AlertController } from 'ionic-angular';
 import {PerfilPage} from '../perfil/perfil';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { isRightSide, isTrueProperty } from 'ionic-angular/umd/util/util';
+import {ComprobarInputsProvider} from '../../providers/comprobar-inputs/comprobar-inputs';
+import { empty } from 'rxjs/Observer';
 
 /**
  * Generated class for the FotosviajePage page.
@@ -51,7 +53,9 @@ export class FotosviajePage {
   listaf: Fotografia[]=[];
   listafile: File []=[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,public UrlProvider: UrlProvider, public alertCtrl: AlertController ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              public http: HttpClient, public CrearviajeProvider: CrearviajeProvider,
+              public UrlProvider: UrlProvider, public alertCtrl: AlertController, public ComprobarInputsProvider: ComprobarInputsProvider ) {
    
     this.NomUsu= navParams.get('Nom');
     this.publicacion= navParams.get('Publi');
@@ -111,6 +115,14 @@ export class FotosviajePage {
   this.listafotos.push(1); 
   }
 
+  ComprobarCamposVacios(){
+    let res; 
+    res = this.ComprobarInputsProvider.FotosViaje(this.listafotos.length, this.listarol, this.listanota, this.listaruta);
+    if(res == "OK"){
+      this.ComprobarPortada();
+    }
+  }
+
   ComprobarPortada (){
 
     var cont= 0;
@@ -155,7 +167,7 @@ export class FotosviajePage {
     } else{
           
          //subimos publicacion
-         this.ComprobarFotos();
+         this.ComprobarCampoFotos();
      }
 
 
@@ -163,38 +175,70 @@ export class FotosviajePage {
 
 
 
-  ComprobarFotos(){
-   
-    for(var j=0; j < this.listafotos.length; j++){
+  ComprobarCampoFotos(){
+    // Comprobar que han subido fotos
+    let contador=0;
+    console.log(this.listafile)
+    if(this.listafile.length == 0){
+            const alert = this.alertCtrl.create({
+                  title: 'Error',
+                  subTitle: 'Debes de seleccionar una fotografia',
+                  buttons: ['OK']
+             });
+            alert.present();
+    } else{
+          for (var i=0; i < this.listafotos.length; i++){
 
-      
-       //Comprobar si nombre foto ya existe
-       this.UrlProvider.getImgPubli(this.listafile[j].name).subscribe(
-        res => {
-                  if(res!= null){
-                    console.log("Foto ya existente")
-      
-                    const alert = this.alertCtrl.create({
-                            title: 'Error',
-                            subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre de la  antes de subirlo',
-                            message: 'Foto' +j,
-                            buttons: ['OK']
-                           });
-                    alert.present();
-                  }
-        }, (err) =>{
-                    console.log("Foto no existente, subimos foto")
-                    this.contador++;
-                    this.SubirPublicacion();
+               if (this.listafile[i] == undefined){
+                      contador++;
+                      const alert = this.alertCtrl.create({
+                             title: 'Error',
+                             subTitle: 'Debes de seleccionar una fotografia',
+                             message: 'Foto número ' +i,
+                             buttons: ['OK']
+                       });
+                       alert.present();
+              }
+          }
 
-        });
+          if (contador == 0){
+            this.Comprobarfotos();
+          }
     }
+   
+  
  
   }
+
+Comprobarfotos(){
+  for(var j=0; j < this.listafotos.length; j++){
+
+    //Comprobar si nombre foto ya existe
+    this.UrlProvider.getImgPubli(this.listafile[j].name).subscribe(
+     res => {
+               if(res!= null){
+                 console.log("Foto ya existente")
+                 const alert = this.alertCtrl.create({
+                         title: 'Error',
+                         subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre de la  antes de subirlo',
+                         message: 'Foto' +j,
+                         buttons: ['OK']
+                       });
+                 alert.present();
+               }
+       }, (err) =>{
+                   console.log("Foto no existente, subimos foto")
+                   this.contador++;
+                   this.SubirPublicacion();
+
+       });
+   }
+}
 
 SubirPublicacion(){
   let Foto;
   var cont=0;
+  var img=0;
   if (this.contador == this.listafotos.length){
     console.log("Podemos subir ")
   // Subir publicacion 
@@ -218,16 +262,29 @@ SubirPublicacion(){
                               }, (err)=> {cont++;
                                           this.Error("fotografia", cont);
                               });
+                              //Subir img contenedor
                               this.UrlProvider.subirImgPubli(this.listafile[i].name,  this.listafile[i]).subscribe(
                                 () => {console.log("foto subida contenedor");
+                                        img++;
+                                        if(img == this.listafotos.length){
+                                          let Nombreusuario = { Nom:this.NomUsu };
+                                          // Abre la pagina perfil y le pasa el parametro NomUsu
+                                          this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom} );
+
+                                        }
+                              
                                 }, (err)=> {
                                  this.Error("img contenedor", cont);
-                          
+                                  
                                 
                              });
 
+
                      
            }
+          
+            
+
           }, (err)=> { cont++;
                         this.Error("publicacion", cont);
                         

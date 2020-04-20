@@ -71,16 +71,22 @@ public OrdenarFotos(listafotos: any[], listarutas: string[] ){
   return this.listafotosordenada;
   }
 
-  public OrdenarPuntosRuta(){
+public OrdenarPuntosRuta(){
       //Añadimos recomendación
       this.listaorden[this.listaorden.length]= "Recomendaciones";
       return this.listaorden;
   }
 
-  public OrdenarRecomendacion(recomendacion: string){
+public OrdenarRecomendacion(recomendacion: string){
     this.listarecomendacion=[];
-    this.listarecomendacion = recomendacion.split(";;");
-    this.listarecomendacion.length= this.listarecomendacion.length-1;
+    if(recomendacion !== "undefined;;"){
+      this.listarecomendacion = recomendacion.split(";;");
+      this.listarecomendacion.length= this.listarecomendacion.length-1;
+    }
+    else{
+      this.listarecomendacion[0]="No hay recomendaciones para esta publicación"
+    }
+    
     return this.listarecomendacion;
   }
 

@@ -29,19 +29,13 @@ export class PublicacionPage {
   publicacion: any;
   imagenusu:string;
   imgcontenedor:string []=[];
- // img: string;
- // Titulo: string;
 
- // separador: string = ";;";
 
   listarutas: string[]=["Portada"];
   listafotos: any[]=[];
   listaorden: string[]=[];
   listaOrdenadaFotos: any[]=[];
   listaNomFoto: string[]=[];
- // listaOrdenadaImg: any[]=[];
-
- // listapaso: any[]=[];
   listarecomendaciones:any[]=[];
 
   

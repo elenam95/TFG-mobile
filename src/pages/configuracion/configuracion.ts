@@ -8,6 +8,7 @@ import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Observable } from 'rxjs/Observable';
+import {ComprobarInputsProvider} from '../../providers/comprobar-inputs/comprobar-inputs';
 
 /**
  * Generated class for the ConfiguracionPage page.
@@ -47,7 +48,8 @@ export class ConfiguracionPage {
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
-                              private http2:Http, public alertCtrl: AlertController, public UrlProvider: UrlProvider ) {
+                              private http2:Http, public alertCtrl: AlertController, public UrlProvider: UrlProvider,
+                              public ComprobarInputsProvider: ComprobarInputsProvider ) {
      // recoge los datos de la pagina anterior
      this.nomUsu= navParams.get('Nom');
      console.log(this.nomUsu);
@@ -211,6 +213,15 @@ export class ConfiguracionPage {
   );
  }
 
+
+ ComprobarCamposVacios(){
+  let res;
+   res = this.ComprobarInputsProvider.Configuracion(this.nomUsu, this.nombre);
+   if(res == "OK"){
+     console.log("OK")
+     this.Cambiardatos();
+   }
+}
 
  Cambiardatos(){ 
   this.UrlProvider.ExisteUsuario(this.nomUsu).subscribe(

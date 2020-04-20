@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpClient} from '@angular/common/http';
 import { UrlProvider } from '../../providers/url/url';
+import {ComprobarInputsProvider} from '../../providers/comprobar-inputs/comprobar-inputs';
 
 /**
  * Generated class for the CambiarcontraseñaPage page.
@@ -30,7 +31,9 @@ export class CambiarcontraseñaPage {
 
   private APIUrl = 'http://localhost:3000/api/usuarios'  //base de la url 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  private http:HttpClient, public UrlProvider :UrlProvider  ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private http:HttpClient, public UrlProvider :UrlProvider,
+               public ComprobarInputsProvider: ComprobarInputsProvider  ) {
     this.usuario= navParams.get('usu');
      console.log(this.usuario);
   }
@@ -38,6 +41,14 @@ export class CambiarcontraseñaPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CambiarcontraseñaPage');
     
+  }
+
+  ComprobarCamposVacios(){
+    let res;
+    res = this.ComprobarInputsProvider.CambiarContraseña(this.pass, this.nuevapass, this.nuevapass2);
+    if (res == "OK"){
+      this.Cambiarpass();
+    }
   }
 
   Cambiarpass(){

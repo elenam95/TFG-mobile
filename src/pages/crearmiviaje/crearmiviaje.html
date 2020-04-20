@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form>
+  
     <div >
       <div >
         <label >Titulo del viaje</label>
@@ -53,14 +53,13 @@
 
   <div class="icono"  >
     <i class="glyphicon glyphicon-map-marker" style="display: inline;" ></i> 
-    <ion-input  type="text" name="puntosruta" placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>  
+    <i (click)=QuitarRuta(i); class="glyphicon glyphicon-trash" style="display: inline;" ></i> 
+    <ion-input  type="text" name="puntosruta"  placeholder="Escribe un punto de la ruta" required [(ngModel)]="puntosruta[i]" ></ion-input>  
   </div>
   </div>
 
 <button (click)=PonRuta(); ion-button shape="round">Añadir puntos de la ruta</button>
+<button  (click)=ComprobarCamposVacios(); ion-button shape="round">Continuar</button>
 
-<button  (click)=Continuar(); ion-button shape="round">Continuar</button>
-
-</form>
 
 </ion-content>

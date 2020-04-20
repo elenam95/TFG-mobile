@@ -25,6 +25,7 @@ import { LoginProvider } from '../providers/login/login';
 import { CrearviajeProvider } from '../providers/crearviaje/crearviaje';
 import { PublicacionProvider } from '../providers/publicacion/publicacion';
 import { PerfilProvider } from '../providers/perfil/perfil';
+import { ComprobarInputsProvider } from '../providers/comprobar-inputs/comprobar-inputs';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { PerfilProvider } from '../providers/perfil/perfil';
     LoginProvider,
     CrearviajeProvider,
     PublicacionProvider,
-    PerfilProvider
+    PerfilProvider,
+    ComprobarInputsProvider
   ]
 })
 export class AppModule {}

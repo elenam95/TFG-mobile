@@ -5,6 +5,9 @@ import {PerfilPage} from '../perfil/perfil';
 import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
 import {Http, RequestOptions, Headers, Response, ResponseContentType} from '@angular/http'; 
+import {ComprobarInputsProvider} from '../../providers/comprobar-inputs/comprobar-inputs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Usuario } from '../../app/Usuario';
 
 /**
  * Generated class for the CrearcuentaPage page.
@@ -31,7 +34,8 @@ export class CrearcuentaPage {
  
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
-                              public alertCtrl: AlertController, public UrlProvider: UrlProvider) {
+                              public alertCtrl: AlertController, public UrlProvider: UrlProvider, 
+                              public ComprobarInputsProvider: ComprobarInputsProvider) {
   }
 
   ionViewDidLoad() {
@@ -83,8 +87,16 @@ export class CrearcuentaPage {
 
  }
 
+ ComprobarCamposVacios(){
+   let res;
+   res = this.ComprobarInputsProvider.CrearCuenta(this.mail, this.nombre, this.nomUsu, this.pass, this.rol, this.perfil);
+   if (res == "OK"){
+     this.ComprobarUsuExiste();
+   }
+ }
 
-  Crearcuenta(){
+
+  ComprobarUsuExiste(){
     let usuario = { NomUsu:this.nomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
     console.log(usuario);
     //Consultamos si existe un usuario con este nomUsu
@@ -121,38 +133,9 @@ export class CrearcuentaPage {
                             }  
                   },
                   (err)=> {
-                          //Comprobar si nombre fotousu ya existe
-                          this.UrlProvider.getImgUsu(this.file.name).subscribe(
-                            res => {
-                                      if(res!= null){
-                                        console.log("Foto ya existente")
-                                        const alert = this.alertCtrl.create({
-                                                title: 'Error',
-                                                subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre antes de subirlo',
-                                                buttons: ['OK']
-                                               });
-                                        alert.present();
-                                      }
-                            }, (err) =>{
-                                       console.log("Foto no existente")
-                                       console.log("vamos a registrar al nuevo usuario");
-                                      //Creamos el nuevo usuario
-                                      this.UrlProvider.SubirUsu(usuario).subscribe(
-                                        () => {
-                                                 console.log('usuario subido')
-                                                 if (this.fotousu != "pordefecto.png"){
-                                                       this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
-                                                        () => {
-                                                                 console.log('subida a contenedor')         
-                                                               });
-                                                   }
-                                                  let Nombreusuario ={Nom:this.nomUsu}
-                                                   // Abre la pagina perfil y le pasa el parametro NomUsu
-                                                     this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
-                                 
-                                       });
-                            });
-
+                    console.log("no existe un usuario con este mail")
+                    this.ComprobarNomFotoUsu(usuario);
+                         
                   }
 
                 );
@@ -162,6 +145,54 @@ export class CrearcuentaPage {
     );
  
 
+  }
+
+
+  ComprobarNomFotoUsu(usuario: Usuario){
+
+    if (this.fotousu == "pordefecto.png"){
+            this.CrearCuenta(usuario);
+    }else{
+
+         //Comprobar si nombre fotousu ya existe
+         this.UrlProvider.getImgUsu(this.fotousu).subscribe(
+          res => {
+                    if(res!= null){
+                      console.log("Foto ya existente")
+                      const alert = this.alertCtrl.create({
+                              title: 'Error',
+                              subTitle: 'Ya existe una fotografia con este nombre, porfavor modifique el nombre antes de subirlo',
+                              buttons: ['OK']
+                             });
+                      alert.present();
+                    }
+          }, (err) =>{
+                     console.log("Foto no existente")
+                     console.log("vamos a registrar al nuevo usuario");
+                     this.CrearCuenta(usuario);
+                 
+          });
+
+    }
+  }
+
+  CrearCuenta(usuario: Usuario){
+   //Creamos el nuevo usuario
+   this.UrlProvider.SubirUsu(usuario).subscribe(
+    () => {
+             console.log('usuario subido')
+             if (this.fotousu != "pordefecto.png"){
+                   this.UrlProvider.SubirImgUsu(this.file.name, this.file).subscribe(
+                    () => {
+                             console.log('subida a contenedor')         
+                           });
+               }
+              
+               // Abre la pagina perfil y le pasa el parametro NomUsu
+               let Nombreusuario ={Nom:this.nomUsu}
+               this.navCtrl.push(PerfilPage, {Nom: Nombreusuario.Nom});
+
+   });
   }
 
 }

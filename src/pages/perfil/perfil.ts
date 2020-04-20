@@ -112,10 +112,7 @@ export class PerfilPage {
 
  }
 
-
-
-
-  Descargarfotos(){
+ Descargarfotos(){
     // Función para decargar fotos de las publicaciones 
     console.log('descargando datos de las fotos de publicaciones');
     for (var i=0; i < this.listapubli.length; i++ ){
@@ -126,7 +123,11 @@ export class PerfilPage {
       this.UrlProvider.getFotospubli(this.lista[j]).subscribe(
         (listafotografias) =>{
                                 cont++;
-                                this.listafotos.push(listafotografias);
+                                  if(listafotografias.length !== 0){
+                                    this.listafotos.push(listafotografias);
+                                  }
+                                 
+                                
                                 if(cont ===this.listapubli.length){
 
                                      this.listaportadas= this.PerfilProvider.EncontrarPortada(this.listafotos);
@@ -176,9 +177,8 @@ export class PerfilPage {
   const reader= new FileReader();
   reader.addEventListener('load', ()=>{
     // Pongo a la espera al reader de manera que en cuanto acabe coloca la URL donde toca para que se vea la imagen
-    //this.imgportada.push(reader.result.toString());
-    console.log(posicion)
-    console.log(response.url)
+   /* console.log(posicion)
+    console.log(response.url)*/
     this.imgportada[posicion] = reader.result.toString();
   },false);
 

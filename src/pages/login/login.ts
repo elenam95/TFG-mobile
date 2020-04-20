@@ -6,6 +6,7 @@ import { AlertController } from 'ionic-angular';
 import { UrlProvider } from '../../providers/url/url';
 import { Usuario } from '../../app/Usuario';
 import {LoginProvider} from '../../providers/login/login';
+import {ComprobarInputsProvider} from '../../providers/comprobar-inputs/comprobar-inputs';
 
 
 /**
@@ -35,17 +36,26 @@ export class LoginPage {
  // usu = { NomUsu:this.NomUsu, Nombre: this.nombre, Mail:this.mail, Rol:this.rol, Pass: this.pass, Fotousu: this.fotousu, Perfil: this.perfil};
   constructor(public navCtrl: NavController, public navParams: NavParams, private http:HttpClient, 
                               public alertCtrl: AlertController, public UrlProvider: UrlProvider,
-                              public LoginProvider: LoginProvider) {
+                              public LoginProvider: LoginProvider, public ComprobarInputsProvider: ComprobarInputsProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  
+  ComprobarCamposRellenos(){
+    let res;
+    res = this.ComprobarInputsProvider.Login(this.nombre, this.pass);
+    if (res == "OK"){
+      this.Autentificar();
+    }
+   
+  }
 
   Autentificar(){
     console.log('entra funcioon autentificar');
+    
+
     this.UrlProvider.getUsuario(this.nombre).subscribe(
       usuario =>{
 

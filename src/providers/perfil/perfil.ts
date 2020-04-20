@@ -35,14 +35,14 @@ public EncontrarPortada(listafotos: any[]){
   var x=0;
   // bucle que recorra todas las publicaciones 
   while(j<listafotos.length){
-    console.log('j');
-    console.log(j);
+   /* console.log('j');
+    console.log(j);*/
     // bucle que busque la foto de portada de cada publicacion 
     while((x<listafotos[j].length)&&(!this.encontrado)){
-      console.log('x');
-      console.log(x);
+     /* console.log('x');
+      console.log(x);*/
       if(listafotos[j][x].Portada==true){
-        console.log('encontrada');
+       // console.log('encontrada');
         this.listaportadas[j]= listafotos[j][x];
         cont++;
        // console.log(this.listaportadas);
@@ -72,9 +72,9 @@ public EncontrarPortada(listafotos: any[]){
 
 public OrdenarPortadas(lista: any[], listap: any[]){
 
-
+//Ordenar portada de las mas antiguas a las mas recientes 
   for (var j=1; j < lista.length+1; j++){
-    for (var i=0; i < lista.length; i++){
+    for (var i=0; i < listap.length; i++){
          if (listap[i].Idpublicacion == lista[lista.length-j]){
              this.listaordenada.push(listap[i]);
          }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, CardContent } from 'ionic-angular';
 import {FotosviajePage} from '../fotosviaje/fotosviaje';
 import { UrlProvider } from '../../providers/url/url';
 import {HttpClient} from '@angular/common/http';
@@ -23,7 +23,6 @@ export class RecomendacionesPage {
   NomUsu: string;
   listanum: number[]=[1];
   listarecomendaciones: string[]=[];
-  listapreguntas: string[]=[];
   titulo:string;
   duracion: number;
   descripcion:string;
@@ -57,8 +56,19 @@ export class RecomendacionesPage {
   PonRecomendacion(){
     this.listanum.push(1);
     console.log(this.listanum);
-    console.log(this.listapreguntas);
     console.log(this.listarecomendaciones);
+  }
+
+  
+  QuitarRuta(i:number){
+    if(this.listanum.length>=2){
+      for(i; i< this.listanum.length; i++){
+        this.listarecomendaciones[i]= this.listarecomendaciones[i+1];
+      }
+      this.listarecomendaciones.length=this.listarecomendaciones.length-1;
+      this.listanum.length= this.listanum.length-1;
+    }
+   
   }
 
   Continuar(){
